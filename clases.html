@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mis clases · Pileteros de confianza · José Carrizo e Hijos</title>
+<meta name="description" content="Videoteca de Pileteros de confianza: Los 12 pasos del piletero, Tratamiento de shock y más.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#030B1F">
+<link rel="icon" type="image/png" href="img/icono.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:ital,wght@0,200;0,300;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   VIDEOTECA · estilo "streaming" con la marca José Carrizo e Hijos
+   ========================================================= */
+:root{
+  --bg:#030B1F;          /* azul noche casi negro */
+  --bg2:#071538;
+  --card:#0B1D4A;
+  --ink:#FFFFFF;
+  --muted:#9FB3D9;
+  --brand:#1F63E8;       /* azul eléctrico */
+  --sky:#8CC8FF;         /* celeste */
+  --navy:#071B45;
+  --line:rgba(255,255,255,.12);
+  --ff-title:'Inter Tight',system-ui,sans-serif;
+  --ff:'Inter',system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --pad:clamp(16px,4vw,56px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ff);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+:focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:8px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Barra superior ---------- */
+.top{position:fixed;inset:0 0 auto 0;z-index:50;height:68px;display:flex;align-items:center;gap:28px;padding:0 var(--pad);background:linear-gradient(180deg,rgba(3,11,31,.95),rgba(3,11,31,0));transition:background .4s}
+.top.solid{background:rgba(3,11,31,.96);box-shadow:0 1px 0 var(--line)}
+.top__logo img{height:30px;width:auto}
+.top__nav{display:flex;gap:22px;font-size:14.5px;font-weight:500;color:#D6E4FF}
+.top__nav a{opacity:.8;transition:opacity .2s}
+.top__nav a:hover,.top__nav a[aria-current="page"]{opacity:1;font-weight:600}
+.top__right{margin-left:auto;display:flex;align-items:center;gap:14px}
+.search{display:flex;align-items:center;gap:8px;height:38px;border-radius:999px;padding:0 12px;background:rgba(255,255,255,.08);border:1px solid var(--line)}
+.search input{width:150px;border:0;background:transparent;color:#fff;font:inherit;outline:none}
+.search input::placeholder{color:var(--muted)}
+.search svg{width:18px;height:18px;opacity:.8}
+.avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--sky),var(--brand));display:grid;place-items:center;font-weight:700;font-size:14px}
+.back{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.back:hover{color:#fff}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:min(86vh,760px);display:flex;align-items:flex-end;padding:120px var(--pad) clamp(70px,9vw,120px);overflow:hidden;
+  background:radial-gradient(70% 80% at 78% 30%,rgba(31,99,232,.55),transparent 65%),radial-gradient(60% 60% at 95% 90%,rgba(140,200,255,.25),transparent 60%),linear-gradient(180deg,#041437 0%,var(--bg) 100%)}
+.hero__img{position:absolute;right:max(0px,calc(var(--pad) - 20px));bottom:0;height:92%;width:auto;max-width:none;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 100%),linear-gradient(90deg,transparent 0,#000 30%);-webkit-mask-composite:source-in;mask-image:linear-gradient(180deg,#000 70%,transparent 100%),linear-gradient(90deg,transparent 0,#000 30%);mask-composite:intersect;pointer-events:none}
+.hero__fade{position:absolute;inset:auto 0 0 0;height:180px;background:linear-gradient(180deg,transparent,var(--bg));pointer-events:none}
+.hero__body{position:relative;z-index:2;max-width:580px}
+.tag{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--sky)}
+.tag img{height:22px;width:auto}
+.hero h1{font-family:var(--ff-title);font-weight:600;letter-spacing:-.04em;line-height:.92;font-size:clamp(46px,7.5vw,104px);margin:16px 0 18px}
+.hero h1 em{font-style:italic;font-weight:300;color:var(--sky)}
+.hero p{font-size:clamp(15px,1.4vw,18px);color:#D6E4FF;margin:0 0 26px;max-width:46ch}
+.meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:22px;font-size:13.5px;color:var(--muted)}
+.meta b{color:#fff}
+.meta .pill{border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-size:12px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 26px;border-radius:10px;font-weight:700;font-size:16px;transition:transform .25s var(--ease),background .25s}
+.btn:hover{transform:translateY(-2px)}
+.btn svg{width:22px;height:22px}
+.btn--play{background:#fff;color:var(--navy)}
+.btn--play:hover{background:#E6F1FF}
+.btn--ghost{background:rgba(140,170,220,.25);color:#fff;backdrop-filter:blur(8px)}
+.btn--ghost:hover{background:rgba(140,170,220,.38)}
+.btn--brand{background:var(--brand);color:#fff}
+
+/* ---------- Filas ---------- */
+main{position:relative;z-index:3;margin-top:-60px;padding-bottom:80px}
+.row{margin:0 0 38px}
+.row__head{display:flex;align-items:baseline;gap:14px;padding:0 var(--pad);margin-bottom:12px}
+.row__head h2{font-family:var(--ff-title);font-weight:600;font-size:clamp(19px,2vw,26px);letter-spacing:-.02em;margin:0}
+.row__head span{font-size:13px;color:var(--muted)}
+.row__wrap{position:relative}
+.track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 var(--pad);padding:6px var(--pad) 14px;scrollbar-width:none;scroll-behavior:smooth}
+.track::-webkit-scrollbar{display:none}
+.nav-arrow{position:absolute;top:6px;bottom:14px;width:var(--pad);min-width:44px;z-index:4;display:grid;place-items:center;background:linear-gradient(90deg,rgba(3,11,31,.9),transparent);opacity:0;transition:opacity .3s}
+.nav-arrow--r{right:0;background:linear-gradient(270deg,rgba(3,11,31,.9),transparent)}
+.nav-arrow--l{left:0}
+.nav-arrow svg{width:30px;height:30px}
+.row__wrap:hover .nav-arrow{opacity:1}
+@media (hover:none){.nav-arrow{display:none}}
+
+/* Tarjeta (poster) */
+.item{flex:0 0 clamp(210px,23vw,300px);scroll-snap-align:start;text-align:left;border-radius:10px;transition:transform .35s var(--ease)}
+.item:hover,.item:focus-visible{transform:scale(1.045);z-index:2}
+.poster{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:var(--g,linear-gradient(135deg,#1F63E8,#041437));box-shadow:0 10px 30px -14px rgba(0,0,0,.7)}
+.poster::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(165deg,rgba(255,255,255,0) 0 18px,rgba(255,255,255,.06) 18px 20px)}
+.poster .badge-n{position:absolute;top:10px;left:10px;height:22px;width:auto;opacity:.95}
+.poster .kicker{position:absolute;left:14px;bottom:16px;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.poster .big{position:absolute;right:12px;bottom:-12px;font-family:var(--ff-title);font-weight:200;font-size:88px;line-height:1;letter-spacing:-.06em;color:rgba(255,255,255,.92)}
+.poster.has-ttl .kicker{bottom:62px}
+.poster .ttl{position:absolute;left:14px;right:112px;bottom:16px;font-family:var(--ff-title);font-weight:600;font-size:16px;line-height:1.15;letter-spacing:-.01em}
+.poster .play{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .3s;background:rgba(3,11,31,.35)}
+.poster .play i{width:54px;height:54px;border-radius:50%;border:2px solid #fff;display:grid;place-items:center;background:rgba(3,11,31,.4);backdrop-filter:blur(4px)}
+.poster .play svg{width:22px;height:22px;margin-left:3px}
+.item:hover .play,.item:focus-visible .play{opacity:1}
+.poster .lock{position:absolute;top:10px;right:10px;height:26px;padding:0 10px;border-radius:999px;background:rgba(3,11,31,.6);backdrop-filter:blur(6px);display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700}
+.poster .lock svg{width:13px;height:13px}
+.poster .soon{background:rgba(140,200,255,.25)}
+.poster .new{background:var(--brand)}
+.poster .done{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;background:#22C55E;display:grid;place-items:center}
+.poster .done svg{width:15px;height:15px}
+.bar{height:4px;background:rgba(255,255,255,.18);border-radius:0 0 10px 10px;margin-top:-4px;position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--sky)}
+.item__sub{display:flex;justify-content:space-between;gap:8px;padding:8px 2px 0;font-size:12.5px;color:var(--muted)}
+
+/* Tarjeta grande (paquetes digitales) */
+.item--wide{flex-basis:clamp(280px,40vw,520px)}
+.item--wide .poster{aspect-ratio:16/8}
+.item--wide .poster .ttl{font-size:clamp(20px,2.4vw,30px);right:16px;bottom:56px}
+.item--wide .poster .price{position:absolute;left:14px;bottom:16px;font-size:13px;font-weight:600;color:#D6E4FF}
+.item--wide .poster .kicker{bottom:auto;top:44px}
+.item--wide img.cut{position:absolute;right:0;bottom:0;height:100%;width:auto;opacity:.85;-webkit-mask-image:linear-gradient(90deg,transparent,#000 40%);mask-image:linear-gradient(90deg,transparent,#000 40%)}
+
+/* ---------- Modal reproductor ---------- */
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-start;justify-content:center;background:rgba(1,5,15,.82);backdrop-filter:blur(6px);overflow-y:auto;padding:4vh 12px}
+.modal.open{display:flex}
+.sheet{width:min(960px,100%);background:var(--bg2);border-radius:16px;overflow:hidden;box-shadow:0 40px 100px -30px #000;animation:pop .45s var(--ease)}
+@keyframes pop{from{transform:translateY(30px) scale(.97);opacity:0}}
+.player{position:relative;aspect-ratio:16/9;background:#000}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.player .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;background:var(--g,linear-gradient(135deg,#1F63E8,#041437))}
+.player .ph b{display:block;font-family:var(--ff-title);font-size:clamp(22px,3vw,34px);letter-spacing:-.02em;margin:8px 0}
+.player .ph span{color:#D6E4FF;font-size:14px;max-width:44ch;display:inline-block}
+.close{position:absolute;top:12px;right:12px;z-index:3;width:40px;height:40px;border-radius:50%;background:rgba(3,11,31,.75);display:grid;place-items:center}
+.close svg{width:20px;height:20px}
+.sheet__body{padding:24px clamp(18px,3vw,36px) 30px;display:grid;grid-template-columns:1.6fr 1fr;gap:28px}
+.sheet__body h3{font-family:var(--ff-title);font-size:clamp(22px,2.6vw,30px);letter-spacing:-.02em;margin:6px 0 10px}
+.sheet__body p{color:#C9D8F5;margin:0 0 16px}
+.side{font-size:13.5px;color:var(--muted)}
+.side b{color:#fff;font-weight:500}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.actions .btn{height:44px;font-size:14.5px;padding:0 18px}
+.eps{border-top:1px solid var(--line);padding:18px clamp(18px,3vw,36px) 26px}
+.eps h4{font-family:var(--ff-title);font-size:20px;margin:0 0 12px}
+.ep{display:grid;grid-template-columns:34px 130px 1fr auto;gap:14px;align-items:center;width:100%;text-align:left;padding:12px;border-radius:10px;border-bottom:1px solid var(--line)}
+.ep:hover,.ep[aria-current="true"]{background:rgba(255,255,255,.06)}
+.ep .n{font-family:var(--ff-title);font-size:22px;color:var(--muted);text-align:center}
+.ep .th{aspect-ratio:16/9;border-radius:6px;background:var(--g);position:relative;overflow:hidden}
+.ep .th span{position:absolute;right:6px;bottom:-6px;font-family:var(--ff-title);font-weight:200;font-size:40px;line-height:1}
+.ep b{display:block;font-size:14.5px}
+.ep small{color:var(--muted);font-size:12.5px}
+.ep .ok{width:22px;height:22px;border-radius:50%;background:#22C55E;display:grid;place-items:center}
+.ep .ok svg{width:13px;height:13px}
+
+/* ---------- Aviso y pie ---------- */
+.empty{padding:0 var(--pad);color:var(--muted)}
+.foot{padding:30px var(--pad) 50px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot a{color:#D6E4FF}
+.toast{position:fixed;left:50%;bottom:24px;z-index:200;transform:translate(-50%,calc(100% + 40px));visibility:hidden;background:#fff;color:var(--navy);padding:12px 20px;border-radius:999px;font-weight:600;font-size:14px;transition:transform .45s var(--ease)}
+.toast.show{transform:translate(-50%,0);visibility:visible}
+
+/* ---------- Responsive ---------- */
+@media (max-width:860px){
+  .top__nav{display:none}
+  .search input{width:90px}
+  .hero{min-height:auto;padding-top:96px;flex-direction:column;align-items:stretch;justify-content:flex-end}
+  .hero__img{position:relative;right:auto;height:auto;width:110%;max-width:none;margin:0 -5% -40px auto;order:-1;-webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%);mask-image:linear-gradient(180deg,#000 60%,transparent 100%)}
+  .sheet__body{grid-template-columns:1fr}
+  .ep{grid-template-columns:26px 96px 1fr auto;gap:10px}
+}
+@media (max-width:520px){
+  .search{display:none}
+  .back span{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- ================= BARRA SUPERIOR ================= -->
+<header class="top" id="top">
+  <a href="index.html" class="top__logo" aria-label="Volver a la web de José Carrizo e Hijos"><img src="img/logo-blanco.png" alt="José Carrizo e Hijos" width="700" height="235"></a>
+  <nav class="top__nav" aria-label="Videoteca">
+    <a href="#inicio" aria-current="page">Inicio</a>
+    <a href="#fila-pasos">Los 12 pasos</a>
+    <a href="#fila-paquetes">Paquetes digitales</a>
+    <a href="#fila-proximamente">Próximamente</a>
+  </nav>
+  <div class="top__right">
+    <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr-only">Buscar clases</span><input id="q" type="search" placeholder="Buscar clases"></label>
+    <a href="index.html" class="back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Volver a la web</span></a>
+    <span class="avatar" id="avatar" title="Mi cuenta">JC</span>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio" aria-label="Destacado">
+  <img class="hero__img" src="img/persona-cut.webp" alt="" aria-hidden="true">
+  <div class="hero__fade"></div>
+  <div class="hero__body">
+    <span class="tag"><img src="img/icono-blanco.png" alt="">Pileteros de confianza · Suscripción</span>
+    <h1>Los 12 pasos<br><em>del piletero</em></h1>
+    <div class="meta"><b id="heroCount">13 clases</b><span class="pill">Esencial</span><span>Con José Carrizo</span><span id="heroProg"></span></div>
+    <p>El método para hacer cada visita de mantenimiento de forma correcta, desde que llegás a la casa hasta que te vas.</p>
+    <div class="btns">
+      <button class="btn btn--play" id="heroPlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z"/></svg><span id="heroPlayTxt">Empezar</span></button>
+      <button class="btn btn--ghost" id="heroInfo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Ver todas las clases</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FILAS ================= -->
+<main id="rows" aria-label="Contenido"></main>
+
+<footer class="foot">
+  <span>© <span id="y">2026</span> José Carrizo e Hijos · Pileteros de confianza</span>
+  <span>¿Dudas? <a href="#" class="wa-link" data-msg="Hola! Tengo una consulta sobre la videoteca de Pileteros de confianza.">Escribinos por WhatsApp</a></span>
+</footer>
+
+<!-- ================= MODAL ================= -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="sheet">
+    <div class="player" id="player">
+      <button class="close" id="close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="sheet__body">
+      <div>
+        <span class="tag" id="mKicker"></span>
+        <h3 id="mTitle"></h3>
+        <p id="mDesc"></p>
+        <div class="actions" id="mActions"></div>
+      </div>
+      <div class="side" id="mSide"></div>
+    </div>
+    <div class="eps" id="eps"></div>
+  </div>
+</div>
+
+<!-- ================= INGRESAR / REGISTRARSE ================= -->
+<div class="modal" id="auth" role="dialog" aria-modal="true" aria-labelledby="aTitle">
+  <div class="sheet auth">
+    <button class="close" id="aClose" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <img src="img/logo-blanco.png" alt="José Carrizo e Hijos" class="auth__logo">
+    <h3 id="aTitle">Ingresá a tu cuenta</h3>
+    <p class="auth__sub" id="aSub">Para ver tus clases de Pileteros de confianza.</p>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-m="login">Ingresar</button>
+      <button role="tab" aria-selected="false" data-m="registro">Crear cuenta</button>
+    </div>
+    <form id="aForm" novalidate>
+      <label class="f f-reg"><span>Nombre y apellido</span><input name="nombre" autocomplete="name"></label>
+      <label class="f f-reg"><span>Celular (WhatsApp)</span><input name="telefono" type="tel" autocomplete="tel" placeholder="223 555-1234"></label>
+      <label class="f f-mail"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+      <label class="f f-pass"><span>Contraseña</span><input name="password" type="password" autocomplete="current-password" minlength="6" required></label>
+      <p class="aMsg" id="aMsg" role="status" aria-live="polite"></p>
+      <button class="btn btn--play btn--full" type="submit" id="aBtn">Ingresar</button>
+      <button class="link" type="button" id="aForgot">Me olvidé la contraseña</button>
+    </form>
+  </div>
+</div>
+
+<!-- Menú de cuenta -->
+<div class="menu" id="menu" hidden>
+  <p id="menuName"></p>
+  <p class="menu__state" id="menuState"></p>
+  <a href="#" class="wa-link" data-msg="Hola! Quiero consultar por mi suscripción a Pileteros de confianza.">Ayuda por WhatsApp</a>
+  <button id="logout">Cerrar sesión</button>
+</div>
+
+<style>
+.auth{position:relative;width:min(440px,100%);padding:34px clamp(20px,4vw,36px) 28px}
+.auth .close{top:14px;right:14px}
+.auth__logo{height:34px;width:auto;margin-bottom:22px}
+.auth h3{font-family:var(--ff-title);font-size:28px;letter-spacing:-.02em;margin:0 0 6px}
+.auth__sub{color:var(--muted);margin:0 0 20px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:rgba(255,255,255,.06);margin-bottom:18px}
+.tabs button{height:40px;border-radius:9px;font-weight:600;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:#fff;color:var(--navy)}
+.f{display:block;margin-bottom:12px}
+.f span{display:block;font-size:13px;color:#C9D8F5;margin-bottom:6px}
+.f input{width:100%;height:48px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff;font:inherit;padding:0 14px;outline:none}
+.f input:focus{border-color:var(--sky)}
+.auth[data-m="login"] .f-reg{display:none}
+.auth[data-m="reset"] .f-reg,.auth[data-m="reset"] .f-pass,.auth[data-m="reset"] .tabs{display:none}
+.btn--full{width:100%;justify-content:center;margin-top:6px}
+.link{display:block;margin:14px auto 0;color:var(--sky);font-size:14px;text-decoration:underline}
+.auth[data-m="registro"] .link,.auth[data-m="nueva"] .link,.auth[data-m="nueva"] .tabs,.auth[data-m="nueva"] .f-reg,.auth[data-m="nueva"] .f-mail{display:none}
+.aMsg{min-height:20px;font-size:14px;margin:4px 0 8px;color:var(--sky)}
+.aMsg.err{color:#FF9B9B}
+.menu{position:fixed;top:64px;right:var(--pad);z-index:60;min-width:230px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 30px 60px -20px #000}
+.menu p{margin:0 0 4px;font-weight:600}
+.menu .menu__state{font-weight:400;color:var(--muted);font-size:13px;margin-bottom:12px}
+.menu a,.menu button{display:block;width:100%;text-align:left;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.avatar{cursor:pointer}
+.btn-login{display:inline-flex;align-items:center;cursor:pointer;height:38px;padding:0 16px;border-radius:999px;background:#fff;color:var(--navy);font-weight:700;font-size:14px}
+.demo-note{margin:0 var(--pad) 28px;padding:12px 16px;border-radius:12px;background:rgba(140,200,255,.1);border:1px solid rgba(140,200,255,.25);color:#C9D8F5;font-size:13.5px}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =========================================================
+   1. CONFIGURACIÓN
+   ========================================================= */
+var SUPABASE_URL = 'https://jxdvrwjkcluskdaeockt.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_exDDyjuvHrCqCGd1i4IHfg_X1HfuSct';   // clave pública (es segura en la web)
+var WHATSAPP = '5492235405578';
+
+var sb = null;
+try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e){ sb = null; }
+
+var USUARIO = null;          // { nombre, email, admin, suscripcion, productos[] }
+var CATALOGO = [];
+var MODO_DEMO = false;       // si no se puede conectar con Supabase (por ej. en la vista previa)
+
+/* Catálogo de muestra, solo para cuando no hay conexión */
+var DEMO = [
+  { id:'pasos', titulo:'Los 12 pasos del piletero', tipo:'suscripcion', estado:'disponible', acceso:true,
+    descripcion:'El método para hacer cada visita de mantenimiento de forma correcta, desde que llegás a la casa hasta que te vas.', colores:['#2E86FF','#041437'],
+    clases:['Introducción','Paso 1','Paso 2','Paso 3','Paso 4','Paso 5','Paso 6','Paso 7','Paso 8','Paso 9','Paso 10','Paso 11','Paso 12'].map(function(t,i){ return {id:'d'+i, titulo:t, gratis:i===0, tiene_video:false}; }) },
+  { id:'shock', titulo:'Tratamiento de shock', tipo:'paquete', estado:'nuevo', acceso:false,
+    descripcion:'Diagnóstico y tratamiento correctivo para recuperar piletas turbias y verdes: qué medir, qué productos usar, en qué orden y en qué dosis.', colores:['#5AA2FF','#0B2F86'], clases:[] },
+  { id:'quimica', titulo:'Química de la pileta', tipo:'suscripcion', estado:'proximamente', descripcion:'Cloro, pH, alguicidas y clarificantes: qué, cuánto y cuándo.', colores:['#8CC8FF','#1450C8'], clases:[] },
+  { id:'tipos', titulo:'Tipos de piletas', tipo:'suscripcion', estado:'proximamente', descripcion:'Hormigón, fibra, lona y revestimientos.', colores:['#B9DEFF','#1F63E8'], clases:[] },
+  { id:'filtrado', titulo:'Sistemas de filtrado', tipo:'suscripcion', estado:'proximamente', descripcion:'Filtros de arena y cartucho, bombas y válvula selectora.', colores:['#3D8BFF','#06205C'], clases:[] },
+  { id:'reparaciones', titulo:'Reparaciones y equipos', tipo:'suscripcion', estado:'proximamente', descripcion:'Cambio de arena del filtro Vulcano BC30, y más.', colores:['#9FD0FF','#0A2A78'], clases:[] }
+];
+
+/* =========================================================
+   2. UTILIDADES
+   ========================================================= */
+var $ = function(s,c){return (c||document).querySelector(s)};
+var $$ = function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+function el(tag, attrs, html){ var e=document.createElement(tag); for(var k in (attrs||{})) e.setAttribute(k,attrs[k]); if(html!=null) e.innerHTML=html; return e; }
+function esc(t){ var d=document.createElement('div'); d.textContent=t==null?'':t; return d.innerHTML; }
+function grad(c){ c=c||['#2E86FF','#041437']; return 'radial-gradient(120% 90% at 15% 0%,'+c[0]+','+c[1]+' 75%)'; }
+function wa(msg){ return 'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg); }
+var toastT;
+function toast(t){ var x=$('#toast'); x.textContent=t; x.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(function(){x.classList.remove('show')},2800); }
+
+function prepararCatalogo(lista){
+  return lista.map(function(m){
+    m.clases = (m.clases||[]).map(function(c,i){ c.num = i; c.key = c.id; return c; });
+    return m;
+  });
+}
+function tieneAcceso(mod){ return mod.estado !== 'proximamente' && !!mod.acceso; }
+function puedeVer(mod, c){ return tieneAcceso(mod) || (c && c.gratis); }
+function etiqueta(c){
+  if(/^\s*intro/i.test(c.titulo)) return '00';
+  var m = c.titulo.match(/paso\s*(\d+)/i); if(m) return ('0'+m[1]).slice(-2);
+  return ('0'+(c.num+1)).slice(-2);
+}
+
+/* Progreso local para la vista previa (con cuenta se guarda en Supabase) */
+var vistosLocal = {};
+try { vistosLocal = JSON.parse(localStorage.getItem('jc_vistos')||'{}'); } catch(e){}
+function visto(c){ return USUARIO ? !!c.visto : !!vistosLocal[c.key]; }
+
+/* =========================================================
+   3. DATOS: sesión, acceso y catálogo desde Supabase
+   ========================================================= */
+function cargar(){
+  if(!sb){ usarDemo(); return Promise.resolve(); }
+  return Promise.all([sb.rpc('mi_acceso'), sb.rpc('catalogo')]).then(function(r){
+    if(r[0].error || r[1].error) throw (r[0].error || r[1].error);
+    var a = r[0].data || {};
+    USUARIO = a.logueado ? {
+      nombre: (a.perfil && a.perfil.nombre) || (a.perfil && a.perfil.email) || 'Mi cuenta',
+      email: a.perfil && a.perfil.email, admin: a.admin, suscripcion: a.suscripcion, productos: a.productos || []
+    } : null;
+    CATALOGO = prepararCatalogo(r[1].data || []);
+    MODO_DEMO = false;
+    pintarCuenta(); dibujar($('#q').value);
+  }).catch(function(){ usarDemo(); });
+}
+function usarDemo(){
+  MODO_DEMO = true; USUARIO = null;
+  CATALOGO = prepararCatalogo(JSON.parse(JSON.stringify(DEMO)));
+  pintarCuenta(); dibujar($('#q').value);
+}
+
+/* =========================================================
+   4. DIBUJAR FILAS
+   ========================================================= */
+var ICON = {
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4"><path d="m5 12 4 4 10-10"/></svg>',
+  l:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 5l-7 7 7 7"/></svg>',
+  r:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg>'
+};
+
+function claseCard(c, mod){
+  var ok = puedeVer(mod, c), v = visto(c);
+  var generico = /^paso\s*\d+$/i.test(c.titulo) || /^\s*intro/i.test(c.titulo);
+  var b = el('button', {'class':'item','aria-label': c.titulo + ' · ' + mod.titulo + (ok?'':' (bloqueado)')});
+  var badge = !ok ? '<span class="lock">'+ICON.lock+(mod.tipo==='paquete'?'Comprar':'Suscribite')+'</span>'
+            : v ? '<span class="done">'+ICON.ok+'</span>'
+            : (c.gratis && !tieneAcceso(mod)) ? '<span class="lock new">Gratis</span>' : '';
+  b.innerHTML =
+    '<div class="poster'+(generico?'':' has-ttl')+'" style="--g:'+grad(mod.colores)+'">'+
+      '<img class="badge-n" src="img/icono-blanco.png" alt="">'+ badge +
+      '<span class="kicker">'+(/^\s*intro/i.test(c.titulo)?'Introducción':(/^paso\s*\d+$/i.test(c.titulo)?'Paso':'Clase'))+'</span>'+
+      '<span class="big">'+etiqueta(c)+'</span>'+
+      (generico ? '' : '<span class="ttl">'+esc(c.titulo)+'</span>')+
+      '<span class="play"><i>'+(ok?ICON.play:ICON.lock)+'</i></span>'+
+    '</div>'+
+    (v ? '<div class="bar"><i style="width:100%"></i></div>' : '')+
+    '<div class="item__sub"><span>'+esc(c.titulo)+'</span><span>'+(c.tiene_video?'':'En preparación')+'</span></div>';
+  b.addEventListener('click', function(){ abrir(mod, c); });
+  return b;
+}
+
+function moduloCard(mod){
+  var b = el('button', {'class':'item item--wide','aria-label': mod.titulo});
+  var acceso = tieneAcceso(mod);
+  var badge = mod.estado==='proximamente' ? '<span class="lock soon">Próximamente</span>'
+            : mod.estado==='nuevo' ? '<span class="lock new">Nuevo</span>' : '';
+  var n = mod.clases.length;
+  b.innerHTML =
+    '<div class="poster" style="--g:'+grad(mod.colores)+'">'+
+      (mod.id==='shock' ? '<img class="cut" src="img/equipo-cut.webp" alt="">' : '')+
+      '<img class="badge-n" src="img/icono-blanco.png" alt="">'+ badge +
+      '<span class="kicker">'+(mod.tipo==='paquete'?'Paquete digital':'Módulo')+'</span>'+
+      '<span class="ttl">'+esc(mod.titulo)+'</span>'+
+      '<span class="price">'+(mod.estado==='proximamente' ? 'Muy pronto en la suscripción'
+          : acceso ? (n+' clases · Ver ahora')
+          : ('Pago único'+(n?' · '+n+' clases':' · Muy pronto')))+'</span>'+
+      '<span class="play"><i>'+(mod.estado==='proximamente'?ICON.lock:ICON.play)+'</i></span>'+
+    '</div>';
+  b.addEventListener('click', function(){
+    if(mod.estado==='proximamente'){ toast('“'+mod.titulo+'” llega pronto. ¡Te avisamos!'); return; }
+    abrir(mod, mod.clases[0] || null);
+  });
+  return b;
+}
+
+function fila(id, titulo, sub, items){
+  var sec = el('section', {'class':'row', id:id, 'aria-label':titulo});
+  sec.innerHTML = '<div class="row__head"><h2>'+esc(titulo)+'</h2>'+(sub?'<span>'+esc(sub)+'</span>':'')+'</div>';
+  var wrap = el('div', {'class':'row__wrap'}), track = el('div', {'class':'track'});
+  items.forEach(function(it){ track.appendChild(it); });
+  var l = el('button', {'class':'nav-arrow nav-arrow--l','aria-label':'Anterior'}, ICON.l);
+  var r = el('button', {'class':'nav-arrow nav-arrow--r','aria-label':'Siguiente'}, ICON.r);
+  l.onclick = function(){ track.scrollBy({left:-track.clientWidth*.85}); };
+  r.onclick = function(){ track.scrollBy({left: track.clientWidth*.85}); };
+  wrap.appendChild(l); wrap.appendChild(track); wrap.appendChild(r);
+  sec.appendChild(wrap);
+  return sec;
+}
+
+function dibujar(filtro){
+  var rows = $('#rows'); rows.innerHTML = '';
+  var q = (filtro||'').trim().toLowerCase();
+  var match = function(c, mod){ return !q || (c.titulo+' '+mod.titulo).toLowerCase().indexOf(q) > -1; };
+
+  if(MODO_DEMO) rows.appendChild(el('p', {'class':'demo-note'}, 'Vista de muestra: los videos y las cuentas funcionan en <b>josecarrizoehijos.ar/clases.html</b>.'));
+
+  if(!q){
+    var seguir = [];
+    CATALOGO.forEach(function(mod){
+      if(!tieneAcceso(mod)) return;
+      var empezado = mod.clases.some(visto);
+      var prox = mod.clases.filter(function(c){ return !visto(c); })[0];
+      if(empezado && prox) seguir.push(claseCard(prox, mod));
+    });
+    if(seguir.length) rows.appendChild(fila('fila-seguir', 'Seguir viendo'+(USUARIO?' para '+USUARIO.nombre.split(' ')[0]:''), '', seguir));
+  }
+
+  var total = 0;
+  CATALOGO.forEach(function(mod){
+    if(mod.estado==='proximamente' || !mod.clases.length) return;
+    if(mod.tipo==='paquete' && !tieneAcceso(mod) && !q) return;   // los paquetes no comprados van en su fila
+    var items = mod.clases.filter(function(c){ return match(c, mod); }).map(function(c){ return claseCard(c, mod); });
+    total += items.length;
+    if(items.length) rows.appendChild(fila(mod.id==='pasos'?'fila-pasos':'fila-'+mod.id, mod.titulo,
+      mod.tipo==='paquete' ? 'Paquete digital · pago único' : (tieneAcceso(mod) ? 'Incluido en tu suscripción' : 'Incluido en la suscripción'), items));
+  });
+
+  if(!q){
+    var paq = CATALOGO.filter(function(m){ return m.tipo==='paquete'; });
+    if(paq.length) rows.appendChild(fila('fila-paquetes', 'Paquetes digitales', 'Comprás una vez y es tuyo', paq.map(moduloCard)));
+    var prox = CATALOGO.filter(function(m){ return m.estado==='proximamente'; });
+    if(prox.length) rows.appendChild(fila('fila-proximamente', 'Próximamente en la suscripción', 'Se suman clases nuevas todos los meses', prox.map(moduloCard)));
+  } else if(!total){
+    rows.appendChild(el('p', {'class':'empty'}, 'No encontramos clases con “'+esc(filtro)+'”.'));
+  }
+
+  var pasos = CATALOGO.filter(function(m){ return m.id==='pasos'; })[0];
+  if(pasos){
+    var vistas = pasos.clases.filter(visto).length;
+    $('#heroCount').textContent = pasos.clases.length + ' clases';
+    $('#heroProg').textContent = vistas ? (vistas+' de '+pasos.clases.length+' vistas') : '';
+    $('#heroPlayTxt').textContent = !tieneAcceso(pasos) ? 'Ver la introducción gratis' : (vistas && vistas < pasos.clases.length ? 'Continuar' : (vistas ? 'Volver a ver' : 'Empezar'));
+  }
+}
+
+/* =========================================================
+   5. MODAL / REPRODUCTOR
+   ========================================================= */
+var modal = $('#modal'), player = $('#player'), ultimoFoco = null;
+
+function placeholder(mod, html){
+  player.appendChild(el('div', {'class':'ph'}, '<div><span class="tag"><img src="img/icono-blanco.png" alt="">'+esc(mod.titulo)+'</span>'+html+'</div>'));
+}
+
+function abrir(mod, c){
+  if(!modal.classList.contains('open')) ultimoFoco = document.activeElement;
+  var ok = puedeVer(mod, c);
+  player.querySelectorAll('iframe,.ph').forEach(function(n){ n.remove(); });
+  player.style.setProperty('--g', grad(mod.colores));
+
+  if(!c){
+    placeholder(mod, '<b>Muy pronto</b><span>Estamos grabando las clases de este paquete.</span>');
+  } else if(!ok){
+    placeholder(mod, mod.tipo==='paquete'
+      ? '<b>Este paquete todavía no es tuyo</b><span>Comprás una vez y lo ves para siempre, las veces que quieras.</span>'
+      : '<b>Contenido para suscriptores</b><span>'+(USUARIO?'Suscribite a Pileteros de confianza para ver todas las clases.':'Ingresá con tu cuenta o suscribite para ver todas las clases.')+'</span>');
+  } else if(!c.tiene_video || MODO_DEMO){
+    placeholder(mod, '<b>'+esc(c.titulo)+'</b><span>'+(MODO_DEMO?'Los videos se ven en josecarrizoehijos.ar.':'Este video se está preparando. En breve vas a poder verlo acá.')+'</span>');
+  } else {
+    placeholder(mod, '<b>Cargando…</b>');
+    sb.rpc('ver_clase', { p_clase: c.id }).then(function(r){
+      player.querySelectorAll('.ph').forEach(function(n){ n.remove(); });
+      if(r.error || !r.data || !r.data.ok){
+        placeholder(mod, '<b>No pudimos cargar el video</b><span>'+(r.data && r.data.motivo==='sin_acceso' ? 'Tu acceso no está activo.' : 'Probá de nuevo en un momento.')+'</span>');
+        return;
+      }
+      player.appendChild(el('iframe', {
+        src: r.data.url + (r.data.url.indexOf('?')>-1?'&':'?') + 'autoplay=true&preload=true&responsive=true',
+        allow: 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen',
+        allowfullscreen: 'true', title: c.titulo + ' · ' + mod.titulo
+      }));
+      if(USUARIO && !c.visto){ c.visto = true; sb.rpc('marcar_visto', { p_clase: c.id, p_visto: true }); dibujar($('#q').value); }
+    });
+  }
+
+  $('#mKicker').innerHTML = '<img src="img/icono-blanco.png" alt="">'+(mod.tipo==='paquete'?'Paquete digital':'Pileteros de confianza');
+  $('#mTitle').textContent = c ? c.titulo + ' · ' + mod.titulo : mod.titulo;
+  $('#mDesc').textContent = (c && c.descripcion) || mod.descripcion || '';
+
+  var acts = $('#mActions'); acts.innerHTML = '';
+  if(c && ok){
+    if(USUARIO || MODO_DEMO){
+      var mark = el('button', {'class':'btn btn--ghost'}, visto(c) ? 'Marcar como no vista' : 'Marcar como vista');
+      mark.onclick = function(){
+        var nuevo = !visto(c);
+        if(USUARIO){ c.visto = nuevo; sb.rpc('marcar_visto', { p_clase: c.id, p_visto: nuevo }); }
+        else { if(nuevo) vistosLocal[c.key]=1; else delete vistosLocal[c.key]; try{localStorage.setItem('jc_vistos',JSON.stringify(vistosLocal));}catch(e){} }
+        dibujar($('#q').value); abrir(mod, c);
+      };
+      acts.appendChild(mark);
+    }
+    var sig = mod.clases[c.num+1];
+    if(sig){ var nx = el('button', {'class':'btn btn--play'}, ICON.play+'Siguiente: '+esc(sig.titulo)); nx.onclick=function(){ abrir(mod, sig); }; acts.appendChild(nx); }
+  }
+  if(!ok || !c){
+    if(!USUARIO && !MODO_DEMO){
+      var lg = el('button', {'class':'btn btn--ghost'}, 'Ya tengo cuenta'); lg.onclick = function(){ cerrar(); abrirAuth('login'); }; acts.appendChild(lg);
+    }
+    acts.appendChild(el('a', {'class':'btn btn--brand', target:'_blank', rel:'noopener', href: wa(mod.tipo==='paquete'
+      ? 'Hola! Quiero comprar el paquete digital "'+mod.titulo+'".'+(USUARIO&&USUARIO.email?' Mi cuenta: '+USUARIO.email:'')
+      : 'Hola! Quiero suscribirme a Pileteros de confianza.'+(USUARIO&&USUARIO.email?' Mi cuenta: '+USUARIO.email:''))},
+      mod.tipo==='paquete' ? 'Comprar paquete' : 'Suscribirme'));
+  }
+
+  $('#mSide').innerHTML = '<p><b>Módulo:</b> '+esc(mod.titulo)+'</p><p><b>Clases:</b> '+mod.clases.length+'</p><p><b>Acceso:</b> '+(mod.tipo==='paquete'?'Pago único':'Suscripción mensual')+'</p><p><b>Con:</b> José Carrizo e Hijos</p>';
+
+  var eps = $('#eps'); eps.innerHTML = mod.clases.length ? '<h4>Clases</h4>' : '';
+  mod.clases.forEach(function(x){
+    var e = el('button', {'class':'ep','aria-current': String(!!c && x.key===c.key)});
+    e.innerHTML = '<span class="n">'+(x.num+1)+'</span><span class="th" style="--g:'+grad(mod.colores)+'"><span>'+etiqueta(x)+'</span></span>'+
+      '<span><b>'+esc(x.titulo)+'</b><small>'+(puedeVer(mod,x) ? (x.tiene_video?'':'En preparación') : 'Bloqueada')+(x.gratis && !tieneAcceso(mod)?' · Gratis':'')+'</small></span>'+(visto(x)?'<span class="ok">'+ICON.ok+'</span>':'<span></span>');
+    e.onclick = function(){ abrir(mod, x); modal.scrollTo({top:0,behavior:'smooth'}); };
+    eps.appendChild(e);
+  });
+  modal.classList.add('open'); document.body.style.overflow = 'hidden';
+  $('#close').focus();
+}
+function cerrar(){
+  modal.classList.remove('open'); document.body.style.overflow = '';
+  player.querySelectorAll('iframe').forEach(function(n){ n.remove(); });
+  if(ultimoFoco) ultimoFoco.focus();
+}
+$('#close').onclick = cerrar;
+modal.addEventListener('click', function(e){ if(e.target === modal) cerrar(); });
+
+/* =========================================================
+   6. CUENTA: ingresar, crear cuenta, recuperar contraseña
+   ========================================================= */
+var auth = $('#auth'), aSheet = $('.auth'), aForm = $('#aForm'), aMsg = $('#aMsg');
+function modoAuth(m){
+  aSheet.setAttribute('data-m', m);
+  $$('.tabs button').forEach(function(b){ b.setAttribute('aria-selected', String(b.dataset.m===m)); });
+  $('#aTitle').textContent = m==='registro' ? 'Creá tu cuenta' : m==='reset' ? 'Recuperar contraseña' : 'Ingresá a tu cuenta';
+  $('#aSub').textContent = m==='reset' ? 'Te mandamos un mail con un link para crear una nueva.' : 'Para ver tus clases de Pileteros de confianza.';
+  $('#aBtn').textContent = m==='registro' ? 'Crear cuenta' : m==='reset' ? 'Enviar mail' : 'Ingresar';
+  aForm.password.setAttribute('autocomplete', m==='registro' ? 'new-password' : 'current-password');
+  msg('');
+}
+function msg(t, err){ aMsg.textContent = t; aMsg.classList.toggle('err', !!err); }
+function abrirAuth(m){
+  if(!sb || MODO_DEMO){ toast('Las cuentas funcionan en josecarrizoehijos.ar'); return; }
+  modoAuth(m||'login'); auth.classList.add('open'); document.body.style.overflow='hidden';
+  setTimeout(function(){ aForm.email.focus(); }, 50);
+}
+function cerrarAuth(){ auth.classList.remove('open'); document.body.style.overflow=''; }
+$('#aClose').onclick = cerrarAuth;
+auth.addEventListener('click', function(e){ if(e.target===auth) cerrarAuth(); });
+$$('.tabs button').forEach(function(b){ b.onclick = function(){ modoAuth(b.dataset.m); }; });
+$('#aForgot').onclick = function(){ modoAuth('reset'); };
+
+function traducir(e){
+  var m = (e && e.message || '').toLowerCase();
+  if(m.indexOf('invalid login')>-1) return 'Email o contraseña incorrectos.';
+  if(m.indexOf('email not confirmed')>-1) return 'Confirmá tu email: te mandamos un link al registrarte.';
+  if(m.indexOf('already registered')>-1) return 'Ese email ya tiene cuenta. Probá ingresar.';
+  if(m.indexOf('password')>-1) return 'La contraseña tiene que tener al menos 6 caracteres.';
+  if(m.indexOf('rate limit')>-1) return 'Demasiados intentos. Esperá unos minutos.';
+  return 'No pudimos completar la operación. Probá de nuevo.';
+}
+
+aForm.addEventListener('submit', function(e){
+  e.preventDefault();
+  var m = aSheet.getAttribute('data-m'), f = aForm, email = f.email.value.trim();
+  if(m==='nueva'){
+    if(f.password.value.length < 6){ msg('La contraseña tiene que tener al menos 6 caracteres.', true); return; }
+    sb.auth.updateUser({ password: f.password.value }).then(function(r){
+      if(r.error){ msg(traducir(r.error), true); return; }
+      cerrarAuth(); toast('Contraseña actualizada.'); cargar();
+    });
+    return;
+  }
+  if(!email || !f.email.checkValidity()){ msg('Revisá el email.', true); f.email.focus(); return; }
+  if(m!=='reset' && f.password.value.length < 6){ msg('La contraseña tiene que tener al menos 6 caracteres.', true); f.password.focus(); return; }
+  if(m==='registro' && !f.nombre.value.trim()){ msg('Contanos tu nombre.', true); f.nombre.focus(); return; }
+  $('#aBtn').disabled = true; msg('Un momento…');
+  var volver = location.origin + location.pathname;
+  var p = m==='login' ? sb.auth.signInWithPassword({ email: email, password: f.password.value })
+        : m==='registro' ? sb.auth.signUp({ email: email, password: f.password.value,
+            options: { emailRedirectTo: volver, data: { nombre: f.nombre.value.trim(), telefono: f.telefono.value.trim() } } })
+        : sb.auth.resetPasswordForEmail(email, { redirectTo: volver });
+  p.then(function(r){
+    $('#aBtn').disabled = false;
+    if(r.error){ msg(traducir(r.error), true); return; }
+    if(m==='reset'){ msg('Listo. Revisá tu mail (también en spam).'); return; }
+    if(m==='registro' && !r.data.session){ msg('¡Cuenta creada! Te mandamos un mail para confirmarla. Abrilo y volvé a ingresar.'); return; }
+    cerrarAuth(); toast('¡Hola! Ya estás adentro.'); cargar();
+  });
+});
+
+/* Si vuelve del mail de "recuperar contraseña", pedir la nueva */
+if(sb){
+  sb.auth.onAuthStateChange(function(ev){
+    if(ev === 'PASSWORD_RECOVERY'){
+      abrirAuth('login'); aSheet.setAttribute('data-m','nueva');
+      $('#aTitle').textContent = 'Elegí tu nueva contraseña'; $('#aSub').textContent = 'Escribila abajo y tocá Guardar.';
+      $('#aBtn').textContent = 'Guardar';
+      aForm.password.setAttribute('autocomplete','new-password');
+      setTimeout(function(){ aForm.password.focus(); }, 60);
+    }
+    if(ev === 'SIGNED_IN' || ev === 'SIGNED_OUT') cargar();
+  });
+}
+
+/* Botón de cuenta arriba a la derecha */
+function pintarCuenta(){
+  var av = $('#avatar');
+  if(USUARIO){
+    av.className = 'avatar'; av.setAttribute('role','button'); av.setAttribute('tabindex','0');
+    av.textContent = USUARIO.nombre.split(/\s+/).map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase() || 'JC';
+    $('#menuName').textContent = USUARIO.nombre;
+    var s = USUARIO.suscripcion;
+    $('#menuState').textContent = USUARIO.admin ? 'Administrador' : (s && s.estado==='activa' ? 'Suscripción activa' : 'Sin suscripción activa');
+  } else {
+    av.className = 'btn-login'; av.removeAttribute('tabindex'); av.setAttribute('role','button'); av.setAttribute('tabindex','0');
+    av.textContent = 'Ingresar';
+    $('#menu').hidden = true;
+  }
+}
+function clickCuenta(){
+  if(USUARIO){ var m = $('#menu'); m.hidden = !m.hidden; }
+  else abrirAuth('login');
+}
+$('#avatar').addEventListener('click', clickCuenta);
+$('#avatar').addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); clickCuenta(); } });
+document.addEventListener('click', function(e){ var m=$('#menu'); if(!m.hidden && !m.contains(e.target) && e.target!==$('#avatar')) m.hidden = true; });
+$('#logout').onclick = function(){ sb.auth.signOut().then(function(){ $('#menu').hidden = true; toast('Cerraste sesión.'); cargar(); }); };
+
+/* =========================================================
+   7. ARRANQUE
+   ========================================================= */
+document.addEventListener('keydown', function(e){
+  if(e.key!=='Escape') return;
+  if(auth.classList.contains('open')) cerrarAuth(); else if(modal.classList.contains('open')) cerrar();
+});
+$('#heroPlay').onclick = function(){
+  var p = CATALOGO.filter(function(m){ return m.id==='pasos'; })[0]; if(!p) return;
+  var prox = tieneAcceso(p) ? (p.clases.filter(function(c){ return !visto(c); })[0] || p.clases[0]) : p.clases[0];
+  abrir(p, prox);
+};
+$('#heroInfo').onclick = function(){ var p = CATALOGO.filter(function(m){ return m.id==='pasos'; })[0]; if(p) abrir(p, p.clases[0]); };
+$('#q').addEventListener('input', function(e){ dibujar(e.target.value); });
+window.addEventListener('scroll', function(){ $('#top').classList.toggle('solid', window.scrollY > 30); }, {passive:true});
+$$('.wa-link').forEach(function(a){ a.href = wa(a.dataset.msg); a.target='_blank'; a.rel='noopener'; });
+$('#y').textContent = new Date().getFullYear();
+usarDemo();     // se ve algo al instante
+cargar();       // y después se reemplaza con los datos reales
+</script>
+</body>
+</html>
