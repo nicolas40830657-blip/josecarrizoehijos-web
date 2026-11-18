@@ -304,6 +304,7 @@ body.sin-cuenta .hero,body.sin-cuenta main{display:none}
     <div class="player" id="player">
       <button class="close" id="close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
+    <div class="diag" id="diag" hidden></div>
     <div class="sheet__body">
       <div>
         <span class="tag" id="mKicker"></span>
@@ -389,9 +390,56 @@ body.sin-cuenta .hero,body.sin-cuenta main{display:none}
 .avatar{cursor:pointer}
 .btn-login{display:inline-flex;align-items:center;cursor:pointer;height:38px;padding:0 16px;border-radius:999px;background:#fff;color:var(--navy);font-weight:700;font-size:14px}
 .demo-note{margin:0 var(--pad) 28px;padding:12px 16px;border-radius:12px;background:rgba(140,200,255,.1);border:1px solid rgba(140,200,255,.25);color:#C9D8F5;font-size:13.5px}
+/* ---------- Diagnóstico interactivo (video gratis) ---------- */
+.diag{padding:22px clamp(18px,3vw,36px) 6px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(31,99,232,.14),transparent)}
+.diag__head .k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--sky)}
+.diag__head h4{font-family:var(--ff-title);font-size:clamp(20px,2.4vw,26px);letter-spacing:-.02em;margin:4px 0 4px}
+.diag__head p{margin:0 0 14px;color:#C9D8F5;font-size:14px}
+.diag__estados{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.diag__estados button,.diag-ov__grid button{display:flex;align-items:center;gap:10px;text-align:left;padding:12px;border-radius:12px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);color:#fff;font-size:13.5px;font-weight:600;line-height:1.25;cursor:pointer;transition:border-color .2s,background .2s}
+.diag__estados button:hover,.diag-ov__grid button:hover{border-color:var(--c)}
+.diag__estados button[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 22%,transparent)}
+.diag__estados .n,.diag-ov__grid .n{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--c);color:#fff;font-family:var(--ff-title);font-weight:700}
+.diag__med{margin:16px 0 4px}
+.diag__formas{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.diag__formas button{height:34px;padding:0 14px;border-radius:999px;background:rgba(255,255,255,.08);color:#D6E4FF;font-size:13px;font-weight:600;cursor:pointer}
+.diag__formas button[aria-pressed="true"]{background:#fff;color:var(--navy)}
+.diag__campos{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.diag__campos label span{display:block;font-size:12.5px;color:var(--muted);margin-bottom:4px}
+.diag__campos input{width:100%;height:44px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:#fff;font:inherit;font-size:16px}
+.diag__campos input:focus{outline:2px solid var(--brand);border-color:transparent}
+.diag__hint{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+.diag__vacio,.diag__falta{color:var(--muted);font-size:14px}
+.diag__res{margin:14px 0 16px}
+.diag__card{border-radius:14px;padding:18px clamp(14px,2.4vw,22px);background:rgba(255,255,255,.05);border:1px solid var(--line);border-left:5px solid var(--c)}
+.diag__tag{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.diag__card h5{font-family:var(--ff-title);font-size:clamp(20px,2.4vw,26px);letter-spacing:-.02em;margin:4px 0 6px}
+.diag__card>p{margin:0 0 12px;color:#D6E4FF;font-size:14.5px}
+.diag__nums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 12px}
+.diag__nums div{padding:12px;border-radius:10px;background:rgba(0,0,0,.22)}
+.diag__nums small{display:block;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.diag__nums b{display:block;font-family:var(--ff-title);font-size:20px;margin:4px 0 2px}
+.diag__nums span{font-size:12px;color:var(--muted)}
+.diag__prod{margin:0 0 14px;padding-left:18px;color:#D6E4FF;font-size:14px}
+.diag__prod li{margin:3px 0}
+.diag__btns{display:flex;flex-wrap:wrap;gap:10px}
+.diag__btns .btn{height:44px;font-size:14.5px;padding:0 18px}
+.diag__nota{font-size:12px;color:var(--muted);margin:12px 0 0}
+.diag-ov{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(8px,2vw,16px);padding:clamp(10px,3vw,28px);background:rgba(3,11,31,.78);backdrop-filter:blur(4px);animation:pop .35s var(--ease)}
+.diag-ov>b{font-family:var(--ff-title);font-size:clamp(16px,3vw,28px);letter-spacing:-.02em;text-align:center}
+.diag-ov__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(6px,1.4vw,12px);width:min(620px,100%)}
+.diag-ov__grid button{padding:clamp(7px,1.6vw,14px);font-size:clamp(11.5px,1.8vw,15px);background:rgba(255,255,255,.1)}
+.diag-ov__seguir{color:#D6E4FF;font-size:clamp(12px,1.6vw,14px);font-weight:600;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.08);cursor:pointer}
+@media (max-width:720px){
+  .diag__estados{grid-template-columns:1fr 1fr}
+  .diag__nums{grid-template-columns:1fr}
+  .diag__btns .btn{width:100%;justify-content:center}
+  .diag-ov__grid .n{width:22px;height:22px;font-size:12px}
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/diagnostico.js"></script>
 <script>
 /* =========================================================
    1. CONFIGURACIÓN
@@ -419,6 +467,8 @@ var PRODUCTOS = {
 var PARAMS = new URLSearchParams(location.search);
 var QUIERO = PARAMS.get('quiero');
 try { if(QUIERO) localStorage.setItem('jc_quiero', QUIERO); else QUIERO = localStorage.getItem('jc_quiero'); } catch(e){}
+var VER = PARAMS.get('ver');
+try { if(VER) localStorage.setItem('jc_ver', VER); else VER = localStorage.getItem('jc_ver'); } catch(e){}
 var PRIMERA_VEZ = true;
 
 /* Catálogo de muestra, solo para cuando no hay conexión */
@@ -427,7 +477,8 @@ var DEMO = [
     descripcion:'El método para hacer cada visita de mantenimiento de forma correcta, desde que llegás a la casa hasta que te vas.', colores:['#2E86FF','#041437'],
     clases:['Introducción','Paso 1','Paso 2','Paso 3','Paso 4','Paso 5','Paso 6','Paso 7','Paso 8','Paso 9','Paso 10','Paso 11','Paso 12'].map(function(t,i){ return {id:'d'+i, titulo:t, gratis:i===0, tiene_video:false}; }) },
   { id:'shock', titulo:'Recuperá tu piscina verde', tipo:'paquete', producto_id:'paquete-shock', precio:50000, estado:'nuevo', acceso:false,
-    descripcion:'Cómo recuperar una piscina verde o turbia paso a paso: diagnóstico, qué productos usar, en qué orden y en qué dosis.', colores:['#5AA2FF','#0B2F86'], clases:[] },
+    descripcion:'Cómo recuperar una piscina verde o turbia paso a paso: diagnóstico, qué productos usar, en qué orden y en qué dosis.', colores:['#5AA2FF','#0B2F86'],
+    clases:['¿Vale la pena recuperar tu piscina?','Video 1 · Diagnóstico','Video 2 · Tratamiento de shock','Video 3 · Decantación y aspirado'].map(function(t,i){ return {id:'s'+i, titulo:t, gratis:i===0, tiene_video:false}; }) },
   { id:'quimica', titulo:'Química de la pileta', tipo:'suscripcion', estado:'proximamente', descripcion:'Cloro, pH, alguicidas y clarificantes: qué, cuánto y cuándo.', colores:['#8CC8FF','#1450C8'], clases:[] },
   { id:'tipos', titulo:'Tipos de piletas', tipo:'suscripcion', estado:'proximamente', descripcion:'Hormigón, fibra, lona y revestimientos.', colores:['#B9DEFF','#1F63E8'], clases:[] },
   { id:'filtrado', titulo:'Sistemas de filtrado', tipo:'suscripcion', estado:'proximamente', descripcion:'Filtros de arena y cartucho, bombas y válvula selectora.', colores:['#3D8BFF','#06205C'], clases:[] },
@@ -489,9 +540,15 @@ function despuesDeCargar(){
   $('#gate').hidden = !sinCuenta;
   if(sinCuenta && PRIMERA_VEZ && !auth.classList.contains('open')){
     if(PARAMS.has('login')) abrirAuth('login');
-    else if(QUIERO || PARAMS.has('registro')) abrirAuth('registro');
+    else if(QUIERO || VER || PARAMS.has('registro')) abrirAuth('registro');
   }
   PRIMERA_VEZ = false;
+  if((USUARIO || MODO_DEMO) && VER === 'diagnostico'){
+    VER = null; try { localStorage.removeItem('jc_ver'); } catch(e){}
+    var ms = CATALOGO.filter(function(m){ return m.id === DIAG_CONFIG.MODULO; })[0];
+    var cg = ms && ms.clases.filter(function(c){ return c.gratis; })[0];
+    if(cg) setTimeout(function(){ abrir(ms, cg); }, 300);
+  }
   if(USUARIO && QUIERO){
     var q = QUIERO; QUIERO = null;
     try { localStorage.removeItem('jc_quiero'); } catch(e){}
@@ -621,10 +678,12 @@ function dibujar(filtro){
   var total = 0;
   CATALOGO.forEach(function(mod){
     if(mod.estado==='proximamente' || !mod.clases.length) return;
-    if(mod.tipo==='paquete' && !tieneAcceso(mod) && !q) return;   // los paquetes no comprados van en "Disponibles para comprar"
+    var conGratis = mod.clases.some(function(c){ return c.gratis; });
+    if(mod.tipo==='paquete' && !tieneAcceso(mod) && !q && !conGratis) return;   // los paquetes no comprados van en "Disponibles para comprar" (salvo que tengan una clase gratis)
     var items = mod.clases.filter(function(c){ return match(c, mod); }).map(function(c){ return claseCard(c, mod); });
     total += items.length;
-    var sub = mod.tipo==='paquete' ? (suscripto() ? 'Incluido en tu suscripción' : 'Tu paquete · es tuyo para siempre')
+    var sub = (mod.tipo==='paquete' && !tieneAcceso(mod)) ? 'Mirá gratis el diagnóstico: ¿vale la pena recuperar tu piscina?'
+      : mod.tipo==='paquete' ? (suscripto() ? 'Incluido en tu suscripción' : 'Tu paquete · es tuyo para siempre')
       : tieneAcceso(mod) ? (suscripto() || (USUARIO && USUARIO.admin) ? 'Incluido en tu suscripción' : 'De regalo con tu paquete')
       : (mod.id==='pasos' ? 'Incluido en la suscripción y de regalo con Recuperá tu piscina verde · la introducción es gratis' : 'Incluido en la suscripción');
     if(items.length) rows.appendChild(fila(mod.id==='pasos'?'fila-pasos':'fila-'+mod.id, mod.titulo, sub, items));
@@ -664,6 +723,7 @@ function abrir(mod, c){
   var ok = puedeVer(mod, c);
   player.querySelectorAll('iframe,.ph').forEach(function(n){ n.remove(); });
   player.style.setProperty('--g', grad(mod.colores));
+  Diag.alAbrir(mod, c, null);   // calculadora del video gratis (se reconecta al video cuando carga)
 
   if(!c){
     placeholder(mod, '<b>Muy pronto</b><span>Estamos grabando las clases de este paquete.</span>');
@@ -688,6 +748,7 @@ function abrir(mod, c){
         allowfullscreen: 'true', title: c.titulo + ' · ' + mod.titulo,
         referrerpolicy: 'strict-origin-when-cross-origin'   // Bunny necesita saber desde qué dominio se ve
       }));
+      Diag.alAbrir(mod, c, player.querySelector('iframe'));
       if(USUARIO && !c.visto){ c.visto = true; sb.rpc('marcar_visto', { p_clase: c.id, p_visto: true }); dibujar($('#q').value); }
     });
   }
@@ -739,6 +800,7 @@ function abrir(mod, c){
 }
 function cerrar(){
   modal.classList.remove('open'); document.body.style.overflow = '';
+  Diag.salir();
   player.querySelectorAll('iframe').forEach(function(n){ n.remove(); });
   if(ultimoFoco) ultimoFoco.focus();
 }
