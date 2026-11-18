@@ -527,7 +527,8 @@ function abrir(mod, c){
     placeholder(mod, '<b>'+esc(c.titulo)+'</b><span>'+(MODO_DEMO?'Los videos se ven en josecarrizoehijos.ar.':'Este video se está preparando. En breve vas a poder verlo acá.')+'</span>');
   } else {
     placeholder(mod, '<b>Cargando…</b>');
-    sb.rpc('ver_clase', { p_clase: c.id }).then(function(r){
+    // El link lo arma la función ver-video: controla el acceso y lo firma para Bunny (vence en 2 horas)
+    sb.functions.invoke('ver-video', { body: { clase: c.id } }).then(function(r){
       player.querySelectorAll('.ph').forEach(function(n){ n.remove(); });
       if(r.error || !r.data || !r.data.ok){
         placeholder(mod, '<b>No pudimos cargar el video</b><span>'+(r.data && r.data.motivo==='sin_acceso' ? 'Tu acceso no está activo.' : 'Probá de nuevo en un momento.')+'</span>');
