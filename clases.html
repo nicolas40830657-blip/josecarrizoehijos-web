@@ -356,6 +356,7 @@ body.sin-cuenta .hero,body.sin-cuenta main{display:none}
 <div class="menu" id="menu" hidden>
   <p id="menuName"></p>
   <p class="menu__state" id="menuState"></p>
+  <a href="app.html" id="menuApp" hidden>Mis piletas (gestión de clientes)</a>
   <a href="admin.html" id="menuAdmin" hidden>Panel de administración</a>
   <a href="#" class="wa-link" data-msg="Hola! Quiero consultar por mi suscripción a Pileteros de confianza.">Ayuda por WhatsApp</a>
   <button id="logout">Cerrar sesión</button>
@@ -410,7 +411,7 @@ var MODO_DEMO = false;       // si no se puede conectar con Supabase (por ej. en
 var PRODUCTOS = {
   'suscripcion': { titulo:'Pileteros de confianza', kicker:'Suscripción mensual', precio:25000, mensual:true,
     img:'img/equipo-cut.webp', g:'radial-gradient(120% 90% at 15% 0%,#2E86FF,#041437 75%)',
-    incluye:['Los 12 pasos del piletero','Recuperá tu piscina verde','Teoría de productos químicos','Tipos de piscinas, filtrado y reparaciones','Clases nuevas todos los meses','Cancelás cuando quieras'] },
+    incluye:['Los 12 pasos del piletero','Recuperá tu piscina verde','Teoría de productos químicos','Tipos de piscinas, filtrado y reparaciones','Mis piletas: app para gestionar tus clientes y cobros','Clases nuevas todos los meses','Cancelás cuando quieras'] },
   'paquete-shock': { titulo:'Recuperá tu piscina verde', kicker:'Paquete digital · Pago único', precio:50000,
     img:'https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/piscina-verde.jpg', cover:true, g:'linear-gradient(120deg,#0B3B2C,#1F7FC4)', regalo:'Los 12 pasos del piletero',
     incluye:['Diagnóstico del agua','Productos y dosis según tus litros','El orden correcto del tratamiento','Lo ves para siempre, las veces que quieras'] }
@@ -596,7 +597,7 @@ function dibujar(filtro){
     var sc;
     if(suscripto() || (USUARIO && USUARIO.admin)){
       var s = USUARIO.suscripcion || {};
-      sc = el('section', {'class':'subcard subcard--ok'}, '<div><span class="k">Tu suscripción</span><h3>Pileteros de confianza · activa</h3><p>Tenés acceso a todas las clases'+(s.vence?' hasta el '+new Date(s.vence).toLocaleDateString('es-AR'):'')+'.</p></div>');
+      sc = el('section', {'class':'subcard subcard--ok'}, '<div><span class="k">Tu suscripción</span><h3>Pileteros de confianza · activa</h3><p>Tenés acceso a todas las clases y a Mis piletas'+(s.vence?' hasta el '+new Date(s.vence).toLocaleDateString('es-AR'):'')+'.</p></div><div class="r"><a class="btn btn--play" href="app.html">Abrir Mis piletas</a></div>');
     } else {
       sc = el('section', {'class':'subcard'}, '<div><span class="k">Suscripción mensual</span><h3>Pileteros de confianza</h3><p>Para dedicarte al mantenimiento de piscinas: todas las clases, incluidas Recuperá tu piscina verde y Los 12 pasos del piletero.</p></div>'+
         '<div class="r"><span class="pr">'+plata(PRODUCTOS.suscripcion.precio)+' <small>/ mes</small></span></div>');
@@ -867,6 +868,7 @@ function pintarCuenta(){
     $('#menuName').textContent = USUARIO.nombre;
     var s = USUARIO.suscripcion;
     $('#menuAdmin').hidden = !USUARIO.admin;
+    $('#menuApp').hidden = !(USUARIO.admin || suscripto());
     $('#menuState').textContent = USUARIO.admin ? 'Administrador' : (s && s.estado==='activa' ? 'Suscripción activa' : ((USUARIO.productos||[]).indexOf('paquete-shock')>-1 ? 'Paquete: Recuperá tu piscina verde' : 'Sin suscripción activa'));
   } else {
     av.className = 'btn-login'; av.removeAttribute('tabindex'); av.setAttribute('role','button'); av.setAttribute('tabindex','0');

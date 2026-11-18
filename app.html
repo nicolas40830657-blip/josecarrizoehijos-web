@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mis piletas · Pileteros de confianza</title>
+<meta name="description" content="La herramienta de gestión para pileteros de la suscripción Pileteros de confianza: clientes, visitas, cobros y precios.">
+<meta name="theme-color" content="#041437">
+<meta name="robots" content="noindex">
+<link rel="icon" href="img/icono.png">
+<link rel="apple-touch-icon" href="img/icono.png">
+<link rel="manifest" href="mispiletas.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<div class="gate" id="gate" hidden></div>
+
+<div id="app" hidden>
+  <p class="demo" id="demoNote" hidden>Vista de muestra con datos de ejemplo: nada se guarda.</p>
+  <header class="top">
+    <div class="top__bar">
+      <div class="top__brand"><img src="img/icono-blanco.png" alt=""><div><small>Pileteros de confianza</small><span id="negNombre">Mis piletas</span></div></div>
+      <button class="avatar" id="avatar" aria-label="Mi cuenta">·</button>
+    </div>
+    <h1 id="tTitulo">Hola</h1>
+    <p id="tSub"></p>
+  </header>
+
+  <main class="wrap">
+    <!-- HOY -->
+    <section class="view on" id="v-hoy">
+      <div class="stats">
+        <div class="stat stat--dark"><small>Visitas del día</small><b id="sHoy">0</b></div>
+        <div class="stat"><small>Facturado del mes</small><b id="sMes">$0</b></div>
+      </div>
+      <div class="sec-h"><h2 id="diaTxt">Hoy</h2><small id="diaCant"></small></div>
+      <div class="days" id="days"></div>
+      <div class="list" id="agenda" style="margin-top:12px"></div>
+    </section>
+
+    <!-- CLIENTES -->
+    <section class="view" id="v-clientes">
+      <div style="margin-top:-24px;position:relative;z-index:2">
+        <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="qCli" type="search" placeholder="Buscar cliente o dirección" aria-label="Buscar cliente"></label>
+      </div>
+      <div class="seg" id="segCli"><button class="on" data-f="todos">Todos</button><button data-f="deben">Deben</button><button data-f="msg">Mensajes</button></div>
+      <div class="list" id="clientes"></div>
+    </section>
+
+    <!-- COBROS -->
+    <section class="view" id="v-cobros">
+      <div class="stats">
+        <div class="stat stat--dark"><small>Facturado</small><b id="cFact">$0</b></div>
+        <div class="stat"><small>Cobrado</small><b id="cCobr">$0</b></div>
+        <div class="stat"><small>Visitas</small><b id="cVis">0</b></div>
+        <div class="stat"><small>Ganancia productos</small><b id="cGan">$0</b></div>
+      </div>
+      <div class="seg" id="segMes"><button data-mes="-1">‹ Anterior</button><button class="on" id="mesTxt" data-mes="0">Este mes</button><button data-mes="1">Siguiente ›</button></div>
+      <div class="sec-h"><h2>Te deben</h2><small id="cDeben"></small></div>
+      <div class="list" id="deudores"></div>
+      <div class="sec-h"><h2>Movimientos del mes</h2></div>
+      <div class="list" id="movs"></div>
+    </section>
+
+    <!-- MÁS -->
+    <section class="view" id="v-mas">
+      <div class="card" style="margin-top:-24px;position:relative;z-index:2">
+        <span class="pill pill--dark">Tu negocio</span>
+        <h2 style="font-size:24px;font-weight:500;margin:10px 0 2px" id="mNeg"></h2>
+        <p class="muted" style="margin:0" id="mTel"></p>
+        <div class="btns"><button class="btn btn--ghost" data-a="editNeg">Editar nombre y teléfono</button></div>
+      </div>
+      <div class="sec-h"><h2>Productos y precios</h2><button class="btn btn--sm" data-a="nuevoProd">+ Agregar</button></div>
+      <div class="list" id="prods"></div>
+      <div class="sec-h"><h2>Mi pileta</h2></div>
+      <div class="card"><p style="margin:0 0 6px">Cada cliente tiene su link para ver su pileta: fotos y notas de cada visita, lo que debe y un chat con vos.</p><p class="muted" style="margin:0;font-size:13.5px">Lo mandás desde la ficha del cliente → <b>Compartir Mi pileta</b>.</p></div>
+      <div class="btns">
+        <a class="btn btn--ghost" href="clases.html">Ir a mis clases</a>
+        <button class="btn btn--danger" data-a="salir">Cerrar sesión</button>
+      </div>
+    </section>
+  </main>
+
+  <button class="fab" id="fab"></button>
+
+  <nav class="nav" aria-label="Secciones">
+    <button class="on" data-v="hoy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Hoy</button>
+    <button data-v="clientes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 15c2 0 2-1.5 4-1.5S8 15 10 15s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M2 19c2 0 2-1.5 4-1.5S8 19 10 19s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><circle cx="12" cy="7" r="3"/></svg>Clientes<span class="dot" id="navDot" hidden></span></button>
+    <button data-v="cobros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6" width="20" height="13" rx="3"/><circle cx="12" cy="12.5" r="2.5"/><path d="M6 10v5M18 10v5"/></svg>Cobros</button>
+    <button data-v="mas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>Más</button>
+  </nav>
+</div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="sheet__p" id="sheetBody"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/mp-comun.js"></script>
+<script>
+/* ==========================================================================
+   MIS PILETAS — la herramienta del piletero suscripto
+   Todo queda guardado en Supabase, separado por negocio (cada suscriptor ve solo lo suyo).
+   ========================================================================== */
+var N = null, C = [], V = [], P = [], M = [], MSG = [];
+var VISTA = 'hoy', SEL = hoy(), FILTRO = 'todos', MES_OFF = 0;
+var TABLAS = { mp_clientes: function(){ return C; }, mp_visitas: function(){ return V; }, mp_productos: function(){ return P; }, mp_movimientos: function(){ return M; }, mp_mensajes: function(){ return MSG; } };
+
+/* ---------- Datos ---------- */
+function ins(t, row){
+  row.negocio_id = N.id;
+  if(DEMO){ row.id = row.id || uid(); row.creado = new Date().toISOString(); TABLAS[t]().push(row); return Promise.resolve(row); }
+  return sb.from(t).insert(row).select().single().then(function(r){ if(r.error) throw r.error; TABLAS[t]().push(r.data); return r.data; });
+}
+function upd(t, id, patch){
+  var arr = TABLAS[t](), o = arr.find(function(x){ return x.id === id; });
+  if(DEMO){ Object.assign(o, patch); return Promise.resolve(o); }
+  return sb.from(t).update(patch).eq('id', id).select().single().then(function(r){ if(r.error) throw r.error; Object.assign(o, r.data); return o; });
+}
+function del(t, id){
+  var arr = TABLAS[t](), i = arr.findIndex(function(x){ return x.id === id; });
+  var p = DEMO ? Promise.resolve({}) : sb.from(t).delete().eq('id', id);
+  return p.then(function(r){ if(r.error) throw r.error; if(i > -1) arr.splice(i, 1); });
+}
+function falla(e){ toast((e && e.message) || 'No se pudo guardar. Probá de nuevo.'); }
+
+function cargar(){
+  if(DEMO){ demo(); return Promise.resolve(); }
+  return Promise.all([
+    sb.from('mp_clientes').select('*').order('nombre'),
+    sb.from('mp_visitas').select('*').order('fecha'),
+    sb.from('mp_productos').select('*').order('nombre'),
+    sb.from('mp_movimientos').select('*').order('fecha', { ascending: false }),
+    sb.from('mp_mensajes').select('*').order('creado').limit(1000)
+  ]).then(function(r){
+    var e = r.find(function(x){ return x.error; }); if(e) throw e.error;
+    C = r[0].data; V = r[1].data; P = r[2].data; M = r[3].data; MSG = r[4].data;
+  });
+}
+
+/* ---------- Cálculos ---------- */
+function cli(id){ return C.find(function(c){ return c.id === id; }) || {}; }
+function saldo(cid){
+  var s = 0;
+  V.forEach(function(v){ if(v.cliente_id === cid && v.estado === 'hecha') s += +v.valor || 0; });
+  M.forEach(function(m){ if(m.cliente_id === cid) s += (m.tipo === 'cargo' ? 1 : -1) * (+m.monto || 0); });
+  return s;
+}
+function noLeidos(cid){ return MSG.filter(function(m){ return m.de === 'cliente' && !m.leido && (!cid || m.cliente_id === cid); }).length; }
+function diaSemana(f){ return DN[new Date(f + 'T12:00').getDay()]; }
+function visitasDe(f){ return V.filter(function(v){ return v.fecha === f && v.estado !== 'cancelada'; }).sort(function(a, b){ return (a.hora || '99').localeCompare(b.hora || '99'); }); }
+function sugeridos(f){
+  var d = diaSemana(f), ya = visitasDe(f).map(function(v){ return v.cliente_id; });
+  return C.filter(function(c){ return c.activo && c.dia === d && ya.indexOf(c.id) < 0; });
+}
+function mesKey(off){ var d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + off); return ymd(d).slice(0, 7); }
+function iniciales(n){ return String(n || '?').trim().split(/\s+/).slice(0, 2).map(function(w){ return w.charAt(0); }).join('').toUpperCase(); }
+
+/* ---------- Pintar ---------- */
+var ICO = {
+  ok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>',
+  reloj: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  mas: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>',
+  pago: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M17 7H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6"/></svg>',
+  prod: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3h8v4l2 3v10a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V10l2-3z"/></svg>'
+};
+
+function pintarTodo(){
+  $('#negNombre').textContent = N.nombre;
+  var n = noLeidos(); $('#navDot').hidden = !n; $('#navDot').textContent = n;
+  pintarHeader(); pintarHoy(); pintarClientes(); pintarCobros(); pintarMas();
+}
+function pintarHeader(){
+  var t = $('#tTitulo'), s = $('#tSub');
+  if(VISTA === 'hoy'){ t.innerHTML = 'Hola, <em>' + esc(N.nombre.split(' ')[0]) + '</em>'; s.textContent = fechaTxt(hoy(), true).replace(/^./, function(x){ return x.toUpperCase(); }); }
+  if(VISTA === 'clientes'){ t.innerHTML = 'Tus <em>clientes</em>'; s.textContent = C.filter(function(c){ return c.activo; }).length + ' piletas a tu cargo'; }
+  if(VISTA === 'cobros'){ t.innerHTML = 'Tus <em>cobros</em>'; s.textContent = 'Lo que facturaste, cobraste y te deben'; }
+  if(VISTA === 'mas'){ t.innerHTML = 'Tu <em>negocio</em>'; s.textContent = 'Precios, productos y tu cuenta'; }
+  var fab = $('#fab');
+  fab.hidden = VISTA === 'cobros' || VISTA === 'mas';
+  fab.innerHTML = ICO.mas + (VISTA === 'clientes' ? 'Nuevo cliente' : 'Programar visita');
+}
+
+function pintarHoy(){
+  var d0 = new Date(); d0.setDate(d0.getDate() - 3); var h = '';
+  for(var i = 0; i < 18; i++){
+    var d = new Date(d0); d.setDate(d0.getDate() + i); var f = ymd(d);
+    var tiene = visitasDe(f).length || sugeridos(f).length;
+    h += '<button class="day' + (f === SEL ? ' on' : '') + (tiene ? ' has' : '') + '" data-dia="' + f + '"><small>' + (f === hoy() ? 'Hoy' : DN[d.getDay()].slice(0, 3)) + '</small><b>' + d.getDate() + '</b><i></i></button>';
+  }
+  $('#days').innerHTML = h;
+  var on = $('.day.on'), ds = $('#days'); if(on && !pintarHoy.scrolled){ ds.scrollLeft = on.offsetLeft - ds.clientWidth / 2 + on.offsetWidth / 2; pintarHoy.scrolled = true; }
+
+  var vs = visitasDe(SEL), sg = sugeridos(SEL), hechas = vs.filter(function(v){ return v.estado === 'hecha'; });
+  $('#sHoy').textContent = hechas.length + ' / ' + (vs.length + sg.length);
+  $('#diaTxt').textContent = SEL === hoy() ? 'Hoy' : fechaTxt(SEL, true).replace(/^./, function(x){ return x.toUpperCase(); });
+  $('#diaCant').textContent = hechas.length ? peso(hechas.reduce(function(a, v){ return a + (+v.valor || 0); }, 0)) + ' facturado' : '';
+  var mk = mesKey(0); $('#sMes').textContent = peso(facturado(mk));
+
+  var html = vs.map(function(v){
+    var c = cli(v.cliente_id), ok = v.estado === 'hecha';
+    return '<button class="item' + (ok ? ' item--hecha' : '') + '" data-a="visita" data-id="' + v.id + '"><span class="item__ic">' + (ok ? ICO.ok : ICO.reloj) + '</span>' +
+      '<span class="item__b"><b>' + esc(c.nombre) + '</b><small>' + (v.hora ? v.hora.slice(0, 5) + ' · ' : '') + esc(c.direccion || '') + '</small></span>' +
+      '<span class="item__r">' + (ok ? '<span class="pill pill--ok">Hecha</span>' : '<b>' + peso(v.valor || c.valor_visita) + '</b>') + '</span></button>';
+  }).join('') + sg.map(function(c){
+    return '<button class="item item--sug" data-a="registrar" data-c="' + c.id + '"><span class="item__ic">' + iniciales(c.nombre) + '</span>' +
+      '<span class="item__b"><b>' + esc(c.nombre) + '</b><small>Le toca los ' + esc(c.dia.toLowerCase()) + ' · tocá para registrar</small></span>' +
+      '<span class="item__r"><b>' + peso(c.valor_visita) + '</b></span></button>';
+  }).join('');
+  $('#agenda').innerHTML = html || '<div class="empty"><b>Día libre</b>No hay visitas para este día. Tocá “Programar visita” para agendar una.</div>';
+}
+
+function pintarClientes(){
+  var q = ($('#qCli').value || '').toLowerCase();
+  var l = C.filter(function(c){ return c.activo && (!q || (c.nombre + ' ' + c.direccion).toLowerCase().indexOf(q) > -1); });
+  if(FILTRO === 'deben') l = l.filter(function(c){ return saldo(c.id) > 0; });
+  if(FILTRO === 'msg') l = l.filter(function(c){ return noLeidos(c.id); });
+  $('#clientes').innerHTML = l.map(function(c){
+    var s = saldo(c.id), m = noLeidos(c.id);
+    return '<button class="item" data-a="cliente" data-id="' + c.id + '"><span class="item__ic">' + iniciales(c.nombre) + '</span>' +
+      '<span class="item__b"><b>' + esc(c.nombre) + '</b><small>' + esc(c.direccion || 'Sin dirección') + (c.dia && c.dia !== 'Sin día fijo' ? ' · ' + esc(c.dia) : '') + '</small></span>' +
+      '<span class="item__r">' + (m ? '<span class="dot">' + m + '</span> ' : '') + (s > 0 ? '<span class="pill pill--warn">Debe ' + peso(s) + '</span>' : '<span class="pill pill--ok">Al día</span>') + '</span></button>';
+  }).join('') || '<div class="empty"><b>' + (C.length ? 'Sin resultados' : 'Cargá tu primer cliente') + '</b>' + (C.length ? 'Probá con otra búsqueda.' : 'Tocá “Nuevo cliente” y empezá a organizar tus piletas.') + '</div>';
+}
+
+function facturado(mk){
+  var v = V.filter(function(x){ return x.estado === 'hecha' && (x.fecha || '').indexOf(mk) === 0; }).reduce(function(a, x){ return a + (+x.valor || 0); }, 0);
+  var c = M.filter(function(x){ return x.tipo === 'cargo' && (x.fecha || '').indexOf(mk) === 0; }).reduce(function(a, x){ return a + (+x.monto || 0); }, 0);
+  return v + c;
+}
+function pintarCobros(){
+  var mk = mesKey(MES_OFF), d = new Date(mk + '-15T12:00');
+  $('#mesTxt').textContent = MES[d.getMonth()] + ' ' + d.getFullYear();
+  var vh = V.filter(function(x){ return x.estado === 'hecha' && x.fecha.indexOf(mk) === 0; });
+  var cargos = M.filter(function(x){ return x.tipo === 'cargo' && x.fecha.indexOf(mk) === 0; });
+  var pagos = M.filter(function(x){ return x.tipo === 'pago' && x.fecha.indexOf(mk) === 0; });
+  $('#cFact').textContent = peso(facturado(mk));
+  $('#cCobr').textContent = peso(pagos.reduce(function(a, x){ return a + (+x.monto || 0); }, 0));
+  $('#cVis').textContent = vh.length;
+  $('#cGan').textContent = peso(cargos.reduce(function(a, x){ return a + (+x.monto || 0) - (+x.costo || 0); }, 0));
+  var deud = C.map(function(c){ return { c: c, s: saldo(c.id) }; }).filter(function(x){ return x.s > 0; }).sort(function(a, b){ return b.s - a.s; });
+  $('#cDeben').textContent = deud.length ? peso(deud.reduce(function(a, x){ return a + x.s; }, 0)) + ' en total' : '';
+  $('#deudores').innerHTML = deud.map(function(x){
+    return '<button class="item" data-a="pago" data-c="' + x.c.id + '"><span class="item__ic">' + iniciales(x.c.nombre) + '</span><span class="item__b"><b>' + esc(x.c.nombre) + '</b><small>Tocá para registrar el pago</small></span><span class="item__r"><b>' + peso(x.s) + '</b></span></button>';
+  }).join('') || '<div class="empty"><b>Nadie te debe</b>Todos tus clientes están al día.</div>';
+  var mv = vh.map(function(v){ return { f: v.fecha, t: 'Visita · ' + cli(v.cliente_id).nombre, m: +v.valor, ic: ICO.ok, cls: '' }; })
+    .concat(cargos.map(function(x){ return { f: x.fecha, t: (x.concepto || 'Cargo') + ' · ' + cli(x.cliente_id).nombre, m: +x.monto, ic: ICO.prod, cls: '' }; }))
+    .concat(pagos.map(function(x){ return { f: x.fecha, t: 'Pago · ' + cli(x.cliente_id).nombre, m: -x.monto, ic: ICO.pago, cls: ' item--hecha' }; }))
+    .sort(function(a, b){ return b.f.localeCompare(a.f); });
+  $('#movs').innerHTML = mv.map(function(x){
+    return '<div class="item' + x.cls + '"><span class="item__ic">' + x.ic + '</span><span class="item__b"><b>' + esc(x.t) + '</b><small>' + fechaTxt(x.f) + '</small></span><span class="item__r"><b>' + (x.m < 0 ? '+' + peso(-x.m) : peso(x.m)) + '</b></span></div>';
+  }).join('') || '<div class="empty">Sin movimientos este mes.</div>';
+}
+
+function pintarMas(){
+  $('#mNeg').textContent = N.nombre; $('#mTel').textContent = N.telefono || 'Sin teléfono cargado';
+  $('#prods').innerHTML = P.map(function(p){
+    return '<button class="item" data-a="prod" data-id="' + p.id + '"><span class="item__ic">' + ICO.prod + '</span><span class="item__b"><b>' + esc(p.nombre) + '</b><small>Costo ' + peso(p.costo) + ' · ganás ' + peso(p.precio - p.costo) + '</small></span><span class="item__r"><b>' + peso(p.precio) + '</b></span></button>';
+  }).join('') || '<div class="empty"><b>Sin productos</b>Cargá lo que vendés (cloro, pastillas…) con tu precio y costo.</div>';
+}
+
+/* ---------- Hojas: visitas ---------- */
+function hojaVisita(v){
+  var c = cli(v.cliente_id), ok = v.estado === 'hecha';
+  sheet('<h2>' + esc(c.nombre) + '</h2><p class="sub">' + fechaTxt(v.fecha, true) + (v.hora ? ' · ' + v.hora.slice(0, 5) : '') + ' · ' + esc(c.direccion || '') + '</p>' +
+    (ok ? '<dl class="kv"><dt>Valor</dt><dd>' + peso(v.valor) + '</dd>' + (v.ph != null ? '<dt>pH</dt><dd>' + v.ph + '</dd>' : '') + (v.cloro != null ? '<dt>Cloro</dt><dd>' + v.cloro + ' ppm</dd>' : '') + '</dl>' +
+      (v.nota ? '<p class="note">' + esc(v.nota) + '</p>' : '') + (v.productos ? '<p class="sub">Productos: ' + esc(v.productos) + '</p>' : '') + '<div class="fotos" id="vFotos"></div>' : '') +
+    '<div class="btns">' +
+      (ok ? '<button class="btn" data-a="editVisita" data-id="' + v.id + '">Editar registro</button>' +
+            (c.telefono ? '<a class="btn btn--wa" target="_blank" rel="noopener" href="' + wa(c.telefono, resumenVisita(v, c)) + '">Mandar resumen por WhatsApp</a>' : '') +
+            '<button class="btn btn--ghost" data-a="deshacer" data-id="' + v.id + '">Desmarcar como hecha</button>'
+          : '<button class="btn btn--brand" data-a="editVisita" data-id="' + v.id + '">Marcar como hecha</button>' +
+            (c.telefono ? '<a class="btn btn--wa" target="_blank" rel="noopener" href="' + wa(c.telefono, 'Hola ' + c.nombre + ', voy en camino para el mantenimiento de la pileta.') + '">Avisar que voy en camino</a>' : '') +
+            '<button class="btn btn--ghost" data-a="mover" data-id="' + v.id + '">Cambiar fecha u hora</button>') +
+      '<button class="btn btn--ghost" data-a="cliente" data-id="' + c.id + '">Ver cliente</button>' +
+      '<button class="btn btn--danger" data-a="borrarVisita" data-id="' + v.id + '">Eliminar visita</button>' +
+    '</div>');
+  if(ok && v.fotos && v.fotos.length) urlsFotos(v.fotos).then(function(u){ var el = $('#vFotos'); if(el) el.innerHTML = u.map(function(x){ return '<img src="' + x + '" alt="Foto de la visita">'; }).join(''); });
+}
+function resumenVisita(v, c){
+  return 'Hola ' + c.nombre + '! Ya terminamos el mantenimiento de la pileta (' + fechaTxt(v.fecha) + ').' +
+    (v.ph != null ? ' pH: ' + v.ph + '.' : '') + (v.cloro != null ? ' Cloro: ' + v.cloro + ' ppm.' : '') + (v.nota ? ' ' + v.nota : '') +
+    (c.codigo ? '\nMirá las fotos en tu pileta: ' + SITIO + 'mipileta.html?c=' + c.codigo : '');
+}
+function hojaRegistrar(c, fecha, v){
+  v = v || {};
+  sheet('<h2>Registrar visita</h2><p class="sub">' + esc(c.nombre) + ' · ' + fechaTxt(fecha || v.fecha || hoy(), true) + '</p>' +
+    '<div class="row2"><label class="f"><span>Fecha</span><input id="rF" type="date" value="' + (v.fecha || fecha || hoy()) + '"></label>' +
+    '<label class="f"><span>Valor ($)</span><input id="rV" type="number" inputmode="decimal" min="0" value="' + (v.valor || c.valor_visita || 0) + '"></label></div>' +
+    '<div class="row2"><label class="f"><span>pH (opcional)</span><input id="rPh" type="number" step="0.1" inputmode="decimal" value="' + (v.ph == null ? '' : v.ph) + '" placeholder="7.4"></label>' +
+    '<label class="f"><span>Cloro ppm (opcional)</span><input id="rCl" type="number" step="0.1" inputmode="decimal" value="' + (v.cloro == null ? '' : v.cloro) + '" placeholder="1.5"></label></div>' +
+    '<label class="f"><span>¿Qué se hizo?</span><textarea id="rN" placeholder="Ej: aspirado de fondo, limpieza de skimmer, retrolavado">' + esc(v.nota) + '</textarea></label>' +
+    '<label class="f"><span>Productos usados</span><input id="rP" value="' + esc(v.productos) + '" placeholder="Ej: 1 kg cloro granulado, clarificador"></label>' +
+    '<label class="f"><span>Fotos (las ve tu cliente)</span><input id="rFo" type="file" accept="image/*" multiple></label>' +
+    '<div class="btns"><button class="btn btn--brand" data-a="guardarVisita" data-c="' + c.id + '" data-id="' + (v.id || '') + '">Guardar visita hecha</button></div>');
+}
+function guardarVisita(cid, vid){
+  var b = $('[data-a=guardarVisita]'); b.disabled = true; b.textContent = 'Guardando…';
+  var num = function(id){ var x = $(id).value; return x === '' ? null : +x; };
+  var files = Array.prototype.slice.call($('#rFo').files || []).slice(0, 6);
+  var v0 = V.find(function(x){ return x.id === vid; });
+  var subir = Promise.all(files.map(function(f){
+    return achicar(f).then(function(blob){
+      var path = N.id + '/' + cid + '/' + uid() + '.jpg';
+      if(DEMO){ urlCache[path] = URL.createObjectURL(blob); return path; }
+      return sb.storage.from('mp-fotos').upload(path, blob, { contentType: 'image/jpeg' }).then(function(r){ if(r.error) throw r.error; return path; });
+    });
+  }));
+  subir.then(function(paths){
+    var row = { cliente_id: cid, fecha: $('#rF').value || hoy(), valor: +$('#rV').value || 0, ph: num('#rPh'), cloro: num('#rCl'),
+      nota: $('#rN').value.trim(), productos: $('#rP').value.trim(), estado: 'hecha', fotos: ((v0 && v0.fotos) || []).concat(paths) };
+    return vid ? upd('mp_visitas', vid, row) : ins('mp_visitas', row);
+  }).then(function(){ cerrarSheet(); toast('Visita guardada'); pintarTodo(); })
+    .catch(function(e){ b.disabled = false; b.textContent = 'Guardar visita hecha'; falla(e); });
+}
+function hojaProgramar(cid, v){
+  v = v || {};
+  if(!C.length) return toast('Primero cargá un cliente');
+  sheet('<h2>' + (v.id ? 'Cambiar visita' : 'Programar visita') + '</h2><p class="sub">Queda en tu agenda del día.</p>' +
+    '<label class="f"><span>Cliente</span><select id="pC">' + C.filter(function(c){ return c.activo; }).map(function(c){ return '<option value="' + c.id + '"' + ((v.cliente_id || cid) === c.id ? ' selected' : '') + '>' + esc(c.nombre) + '</option>'; }).join('') + '</select></label>' +
+    '<div class="row2"><label class="f"><span>Fecha</span><input id="pF" type="date" value="' + (v.fecha || SEL) + '"></label>' +
+    '<label class="f"><span>Hora (opcional)</span><input id="pH" type="time" value="' + (v.hora ? v.hora.slice(0, 5) : '') + '"></label></div>' +
+    (v.id ? '' : '<label class="f"><span>Repetir</span><select id="pR"><option value="0">Solo ese día</option><option value="7">Todas las semanas (2 meses)</option><option value="14">Cada 15 días (2 meses)</option></select></label>') +
+    '<div class="btns"><button class="btn btn--brand" data-a="guardarProg" data-id="' + (v.id || '') + '">' + (v.id ? 'Guardar cambios' : 'Programar') + '</button></div>');
+}
+function guardarProg(vid){
+  var cid = $('#pC').value, f = $('#pF').value, h = $('#pH').value || null, c = cli(cid);
+  if(!f) return toast('Elegí la fecha');
+  if(vid) return upd('mp_visitas', vid, { cliente_id: cid, fecha: f, hora: h }).then(function(){ cerrarSheet(); SEL = f; pintarTodo(); toast('Visita actualizada'); }).catch(falla);
+  var paso = +$('#pR').value, n = paso ? Math.floor(60 / paso) + 1 : 1, rows = [];
+  for(var i = 0; i < n; i++){ var d = new Date(f + 'T12:00'); d.setDate(d.getDate() + i * paso); rows.push({ cliente_id: cid, fecha: ymd(d), hora: h, valor: c.valor_visita || 0, estado: 'programada' }); }
+  rows.reduce(function(p, r){ return p.then(function(){ return ins('mp_visitas', r); }); }, Promise.resolve())
+    .then(function(){ cerrarSheet(); SEL = f; pintarTodo(); toast(n > 1 ? n + ' visitas programadas' : 'Visita programada'); }).catch(falla);
+}
+
+/* ---------- Hojas: clientes ---------- */
+function hojaCliente(c){
+  var s = saldo(c.id), m = noLeidos(c.id);
+  var ult = V.filter(function(v){ return v.cliente_id === c.id && v.estado === 'hecha'; }).sort(function(a, b){ return b.fecha.localeCompare(a.fecha); })[0];
+  sheet('<h2>' + esc(c.nombre) + '</h2><p class="sub">' + esc(c.direccion || 'Sin dirección') + (c.telefono ? ' · ' + esc(c.telefono) : '') + '</p>' +
+    '<div class="card" style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px">' +
+      '<div><small class="muted" style="font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">' + (s > 0 ? 'Te debe' : s < 0 ? 'A favor del cliente' : 'Cuenta') + '</small><div style="font-family:var(--ff-title);font-size:30px;letter-spacing:-.03em">' + (s === 0 ? 'Al día' : peso(Math.abs(s))) + '</div></div>' +
+      '<button class="btn btn--sm" data-a="pago" data-c="' + c.id + '">Registrar pago</button></div>' +
+    '<dl class="kv"><dt>Valor por visita</dt><dd>' + peso(c.valor_visita) + '</dd><dt>Frecuencia</dt><dd>' + esc(c.frecuencia || '-') + (c.dia && c.dia !== 'Sin día fijo' ? ' · ' + esc(c.dia) : '') + '</dd>' +
+      (c.litros ? '<dt>Litros</dt><dd>' + Number(c.litros).toLocaleString('es-AR') + ' L</dd>' : '') + (c.tipo ? '<dt>Pileta</dt><dd>' + esc(c.tipo) + '</dd>' : '') +
+      '<dt>Última visita</dt><dd>' + (ult ? fechaTxt(ult.fecha) : 'Todavía no') + '</dd></dl>' +
+    (c.notas ? '<p class="note">' + esc(c.notas) + '</p>' : '') +
+    '<div class="btns btns--2">' +
+      '<button class="btn btn--brand" data-a="registrar" data-c="' + c.id + '">Registrar visita</button>' +
+      '<button class="btn" data-a="venta" data-c="' + c.id + '">Vender producto</button>' +
+      '<button class="btn btn--ghost" data-a="mensajes" data-c="' + c.id + '">Mensajes' + (m ? ' <span class="dot">' + m + '</span>' : '') + '</button>' +
+      '<button class="btn btn--ghost" data-a="historial" data-c="' + c.id + '">Historial</button>' +
+    '</div><div class="btns">' +
+      (c.telefono ? '<a class="btn btn--wa" target="_blank" rel="noopener" href="' + wa(c.telefono, 'Hola ' + c.nombre + ', ') + '">WhatsApp</a>' : '') +
+      '<button class="btn btn--ghost" data-a="compartir" data-c="' + c.id + '">Compartir Mi pileta</button>' +
+      '<button class="btn btn--ghost" data-a="programar" data-c="' + c.id + '">Programar visita</button>' +
+      '<button class="btn btn--ghost" data-a="editCli" data-c="' + c.id + '">Editar datos</button>' +
+    '</div>');
+}
+function formCliente(c){
+  c = c || {};
+  var fr = ['Semanal', 'Cada 15 días', 'Mensual', 'A pedido'], tp = ['', 'Hormigón', 'Fibra de vidrio', 'Lona / estructural', 'Vinílica'];
+  sheet('<h2>' + (c.id ? 'Editar cliente' : 'Nuevo cliente') + '</h2><p class="sub">Solo vos ves estos datos.</p>' +
+    '<label class="f"><span>Nombre</span><input id="cN" value="' + esc(c.nombre) + '" placeholder="Ej: Familia Pérez"></label>' +
+    '<label class="f"><span>Dirección</span><input id="cD" value="' + esc(c.direccion) + '" placeholder="Ej: Güemes 2450"></label>' +
+    '<label class="f"><span>Teléfono (WhatsApp)</span><input id="cT" type="tel" value="' + esc(c.telefono) + '" placeholder="223 155 123456"></label>' +
+    '<div class="row2"><label class="f"><span>Valor por visita ($)</span><input id="cV" type="number" inputmode="decimal" min="0" value="' + (c.valor_visita || '') + '"></label>' +
+    '<label class="f"><span>Litros (aprox.)</span><input id="cL" type="number" inputmode="numeric" min="0" value="' + (c.litros || '') + '"></label></div>' +
+    '<div class="row2"><label class="f"><span>Frecuencia</span><select id="cF">' + fr.map(function(x){ return '<option' + (x === (c.frecuencia || 'Semanal') ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></label>' +
+    '<label class="f"><span>Día habitual</span><select id="cDi">' + DIAS.map(function(x){ return '<option' + (x === (c.dia || 'Sin día fijo') ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></label></div>' +
+    '<label class="f"><span>Tipo de pileta</span><select id="cTp">' + tp.map(function(x){ return '<option value="' + x + '"' + (x === (c.tipo || '') ? ' selected' : '') + '>' + (x || 'Sin especificar') + '</option>'; }).join('') + '</select></label>' +
+    '<label class="f"><span>Notas</span><textarea id="cNo" placeholder="Ej: la llave está en la maceta, perro suelto">' + esc(c.notas) + '</textarea></label>' +
+    '<div class="btns"><button class="btn btn--brand" data-a="guardarCli" data-id="' + (c.id || '') + '">Guardar</button>' +
+    (c.id ? '<button class="btn btn--danger" data-a="borrarCli" data-id="' + c.id + '">Eliminar cliente</button>' : '') + '</div>');
+}
+function guardarCli(id){
+  var row = { nombre: $('#cN').value.trim(), direccion: $('#cD').value.trim(), telefono: $('#cT').value.trim(), valor_visita: +$('#cV').value || 0,
+    litros: +$('#cL').value || null, frecuencia: $('#cF').value, dia: $('#cDi').value, tipo: $('#cTp').value, notas: $('#cNo').value.trim() };
+  if(!row.nombre) return toast('Poné el nombre del cliente');
+  if(DEMO && !id) row.codigo = Math.random().toString(36).slice(2, 8).toUpperCase();
+  (id ? upd('mp_clientes', id, row) : ins('mp_clientes', Object.assign(row, { activo: true }))).then(function(c){
+    C.sort(function(a, b){ return a.nombre.localeCompare(b.nombre); }); pintarTodo(); hojaCliente(c); toast('Cliente guardado');
+  }).catch(falla);
+}
+function hojaVenta(c){
+  sheet('<h2>Vender producto</h2><p class="sub">Se suma a la cuenta de ' + esc(c.nombre) + '.</p>' +
+    (P.length ? '<label class="f"><span>Producto</span><select id="vP"><option value="">Otro (escribo el detalle)</option>' + P.map(function(p){ return '<option value="' + p.id + '">' + esc(p.nombre) + ' · ' + peso(p.precio) + '</option>'; }).join('') + '</select></label>' : '') +
+    '<div class="row2"><label class="f"><span>Cantidad</span><input id="vQ" type="number" min="1" value="1" inputmode="numeric"></label>' +
+    '<label class="f"><span>Total ($)</span><input id="vT" type="number" min="0" inputmode="decimal"></label></div>' +
+    '<label class="f"><span>Detalle</span><input id="vD" placeholder="Ej: arreglo de bomba"></label>' +
+    '<label class="f"><span>Fecha</span><input id="vF" type="date" value="' + hoy() + '"></label>' +
+    '<div class="btns"><button class="btn btn--brand" data-a="guardarVenta" data-c="' + c.id + '">Cargar a la cuenta</button></div>');
+  function calc(){ var p = P.find(function(x){ return x.id === ($('#vP') || {}).value; }); if(p){ $('#vT').value = p.precio * (+$('#vQ').value || 1); $('#vD').value = $('#vQ').value + ' × ' + p.nombre; } }
+  if($('#vP')){ $('#vP').onchange = calc; $('#vQ').oninput = calc; }
+}
+function guardarVenta(cid){
+  var p = P.find(function(x){ return x.id === ($('#vP') || {}).value; }), q = +$('#vQ').value || 1, t = +$('#vT').value;
+  if(!t) return toast('Poné el total');
+  ins('mp_movimientos', { cliente_id: cid, fecha: $('#vF').value || hoy(), tipo: 'cargo', concepto: $('#vD').value.trim() || (p ? q + ' × ' + p.nombre : 'Cargo'), monto: t, costo: p ? p.costo * q : 0 })
+    .then(function(){ pintarTodo(); hojaCliente(cli(cid)); toast('Cargado a la cuenta'); }).catch(falla);
+}
+function hojaPago(c){
+  var s = saldo(c.id);
+  sheet('<h2>Registrar pago</h2><p class="sub">' + esc(c.nombre) + (s > 0 ? ' · debe ' + peso(s) : ' · está al día') + '</p>' +
+    '<label class="f"><span>Monto ($)</span><input id="gM" type="number" min="0" inputmode="decimal" value="' + (s > 0 ? s : '') + '"></label>' +
+    '<div class="row2"><label class="f"><span>Forma de pago</span><select id="gF"><option>Efectivo</option><option>Transferencia</option><option>Otro</option></select></label>' +
+    '<label class="f"><span>Fecha</span><input id="gD" type="date" value="' + hoy() + '"></label></div>' +
+    '<div class="btns"><button class="btn btn--brand" data-a="guardarPago" data-c="' + c.id + '">Guardar pago</button></div>');
+}
+function guardarPago(cid){
+  var m = +$('#gM').value; if(!m) return toast('Poné el monto');
+  ins('mp_movimientos', { cliente_id: cid, fecha: $('#gD').value || hoy(), tipo: 'pago', concepto: $('#gF').value, monto: m })
+    .then(function(){ cerrarSheet(); pintarTodo(); toast('Pago registrado'); }).catch(falla);
+}
+function hojaHistorial(c){
+  var it = V.filter(function(v){ return v.cliente_id === c.id && v.estado === 'hecha'; }).map(function(v){ return { f: v.fecha, h: '<b>Visita</b><small>' + esc(v.nota || 'Mantenimiento') + '</small>', m: peso(v.valor), id: v.id, ic: ICO.ok, cls: ' item--hecha' }; })
+    .concat(M.filter(function(x){ return x.cliente_id === c.id; }).map(function(x){ return { f: x.fecha, h: '<b>' + (x.tipo === 'pago' ? 'Pago' : esc(x.concepto || 'Cargo')) + '</b><small>' + (x.tipo === 'pago' ? esc(x.concepto) : 'Cargo a la cuenta') + '</small>', m: (x.tipo === 'pago' ? '−' : '') + peso(x.monto), mov: x.id, ic: x.tipo === 'pago' ? ICO.pago : ICO.prod, cls: '' }; }))
+    .sort(function(a, b){ return b.f.localeCompare(a.f); });
+  sheet('<h2>Historial</h2><p class="sub">' + esc(c.nombre) + '</p><div class="list">' + (it.map(function(x){
+    return '<button class="item' + x.cls + '" ' + (x.id ? 'data-a="visita" data-id="' + x.id + '"' : 'data-a="borrarMov" data-id="' + x.mov + '"') + '><span class="item__ic">' + x.ic + '</span><span class="item__b">' + x.h + '<small>' + fechaTxt(x.f) + '</small></span><span class="item__r"><b>' + x.m + '</b></span></button>';
+  }).join('') || '<div class="empty">Todavía no hay movimientos.</div>') + '</div><p class="sub" style="margin-top:12px">Tocá un pago o cargo para eliminarlo.</p>');
+}
+function hojaMensajes(c){
+  var ms = MSG.filter(function(m){ return m.cliente_id === c.id; });
+  sheet('<h2>Mensajes</h2><p class="sub">' + esc(c.nombre) + (c.usuario_id ? '' : ' · todavía no entró a Mi pileta') + '</p>' +
+    '<div class="chat" id="chat">' + (ms.map(function(m){ return '<div class="msg' + (m.de === 'negocio' ? ' msg--yo' : '') + '">' + esc(m.texto) + '<small>' + new Date(m.creado).toLocaleString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) + '</small></div>'; }).join('') || '<div class="empty">Sin mensajes todavía.</div>') + '</div>' +
+    '<form class="chat-in" id="chatF"><input id="chatT" placeholder="Escribí un mensaje" autocomplete="off"><button aria-label="Enviar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 20 4l-6 16-3-7z"/></svg></button></form>');
+  var ch = $('#chat'); ch.scrollTop = ch.scrollHeight;
+  var sinLeer = ms.filter(function(m){ return m.de === 'cliente' && !m.leido; });
+  sinLeer.forEach(function(m){ upd('mp_mensajes', m.id, { leido: true }).catch(function(){}); m.leido = true; });
+  if(sinLeer.length) pintarTodo();
+  $('#chatF').onsubmit = function(e){
+    e.preventDefault(); var t = $('#chatT').value.trim(); if(!t) return;
+    ins('mp_mensajes', { cliente_id: c.id, de: 'negocio', texto: t }).then(function(){ hojaMensajes(c); }).catch(falla);
+  };
+}
+function hojaCompartir(c){
+  var link = SITIO + 'mipileta.html?c=' + c.codigo;
+  sheet('<h2>Compartir Mi pileta</h2><p class="sub">Con este link ' + esc(c.nombre) + ' ve sus visitas, fotos, lo que debe y te puede escribir.</p>' +
+    '<div class="card" style="text-align:center;margin-bottom:12px"><small class="muted" style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase">Código de acceso</small><div style="font-family:var(--ff-title);font-size:40px;letter-spacing:.12em;margin:4px 0">' + esc(c.codigo) + '</div><small class="muted" style="word-break:break-all">' + esc(link) + '</small></div>' +
+    (c.usuario_id ? '<p class="note">Ya está vinculado a la cuenta de tu cliente.</p>' : '') +
+    '<div class="btns">' +
+      (c.telefono ? '<a class="btn btn--wa" target="_blank" rel="noopener" href="' + wa(c.telefono, 'Hola ' + c.nombre + '! Desde ahora podés ver el estado de tu pileta, las fotos de cada visita y tu cuenta acá: ' + link + ' (tu código es ' + c.codigo + ')') + '">Mandar por WhatsApp</a>' : '') +
+      '<button class="btn btn--ghost" data-a="copiar" data-t="' + esc(link) + '">Copiar link</button>' +
+      '<button class="btn btn--danger" data-a="nuevoCodigo" data-c="' + c.id + '">Generar código nuevo</button>' +
+    '</div><p class="sub" style="margin-top:10px">El código nuevo desconecta a quien lo esté usando.</p>');
+}
+
+/* ---------- Productos y negocio ---------- */
+function formProd(p){
+  p = p || {};
+  sheet('<h2>' + (p.id ? 'Editar producto' : 'Nuevo producto') + '</h2><p class="sub">Con el costo calculamos tu ganancia.</p>' +
+    '<label class="f"><span>Nombre</span><input id="xN" value="' + esc(p.nombre) + '" placeholder="Ej: Cloro granulado 1 kg"></label>' +
+    '<div class="row2"><label class="f"><span>Precio de venta ($)</span><input id="xP" type="number" min="0" inputmode="decimal" value="' + (p.precio || '') + '"></label>' +
+    '<label class="f"><span>Tu costo ($)</span><input id="xC" type="number" min="0" inputmode="decimal" value="' + (p.costo || '') + '"></label></div>' +
+    '<div class="btns"><button class="btn btn--brand" data-a="guardarProd" data-id="' + (p.id || '') + '">Guardar</button>' + (p.id ? '<button class="btn btn--danger" data-a="borrarProd" data-id="' + p.id + '">Eliminar</button>' : '') + '</div>');
+}
+function guardarProd(id){
+  var row = { nombre: $('#xN').value.trim(), precio: +$('#xP').value || 0, costo: +$('#xC').value || 0 };
+  if(!row.nombre) return toast('Poné el nombre');
+  (id ? upd('mp_productos', id, row) : ins('mp_productos', row)).then(function(){ cerrarSheet(); P.sort(function(a, b){ return a.nombre.localeCompare(b.nombre); }); pintarTodo(); toast('Producto guardado'); }).catch(falla);
+}
+function editNeg(){
+  sheet('<h2>Tu negocio</h2><p class="sub">Así te ven tus clientes en Mi pileta.</p>' +
+    '<label class="f"><span>Nombre del negocio</span><input id="nN" value="' + esc(N.nombre) + '"></label>' +
+    '<label class="f"><span>Teléfono (WhatsApp)</span><input id="nT" type="tel" value="' + esc(N.telefono) + '"></label>' +
+    '<div class="btns"><button class="btn btn--brand" data-a="guardarNeg">Guardar</button></div>');
+}
+function guardarNeg(){
+  var row = { nombre: $('#nN').value.trim() || 'Mi negocio', telefono: $('#nT').value.trim() };
+  var p = DEMO ? Promise.resolve({}) : sb.from('mp_negocios').update(row).eq('id', N.id);
+  p.then(function(r){ if(r.error) throw r.error; Object.assign(N, row); cerrarSheet(); pintarTodo(); toast('Guardado'); }).catch(falla);
+}
+
+/* ---------- Acciones ---------- */
+document.addEventListener('click', function(e){
+  var b = e.target.closest('[data-a],[data-v],[data-dia],[data-f],[data-mes]'); if(!b) return;
+  if(b.dataset.v){ ir(b.dataset.v); return; }
+  if(b.dataset.dia){ SEL = b.dataset.dia; pintarHoy(); return; }
+  if(b.dataset.f){ FILTRO = b.dataset.f; $$('#segCli button').forEach(function(x){ x.classList.toggle('on', x === b); }); pintarClientes(); return; }
+  if(b.dataset.mes){ MES_OFF = +b.dataset.mes === 0 ? 0 : MES_OFF + (+b.dataset.mes); pintarCobros(); return; }
+  var a = b.dataset.a, id = b.dataset.id, c = b.dataset.c ? cli(b.dataset.c) : null;
+  var vis = id && V.find(function(v){ return v.id === id; });
+  ({
+    visita: function(){ hojaVisita(vis); },
+    registrar: function(){ hojaRegistrar(c, SEL); },
+    editVisita: function(){ hojaRegistrar(cli(vis.cliente_id), vis.fecha, vis); },
+    guardarVisita: function(){ guardarVisita(b.dataset.c, id || null); },
+    deshacer: function(){ upd('mp_visitas', id, { estado: 'programada' }).then(function(){ cerrarSheet(); pintarTodo(); }).catch(falla); },
+    mover: function(){ hojaProgramar(null, vis); },
+    programar: function(){ hojaProgramar(c && c.id); },
+    guardarProg: function(){ guardarProg(id || null); },
+    borrarVisita: function(){ if(confirm('¿Eliminar esta visita?')) del('mp_visitas', id).then(function(){ cerrarSheet(); pintarTodo(); toast('Visita eliminada'); }).catch(falla); },
+    cliente: function(){ hojaCliente(cli(id)); },
+    editCli: function(){ formCliente(c); },
+    guardarCli: function(){ guardarCli(id || null); },
+    borrarCli: function(){ if(confirm('¿Eliminar este cliente con todo su historial?')) del('mp_clientes', id).then(function(){ V = V.filter(function(v){ return v.cliente_id !== id; }); M = M.filter(function(m){ return m.cliente_id !== id; }); cerrarSheet(); pintarTodo(); toast('Cliente eliminado'); }).catch(falla); },
+    venta: function(){ hojaVenta(c); },
+    guardarVenta: function(){ guardarVenta(c.id); },
+    pago: function(){ hojaPago(c); },
+    guardarPago: function(){ guardarPago(c.id); },
+    historial: function(){ hojaHistorial(c); },
+    borrarMov: function(){ var mv = M.find(function(x){ return x.id === id; }); if(mv && confirm('¿Eliminar este ' + (mv.tipo === 'pago' ? 'pago' : 'cargo') + ' de ' + peso(mv.monto) + '?')) del('mp_movimientos', id).then(function(){ pintarTodo(); hojaHistorial(cli(mv.cliente_id)); }).catch(falla); },
+    mensajes: function(){ hojaMensajes(c); },
+    compartir: function(){ hojaCompartir(c); },
+    copiar: function(){ (navigator.clipboard ? navigator.clipboard.writeText(b.dataset.t) : Promise.reject()).then(function(){ toast('Link copiado'); }, function(){ prompt('Copiá el link:', b.dataset.t); }); },
+    nuevoCodigo: function(){
+      if(!confirm('¿Generar un código nuevo? El anterior deja de funcionar.')) return;
+      var p = DEMO ? Promise.resolve({ data: Math.random().toString(36).slice(2, 8).toUpperCase() }) : sb.rpc('mp_nuevo_codigo', { p_cliente: c.id });
+      p.then(function(r){ if(r.error) throw r.error; c.codigo = r.data; c.usuario_id = null; hojaCompartir(c); toast('Código nuevo listo'); }).catch(falla);
+    },
+    prod: function(){ formProd(P.find(function(p){ return p.id === id; })); },
+    nuevoProd: function(){ formProd(); },
+    guardarProd: function(){ guardarProd(id || null); },
+    borrarProd: function(){ if(confirm('¿Eliminar este producto?')) del('mp_productos', id).then(function(){ cerrarSheet(); pintarTodo(); }).catch(falla); },
+    editNeg: editNeg,
+    guardarNeg: guardarNeg,
+    salir: function(){ if(DEMO) return location.href = 'clases.html'; sb.auth.signOut().then(function(){ location.reload(); }); }
+  }[a] || function(){})();
+});
+$('#fab').onclick = function(){ VISTA === 'clientes' ? formCliente() : hojaProgramar(); };
+$('#avatar').onclick = function(){ ir('mas'); };
+$('#qCli').oninput = pintarClientes;
+
+function ir(v){
+  VISTA = v;
+  $$('.view').forEach(function(x){ x.classList.toggle('on', x.id === 'v-' + v); });
+  $$('.nav button').forEach(function(x){ x.classList.toggle('on', x.dataset.v === v); });
+  pintarHeader(); window.scrollTo(0, 0);
+}
+
+/* ---------- Inicio ---------- */
+function sinSuscripcion(){
+  var g = $('#gate'); g.hidden = false; $('#app').hidden = true;
+  g.innerHTML = '<div class="gate__box"><img class="logo" src="img/logo.png" alt="José Carrizo e Hijos">' +
+    '<h1>Mis piletas es para <em>suscriptores</em></h1>' +
+    '<p>La herramienta para organizar tus clientes, visitas y cobros viene incluida en la suscripción Pileteros de confianza ($25.000 por mes), junto con todas las clases.</p>' +
+    '<div class="btns"><a class="btn btn--brand" href="clases.html?quiero=suscripcion">Suscribirme</a><a class="btn btn--ghost" href="app.html?demo=1">Ver cómo funciona</a><button class="btn btn--danger" id="gSalir">Cerrar sesión</button></div></div>';
+  $('#gSalir').onclick = function(){ sb.auth.signOut().then(function(){ location.reload(); }); };
+}
+function entrar(user){
+  var p = DEMO ? Promise.resolve({ data: { ok: true, negocio: { id: 'demo', nombre: 'Lucas Piletas', telefono: '223 555-1234' } } }) : sb.rpc('mp_mi_negocio');
+  p.then(function(r){
+    if(r.error) throw r.error;
+    if(!r.data.ok){ return r.data.motivo === 'sin_suscripcion' ? sinSuscripcion() : arrancar(); }
+    N = r.data.negocio;
+    $('#avatar').textContent = iniciales(N.nombre);
+    return cargar().then(function(){ $('#gate').hidden = true; $('#app').hidden = false; $('#demoNote').hidden = !DEMO; pintarTodo(); });
+  }).catch(function(e){ toast('No se pudo cargar: ' + (e.message || e)); });
+}
+function arrancar(){
+  if(DEMO) return entrar(null);
+  sb.auth.getSession().then(function(r){
+    var s = r.data.session;
+    if(s) entrar(s.user);
+    else pantallaIngreso({ titulo: 'Mis <em>piletas</em>', texto: 'Tus clientes, visitas y cobros en un solo lugar. Ingresá con la misma cuenta de tus clases.', alEntrar: entrar });
+  });
+}
+document.addEventListener('visibilitychange', function(){ if(!document.hidden && N && !DEMO) cargar().then(pintarTodo).catch(function(){}); });
+arrancar();
+
+/* ---------- Datos de ejemplo (vista de muestra) ---------- */
+function demo(){
+  var d = function(n){ var x = new Date(); x.setDate(x.getDate() + n); return ymd(x); };
+  var hoyDN = DN[new Date().getDay()];
+  C = [
+    { id: 'c1', nombre: 'Familia Pérez', direccion: 'Güemes 2450', telefono: '2235551111', valor_visita: 18000, frecuencia: 'Semanal', dia: hoyDN, litros: 45000, tipo: 'Hormigón', notas: 'Perro suelto, avisar antes.', codigo: 'K7P2QX', activo: true },
+    { id: 'c2', nombre: 'Martina Gómez', direccion: 'Alem 3100', telefono: '2235552222', valor_visita: 15000, frecuencia: 'Semanal', dia: hoyDN, litros: 30000, tipo: 'Fibra de vidrio', codigo: 'B4N9TR', activo: true, usuario_id: 'u' },
+    { id: 'c3', nombre: 'Club Náutico', direccion: 'Av. Martínez de Hoz 4200', telefono: '2235553333', valor_visita: 40000, frecuencia: 'Semanal', dia: 'Lunes', litros: 120000, tipo: 'Hormigón', codigo: 'Z2M8LA', activo: true },
+    { id: 'c4', nombre: 'Rodríguez', direccion: 'Bernardo de Irigoyen 1800', telefono: '2235554444', valor_visita: 15000, frecuencia: 'Cada 15 días', dia: 'Viernes', codigo: 'H5W3KC', activo: true },
+    { id: 'c5', nombre: 'Casa Sierra de los Padres', direccion: 'Los Ceibos 120', telefono: '', valor_visita: 22000, frecuencia: 'Semanal', dia: 'Sábado', codigo: 'Q9D6VE', activo: true }
+  ];
+  V = [
+    { id: 'v1', cliente_id: 'c3', fecha: d(0), hora: '09:00:00', estado: 'hecha', valor: 40000, ph: 7.4, cloro: 1.5, nota: 'Aspirado de fondo y retrolavado.', productos: '2 kg cloro granulado', fotos: ['img/equipo-cut.webp'] },
+    { id: 'v2', cliente_id: 'c4', fecha: d(0), hora: '11:30:00', estado: 'programada', valor: 15000, fotos: [] },
+    { id: 'v3', cliente_id: 'c1', fecha: d(-7), estado: 'hecha', valor: 18000, nota: 'Limpieza de skimmer.', fotos: [] },
+    { id: 'v4', cliente_id: 'c2', fecha: d(-7), estado: 'hecha', valor: 15000, fotos: [] },
+    { id: 'v5', cliente_id: 'c5', fecha: d(2), hora: '10:00:00', estado: 'programada', valor: 22000, fotos: [] }
+  ];
+  P = [{ id: 'p1', nombre: 'Cloro granulado 1 kg', precio: 9500, costo: 6200 }, { id: 'p2', nombre: 'Pastillas multiacción 1 kg', precio: 14000, costo: 9800 }, { id: 'p3', nombre: 'Clarificador 1 L', precio: 6500, costo: 4100 }];
+  M = [{ id: 'm1', cliente_id: 'c1', fecha: d(-7), tipo: 'cargo', concepto: '1 × Pastillas multiacción 1 kg', monto: 14000, costo: 9800 }, { id: 'm2', cliente_id: 'c2', fecha: d(-5), tipo: 'pago', concepto: 'Transferencia', monto: 15000 }];
+  MSG = [{ id: 'g1', cliente_id: 'c2', de: 'cliente', texto: 'Hola! El jueves pueden venir más temprano?', leido: false, creado: new Date().toISOString() }];
+}
+</script>
+</body>
+</html>

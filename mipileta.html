@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mi pileta</title>
+<meta name="description" content="El estado de tu pileta: fotos y notas de cada visita, próximas visitas, tu cuenta y un chat con tu piletero.">
+<meta name="theme-color" content="#041437">
+<meta name="robots" content="noindex">
+<link rel="icon" href="img/icono.png">
+<link rel="apple-touch-icon" href="img/icono.png">
+<link rel="manifest" href="mipileta.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>
+  .last{margin-top:14px}
+  .last h3{font-size:20px;font-weight:500;margin:0 0 4px}
+  .meds{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+  .chips{display:flex;gap:8px;overflow-x:auto;margin:14px 0 0;scrollbar-width:none}
+  .chips button{flex:0 0 auto;height:38px;padding:0 16px;border-radius:999px;background:var(--white);font-weight:600;font-size:13.5px;color:var(--muted)}
+  .chips button.on{background:var(--ink);color:#fff}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate" hidden></div>
+
+<div id="app" hidden>
+  <p class="demo" id="demoNote" hidden>Vista de muestra con datos de ejemplo.</p>
+  <header class="top">
+    <div class="top__bar">
+      <div class="top__brand"><img src="img/icono-blanco.png" alt=""><div><small>Mi pileta</small><span id="negNom"></span></div></div>
+      <button class="avatar" id="salir" aria-label="Cerrar sesión" title="Cerrar sesión"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H3"/></svg></button>
+    </div>
+    <h1>Tu <em>pileta</em></h1>
+    <p id="pDir"></p>
+  </header>
+
+  <main class="wrap">
+    <div class="stats">
+      <div class="stat stat--dark"><small>Última visita</small><b id="sUlt">—</b></div>
+      <div class="stat"><small id="sCtaL">Tu cuenta</small><b id="sCta">—</b></div>
+    </div>
+    <div class="chips" id="chips" hidden></div>
+
+    <div class="sec-h"><h2>Último mantenimiento</h2><small id="prox"></small></div>
+    <div class="card" id="ult"></div>
+
+    <div class="sec-h"><h2>Mensajes</h2><small id="negTel"></small></div>
+    <div class="card">
+      <div class="chat" id="chat"></div>
+      <form class="chat-in" id="chatF"><input id="chatT" placeholder="Escribile a tu piletero" autocomplete="off"><button aria-label="Enviar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 20 4l-6 16-3-7z"/></svg></button></form>
+      <div class="btns" id="waBox"></div>
+    </div>
+
+    <div class="sec-h"><h2>Visitas</h2></div>
+    <div class="list" id="hist"></div>
+
+    <div class="sec-h"><h2>Tu cuenta</h2></div>
+    <div class="list" id="cta"></div>
+
+    <div class="btns" style="margin-top:26px"><button class="btn btn--ghost" id="otroCod">Tengo otro código</button></div>
+    <p class="muted" style="text-align:center;font-size:12.5px;margin-top:22px">Mi pileta · hecho por <a href="index.html" style="text-decoration:underline">José Carrizo e Hijos</a></p>
+  </main>
+</div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="sheet__p" id="sheetBody"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/mp-comun.js"></script>
+<script>
+/* ==========================================================================
+   MI PILETA — lo que ve el cliente del piletero
+   ========================================================================== */
+var PILETAS = [], ACT = 0;
+var COD = (location.search.match(/[?&]c=([A-Za-z0-9]{4,10})/) || [])[1];
+try { if(COD) localStorage.setItem('mp_codigo', COD.toUpperCase()); else COD = localStorage.getItem('mp_codigo'); } catch(e){}
+
+function hace(f){
+  var n = Math.round((new Date(hoy() + 'T12:00') - new Date(f + 'T12:00')) / 864e5);
+  return n <= 0 ? 'Hoy' : n === 1 ? 'Ayer' : 'Hace ' + n + ' días';
+}
+
+function pintar(){
+  var p = PILETAS[ACT]; if(!p) return;
+  var vs = (p.visitas || []), hechas = vs.filter(function(v){ return v.estado === 'hecha'; });
+  var prox = vs.filter(function(v){ return v.estado === 'programada' && v.fecha >= hoy(); }).sort(function(a, b){ return a.fecha.localeCompare(b.fecha); })[0];
+  var u = hechas[0];
+  $('#negNom').textContent = p.negocio.nombre;
+  $('#pDir').textContent = p.nombre + (p.direccion ? ' · ' + p.direccion : '');
+  $('#sUlt').textContent = u ? hace(u.fecha) : 'Todavía no';
+  var s = +p.saldo || 0;
+  $('#sCtaL').textContent = s > 0 ? 'Debés' : s < 0 ? 'A tu favor' : 'Tu cuenta';
+  $('#sCta').textContent = s === 0 ? 'Al día' : peso(Math.abs(s));
+  $('#prox').textContent = prox ? 'Próxima: ' + fechaTxt(prox.fecha) + (prox.hora ? ' ' + prox.hora.slice(0, 5) : '') : '';
+  $('#chips').hidden = PILETAS.length < 2;
+  $('#chips').innerHTML = PILETAS.map(function(x, i){ return '<button class="' + (i === ACT ? 'on' : '') + '" data-i="' + i + '">' + esc(x.nombre) + '</button>'; }).join('');
+
+  $('#ult').innerHTML = u ? '<div class="last" style="margin:0"><h3>' + fechaTxt(u.fecha, true).replace(/^./, function(x){ return x.toUpperCase(); }) + '</h3>' +
+      '<div class="meds">' + (u.ph != null ? '<span class="pill">pH ' + u.ph + '</span>' : '') + (u.cloro != null ? '<span class="pill">Cloro ' + u.cloro + ' ppm</span>' : '') + '<span class="pill pill--ok">Mantenimiento hecho</span></div>' +
+      (u.nota ? '<p style="margin:0 0 8px">' + esc(u.nota) + '</p>' : '') + (u.productos ? '<p class="muted" style="margin:0 0 8px;font-size:14px">Productos: ' + esc(u.productos) + '</p>' : '') +
+      '<div class="fotos" id="fotosUlt"></div></div>'
+    : '<div class="empty"><b>Todavía no hay visitas</b>Cuando tu piletero registre la próxima, la vas a ver acá con fotos.</div>';
+  if(u && u.fotos && u.fotos.length) urlsFotos(u.fotos).then(function(l){ var el = $('#fotosUlt'); if(el) el.innerHTML = l.map(function(x){ return '<img src="' + x + '" alt="Foto de tu pileta">'; }).join(''); });
+
+  var ms = p.mensajes || [];
+  $('#chat').innerHTML = ms.map(function(m){ return '<div class="msg' + (m.de === 'cliente' ? ' msg--yo' : '') + '">' + esc(m.texto) + '<small>' + new Date(m.creado).toLocaleString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) + '</small></div>'; }).join('') || '<p class="muted" style="margin:0;text-align:center;font-size:14px">¿Necesitás algo? Escribile acá a tu piletero.</p>';
+  var ch = $('#chat'); ch.scrollTop = ch.scrollHeight;
+  $('#negTel').textContent = p.negocio.telefono || '';
+  $('#waBox').innerHTML = p.negocio.telefono ? '<a class="btn btn--wa" target="_blank" rel="noopener" href="' + wa(p.negocio.telefono, 'Hola! Te escribo por la pileta de ' + p.nombre + '.') + '">Escribir por WhatsApp</a>' : '';
+
+  $('#hist').innerHTML = vs.map(function(v){
+    var ok = v.estado === 'hecha';
+    return '<button class="item' + (ok ? ' item--hecha' : '') + '" data-v="' + v.id + '"><span class="item__ic">' + (ok ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>') + '</span>' +
+      '<span class="item__b"><b>' + fechaTxt(v.fecha, true).replace(/^./, function(x){ return x.toUpperCase(); }) + '</b><small>' + (ok ? esc(v.nota || 'Mantenimiento') : 'Programada' + (v.hora ? ' · ' + v.hora.slice(0, 5) : '')) + '</small></span>' +
+      '<span class="item__r">' + (ok ? '<b>' + peso(v.valor) + '</b>' : '<span class="pill">Próxima</span>') + '</span></button>';
+  }).join('') || '<div class="empty">Sin visitas todavía.</div>';
+
+  var mov = hechas.map(function(v){ return { f: v.fecha, t: 'Visita de mantenimiento', m: +v.valor }; })
+    .concat((p.movimientos || []).map(function(x){ return { f: x.fecha, t: x.tipo === 'pago' ? 'Pago · ' + (x.concepto || '') : (x.concepto || 'Cargo'), m: x.tipo === 'pago' ? -x.monto : +x.monto }; }))
+    .sort(function(a, b){ return b.f.localeCompare(a.f); }).slice(0, 30);
+  $('#cta').innerHTML = mov.map(function(x){
+    return '<div class="item' + (x.m < 0 ? ' item--hecha' : '') + '"><span class="item__ic">' + (x.m < 0 ? '$' : '+') + '</span><span class="item__b"><b>' + esc(x.t) + '</b><small>' + fechaTxt(x.f) + '</small></span><span class="item__r"><b>' + (x.m < 0 ? '−' + peso(-x.m) : peso(x.m)) + '</b></span></div>';
+  }).join('') || '<div class="empty">Sin movimientos.</div>';
+}
+
+function verVisita(id){
+  var v = (PILETAS[ACT].visitas || []).find(function(x){ return x.id === id; }); if(!v) return;
+  sheet('<h2>' + fechaTxt(v.fecha, true).replace(/^./, function(x){ return x.toUpperCase(); }) + '</h2><p class="sub">' + (v.estado === 'hecha' ? 'Mantenimiento hecho' : 'Visita programada' + (v.hora ? ' · ' + v.hora.slice(0, 5) : '')) + '</p>' +
+    '<div class="meds">' + (v.ph != null ? '<span class="pill">pH ' + v.ph + '</span>' : '') + (v.cloro != null ? '<span class="pill">Cloro ' + v.cloro + ' ppm</span>' : '') + '</div>' +
+    (v.nota ? '<p class="note">' + esc(v.nota) + '</p>' : '') + (v.productos ? '<p class="sub">Productos: ' + esc(v.productos) + '</p>' : '') + '<div class="fotos" id="fV"></div>');
+  if(v.fotos && v.fotos.length) urlsFotos(v.fotos).then(function(l){ var el = $('#fV'); if(el) el.innerHTML = l.map(function(x){ return '<img src="' + x + '" alt="Foto de la visita">'; }).join(''); });
+}
+
+function pedirCodigo(msg){
+  var g = $('#gate'); g.hidden = false; $('#app').hidden = true;
+  g.innerHTML = '<div class="gate__box"><img class="logo" src="img/logo.png" alt="">' +
+    '<h1>Vinculá tu <em>pileta</em></h1><p>' + (msg || 'Poné el código de 6 letras que te pasó tu piletero.') + '</p>' +
+    '<form id="fCod"><label class="f"><span>Código</span><input name="c" maxlength="10" autocapitalize="characters" style="text-transform:uppercase;letter-spacing:.2em;font-weight:700"></label>' +
+    '<button class="btn btn--brand">Vincular</button></form>' +
+    (PILETAS.length ? '<p class="gate__sw"><button id="volver">Volver a mi pileta</button></p>' : '') +
+    '<p class="gate__sw"><button id="gSalir">Cerrar sesión</button></p></div>';
+  $('#fCod').onsubmit = function(e){ e.preventDefault(); COD = e.target.c.value.trim().toUpperCase(); if(COD) vincularYCargar(); };
+  if($('#volver')) $('#volver').onclick = function(){ g.hidden = true; $('#app').hidden = false; };
+  $('#gSalir').onclick = salir;
+}
+function vincularYCargar(){
+  var p = COD ? sb.rpc('mp_vincular', { p_codigo: COD }) : Promise.resolve({ data: { ok: true } });
+  p.then(function(r){
+    var cod = COD; COD = null; try { localStorage.removeItem('mp_codigo'); } catch(e){}
+    if(r.error) throw r.error;
+    if(!r.data.ok && cod){
+      var m = r.data.motivo === 'ya_vinculado' ? 'Ese código ya está en uso por otra cuenta. Pedile a tu piletero uno nuevo.' : 'No encontramos ese código. Revisalo o pedile uno nuevo a tu piletero.';
+      return cargar().then(function(){ PILETAS.length ? (toast(m), mostrar()) : pedirCodigo(m); });
+    }
+    return cargar().then(function(){ PILETAS.length ? mostrar() : pedirCodigo(); });
+  }).catch(function(e){ toast('No se pudo cargar: ' + (e.message || e)); });
+}
+function cargar(){
+  return sb.rpc('mp_mi_pileta').then(function(r){ if(r.error) throw r.error; PILETAS = r.data || []; if(ACT >= PILETAS.length) ACT = 0; });
+}
+function mostrar(){ $('#gate').hidden = true; $('#app').hidden = false; $('#demoNote').hidden = !DEMO; pintar(); }
+function salir(){ if(DEMO) return location.href = 'index.html'; sb.auth.signOut().then(function(){ location.reload(); }); }
+
+document.addEventListener('click', function(e){
+  var b = e.target.closest('[data-v],[data-i]'); if(!b) return;
+  if(b.dataset.i){ ACT = +b.dataset.i; pintar(); } else verVisita(b.dataset.v);
+});
+$('#salir').onclick = salir;
+$('#otroCod').onclick = function(){ pedirCodigo(); };
+$('#chatF').onsubmit = function(e){
+  e.preventDefault(); var t = $('#chatT').value.trim(); if(!t) return;
+  var p = PILETAS[ACT];
+  if(DEMO){ p.mensajes.push({ de: 'cliente', texto: t, creado: new Date().toISOString() }); $('#chatT').value = ''; return pintar(); }
+  sb.rpc('mp_mensaje_cliente', { p_cliente: p.id, p_texto: t }).then(function(r){ if(r.error) throw r.error; $('#chatT').value = ''; return cargar(); })
+    .then(pintar).catch(function(e){ toast(e.message || 'No se pudo enviar'); });
+};
+document.addEventListener('visibilitychange', function(){ if(!document.hidden && !DEMO && PILETAS.length) cargar().then(pintar).catch(function(){}); });
+
+if(DEMO){
+  var d = function(n){ var x = new Date(); x.setDate(x.getDate() + n); return ymd(x); };
+  PILETAS = [{ id: 'c2', nombre: 'Martina Gómez', direccion: 'Alem 3100', saldo: 15000, negocio: { nombre: 'Lucas Piletas', telefono: '2235551234' },
+    visitas: [{ id: 'a', fecha: d(5), hora: '10:00:00', estado: 'programada' }, { id: 'b', fecha: d(-2), estado: 'hecha', valor: 15000, ph: 7.4, cloro: 1.5, nota: 'Aspirado de fondo, limpieza de skimmer y retrolavado del filtro.', productos: '1 kg cloro granulado', fotos: ['img/equipo-cut.webp'] }, { id: 'c', fecha: d(-9), estado: 'hecha', valor: 15000, nota: 'Mantenimiento semanal.', fotos: [] }],
+    movimientos: [{ fecha: d(-5), tipo: 'pago', concepto: 'Transferencia', monto: 15000 }],
+    mensajes: [{ de: 'cliente', texto: 'Hola! El jueves pueden venir más temprano?', creado: d(-1) + 'T10:00:00' }, { de: 'negocio', texto: '¡Sí! Paso a las 9.', creado: d(-1) + 'T10:20:00' }] }];
+  mostrar();
+} else {
+  sb.auth.getSession().then(function(r){
+    if(r.data.session) vincularYCargar();
+    else pantallaIngreso({ titulo: 'Mi <em>pileta</em>', modo: COD ? 'registro' : 'login',
+      texto: 'Creá tu cuenta (o ingresá) para ver el estado de tu pileta, las fotos de cada visita, tu cuenta y hablar con tu piletero.',
+      alEntrar: vincularYCargar });
+  });
+}
+</script>
+</body>
+</html>
