@@ -641,7 +641,8 @@ aForm.addEventListener('submit', function(e){
   if(m!=='reset' && f.password.value.length < 6){ msg('La contraseña tiene que tener al menos 6 caracteres.', true); f.password.focus(); return; }
   if(m==='registro' && !f.nombre.value.trim()){ msg('Contanos tu nombre.', true); f.nombre.focus(); return; }
   $('#aBtn').disabled = true; msg('Un momento…');
-  var volver = location.origin + location.pathname;
+  // Los mails siempre vuelven a la dirección con www (la que está autorizada en Supabase)
+  var volver = /josecarrizoehijos\.ar$/.test(location.hostname) ? 'https://www.josecarrizoehijos.ar/clases.html' : location.origin + location.pathname;
   var p = m==='login' ? sb.auth.signInWithPassword({ email: email, password: f.password.value })
         : m==='registro' ? sb.auth.signUp({ email: email, password: f.password.value,
             options: { emailRedirectTo: volver, data: { nombre: f.nombre.value.trim(), telefono: f.telefono.value.trim() } } })
