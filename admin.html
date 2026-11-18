@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel · José Carrizo e Hijos</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#030B1F">
+<link rel="icon" type="image/png" href="img/icono.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#030B1F;--bg2:#071538;--card:#0B1D4A;--ink:#fff;--muted:#9FB3D9;--brand:#1F63E8;--sky:#8CC8FF;--navy:#071B45;--line:rgba(255,255,255,.12);--ok:#22C55E;--bad:#FF8A8A;--ff:'Inter',system-ui,sans-serif;--ff-t:'Inter Tight',system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ff);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--sky)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px;border-radius:8px}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:16px;padding:14px clamp(14px,3vw,32px);background:rgba(3,11,31,.95);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.top img{height:28px}
+.top b{font-family:var(--ff-t);font-size:17px}
+.top .sp{flex:1}
+.top a,.top button{font-size:14px;color:var(--muted)}
+.tabs{display:flex;gap:6px;padding:14px clamp(14px,3vw,32px) 0;overflow-x:auto}
+.tab{height:42px;padding:0 18px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-weight:600;white-space:nowrap}
+.tab[aria-selected="true"]{background:#fff;color:var(--navy);border-color:#fff}
+main{padding:20px clamp(14px,3vw,32px) 80px;max-width:1200px}
+h2{font-family:var(--ff-t);font-size:26px;letter-spacing:-.02em;margin:6px 0 6px}
+.lead{color:var(--muted);margin:0 0 18px;max-width:70ch}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:10px;font-weight:600;font-size:14px;background:rgba(255,255,255,.1);border:1px solid var(--line)}
+.btn:hover{background:rgba(255,255,255,.16)}
+.btn--p{background:var(--brand);border-color:var(--brand)}
+.btn--w{background:#fff;color:var(--navy);border-color:#fff}
+.btn--d{color:var(--bad)}
+.btn[disabled]{opacity:.5;cursor:wait}
+input[type=text],input[type=email],input[type=number],input[type=date],select,textarea{height:42px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06);padding:0 12px;outline:none;min-width:0}
+input:focus,select:focus{border-color:var(--sky)}
+select option{background:var(--bg2)}
+label.chk{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:#C9D8F5}
+.note{padding:12px 14px;border-radius:12px;background:rgba(140,200,255,.1);border:1px solid rgba(140,200,255,.25);color:#D6E4FF;font-size:14px;margin-bottom:14px}
+.note.warn{background:rgba(255,190,90,.1);border-color:rgba(255,190,90,.35)}
+.note ol{margin:8px 0 0;padding-left:20px}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{text-align:left;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:8px 8px;border-bottom:1px solid var(--line)}
+.tbl td{padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl input[type=text]{width:100%}
+.tbl select{width:100%;max-width:340px}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.pill.ok{background:rgba(34,197,94,.18);color:#7EE2A2}
+.pill.no{background:rgba(255,138,138,.15);color:var(--bad)}
+.pill.mid{background:rgba(140,200,255,.15);color:var(--sky)}
+.muted{color:var(--muted);font-size:13px}
+.hide{display:none!important}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,140px);background:#fff;color:var(--navy);padding:12px 20px;border-radius:999px;font-weight:600;transition:transform .4s;z-index:50}
+.toast.show{transform:translate(-50%,0)}
+.toast.err{background:var(--bad)}
+.gate{max-width:440px;margin:12vh auto;text-align:center;padding:0 20px}
+@media (max-width:760px){
+  .tbl thead{display:none}
+  .tbl tr{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .tbl td{border:0;padding:2px 0}
+  .tbl td.full{grid-column:1/-1}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html"><img src="img/logo-blanco.png" alt="José Carrizo e Hijos"></a>
+  <b>Panel</b>
+  <span class="sp"></span>
+  <a href="clases.html">Ver videoteca</a>
+  <button id="salir" class="hide">Cerrar sesión</button>
+</header>
+
+<!-- Pantalla de acceso -->
+<div class="gate" id="gate">
+  <h2>Panel de administración</h2>
+  <p class="lead" id="gateMsg">Cargando…</p>
+  <a class="btn btn--w" href="clases.html" id="gateBtn" style="display:none">Ingresar con mi cuenta</a>
+</div>
+
+<div id="app" class="hide">
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-t="clases">Clases y videos</button>
+    <button class="tab" role="tab" aria-selected="false" data-t="accesos">Suscriptores y accesos</button>
+    <button class="tab" role="tab" aria-selected="false" data-t="productos">Productos y precios</button>
+    <button class="tab" role="tab" aria-selected="false" data-t="pedidos">Pedidos</button>
+  </nav>
+
+  <main>
+    <!-- ============ CLASES ============ -->
+    <section data-p="clases">
+      <h2>Clases y videos</h2>
+      <p class="lead">Elegí el video de Bunny para cada clase, cambiá títulos y decidí cuáles son gratis o están publicadas. Los cambios se ven al instante en la videoteca.</p>
+
+      <div class="note warn hide" id="sinKey">
+        <b>Falta conectar Bunny para ver la lista de tus videos.</b> Hacelo una sola vez:
+        <ol>
+          <li>En Bunny entrá a <b>Stream → Pileteros de confianza → API</b> y copiá la <b>API Key</b>.</li>
+          <li>En Supabase, proyecto <b>josecarrizoehijos-web</b> → <b>Edge Functions → Secrets</b> → <b>Add new secret</b>.</li>
+          <li>Name: <code>BUNNY_API_KEY</code> · Value: la clave que copiaste → <b>Save</b>.</li>
+          <li>Volvé acá y tocá <b>Traer videos de Bunny</b>.</li>
+        </ol>
+        Mientras tanto podés pegar el Video ID a mano en cada clase.
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <label>Módulo <select id="modSel"></select></label>
+          <label>Estado <select id="modEstado">
+            <option value="disponible">Disponible</option>
+            <option value="nuevo">Nuevo</option>
+            <option value="proximamente">Próximamente</option>
+          </select></label>
+          <span class="sp" style="flex:1"></span>
+          <button class="btn" id="traer">↻ Traer videos de Bunny</button>
+          <button class="btn btn--p" id="auto" title="Une cada video con su clase según el número del título">Asignar automáticamente</button>
+        </div>
+        <p class="muted" id="bunnyInfo" style="margin:10px 0 0"></p>
+      </div>
+
+      <div class="card">
+        <table class="tbl">
+          <thead><tr><th style="width:56px">Orden</th><th>Título</th><th>Video de Bunny</th><th>Gratis</th><th>Publicada</th><th></th></tr></thead>
+          <tbody id="clasesBody"></tbody>
+        </table>
+        <div class="row" style="margin-top:14px">
+          <button class="btn" id="nueva">+ Agregar clase</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACCESOS ============ -->
+    <section data-p="accesos" class="hide">
+      <h2>Suscriptores y accesos</h2>
+      <p class="lead">Para quien te paga por transferencia o efectivo: buscalo por email (tiene que haber creado su cuenta en la videoteca) y dale acceso.</p>
+      <div class="card">
+        <div class="row">
+          <input type="email" id="buscar" placeholder="email del cliente" style="flex:1;min-width:220px">
+          <button class="btn btn--w" id="buscarBtn">Buscar</button>
+        </div>
+        <div id="cliente" style="margin-top:14px"></div>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px;font-family:var(--ff-t)">Accesos vigentes</h3>
+        <table class="tbl"><thead><tr><th>Cliente</th><th>Acceso</th><th>Origen</th><th>Vence</th><th></th></tr></thead><tbody id="accBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- ============ PRODUCTOS ============ -->
+    <section data-p="productos" class="hide">
+      <h2>Productos y precios</h2>
+      <p class="lead">Si dejás el precio vacío, en la web aparece "Consultar". El descuento por transferencia se aplica al pagar con transferencia.</p>
+      <div class="card">
+        <table class="tbl"><thead><tr><th>Producto</th><th>Tipo</th><th>Precio ($)</th><th>Desc. transf. (%)</th><th>Activo</th><th></th></tr></thead><tbody id="prodBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- ============ PEDIDOS ============ -->
+    <section data-p="pedidos" class="hide">
+      <h2>Pedidos</h2>
+      <p class="lead">Acá van a aparecer los pedidos de combos y químicos hechos desde la web cuando conectemos los pagos.</p>
+      <div class="card">
+        <table class="tbl"><thead><tr><th>#</th><th>Cliente</th><th>Productos</th><th>Total</th><th>Estado</th></tr></thead><tbody id="pedBody"></tbody></table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+var SUPABASE_URL = 'https://jxdvrwjkcluskdaeockt.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_exDDyjuvHrCqCGd1i4IHfg_X1HfuSct';
+var sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+var $ = function(s,c){return (c||document).querySelector(s)};
+var $$ = function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+function esc(t){ var d=document.createElement('div'); d.textContent=t==null?'':t; return d.innerHTML; }
+var tt; function toast(t, err){ var x=$('#toast'); x.textContent=t; x.classList.toggle('err',!!err); x.classList.add('show'); clearTimeout(tt); tt=setTimeout(function(){x.classList.remove('show')},2600); }
+function fecha(d){ return d ? new Date(d).toLocaleDateString('es-AR') : '—'; }
+function mins(s){ return s ? Math.floor(s/60)+':'+('0'+(s%60)).slice(-2) : ''; }
+function ordenTitulo(t){
+  t = (t||'').toLowerCase();
+  if(/^\s*intro/.test(t)) return 0;
+  var m = t.match(/paso\s*(\d+)/); if(m) return +m[1];
+  var n = t.match(/^\s*(\d+)/); if(n) return +n[1];
+  return null;
+}
+
+/* ---------- Acceso al panel ---------- */
+function gate(msg, btn){ $('#gateMsg').innerHTML = msg; $('#gateBtn').style.display = btn ? '' : 'none'; }
+if(!sb) gate('No se pudo conectar. Revisá tu internet y recargá la página.', false);
+else sb.auth.getSession().then(function(r){
+  if(!r.data.session){ gate('Ingresá con tu cuenta de administrador en la videoteca y volvé a esta página.', true); return; }
+  sb.rpc('es_admin').then(function(a){
+    if(!a.data){ gate('Tu cuenta no tiene permisos de administrador.', false); return; }
+    $('#gate').classList.add('hide'); $('#app').classList.remove('hide'); $('#salir').classList.remove('hide');
+    iniciar();
+  });
+});
+$('#salir').onclick = function(){ sb.auth.signOut().then(function(){ location.href = 'clases.html'; }); };
+
+/* ---------- Pestañas ---------- */
+$$('.tab').forEach(function(t){
+  t.onclick = function(){
+    $$('.tab').forEach(function(x){ x.setAttribute('aria-selected', String(x===t)); });
+    $$('main section').forEach(function(s){ s.classList.toggle('hide', s.dataset.p !== t.dataset.t); });
+    if(t.dataset.t==='accesos') cargarAccesos();
+    if(t.dataset.t==='productos') cargarProductos();
+    if(t.dataset.t==='pedidos') cargarPedidos();
+  };
+});
+
+/* =========================================================
+   CLASES Y VIDEOS
+   ========================================================= */
+var MODULOS = [], CLASES = [], BUNNY = [];
+
+function iniciar(){
+  sb.from('modulos').select('*').order('orden').then(function(r){
+    MODULOS = r.data || [];
+    $('#modSel').innerHTML = MODULOS.map(function(m){ return '<option value="'+m.id+'">'+esc(m.titulo)+'</option>'; }).join('');
+    cargarClases();
+    traerBunny(true);
+  });
+}
+function modActual(){ return MODULOS.filter(function(m){ return m.id === $('#modSel').value; })[0]; }
+$('#modSel').onchange = cargarClases;
+$('#modEstado').onchange = function(){
+  var m = modActual();
+  sb.from('modulos').update({ estado: this.value }).eq('id', m.id).then(function(r){
+    if(r.error) return toast('No se pudo guardar', true);
+    m.estado = $('#modEstado').value; toast('Estado del módulo actualizado');
+  });
+};
+
+function cargarClases(){
+  var m = modActual(); if(!m) return;
+  $('#modEstado').value = m.estado;
+  sb.from('clases').select('*').eq('modulo_id', m.id).order('orden').order('titulo').then(function(r){
+    CLASES = r.data || []; pintarClases();
+  });
+}
+
+function opcionesVideo(sel){
+  var usados = {}; CLASES.forEach(function(c){ if(c.bunny_video_id) usados[c.bunny_video_id] = true; });
+  var o = '<option value="">— Sin video —</option>';
+  if(BUNNY.length){
+    o += BUNNY.map(function(v){
+      return '<option value="'+v.guid+'"'+(v.guid===sel?' selected':'')+'>'+esc(v.titulo)+(v.duracion?' ('+mins(v.duracion)+')':'')+(usados[v.guid] && v.guid!==sel?' · ya asignado':'')+'</option>';
+    }).join('');
+    if(sel && !BUNNY.some(function(v){ return v.guid===sel; })) o += '<option value="'+sel+'" selected>'+sel+'</option>';
+  } else if(sel){ o += '<option value="'+sel+'" selected>'+sel+'</option>'; }
+  return o;
+}
+
+function pintarClases(){
+  var tb = $('#clasesBody');
+  tb.innerHTML = CLASES.map(function(c){
+    var video = BUNNY.length
+      ? '<select data-f="bunny_video_id">'+opcionesVideo(c.bunny_video_id)+'</select>'
+      : '<input type="text" data-f="bunny_video_id" placeholder="Pegá el Video ID" value="'+esc(c.bunny_video_id||'')+'">';
+    return '<tr data-id="'+c.id+'">'+
+      '<td><input type="number" data-f="orden" value="'+c.orden+'" style="width:64px"></td>'+
+      '<td class="full"><input type="text" data-f="titulo" value="'+esc(c.titulo)+'"></td>'+
+      '<td class="full">'+video+'</td>'+
+      '<td><label class="chk"><input type="checkbox" data-f="gratis"'+(c.gratis?' checked':'')+'> Gratis</label></td>'+
+      '<td><label class="chk"><input type="checkbox" data-f="publicada"'+(c.publicada?' checked':'')+'> Publicada</label></td>'+
+      '<td><button class="btn btn--d" data-del>Borrar</button></td>'+
+    '</tr>';
+  }).join('') || '<tr><td colspan="6" class="muted">Este módulo todavía no tiene clases. Tocá "Agregar clase".</td></tr>';
+
+  $$('tr[data-id]', tb).forEach(function(tr){
+    var id = tr.dataset.id;
+    $$('[data-f]', tr).forEach(function(inp){
+      inp.addEventListener('change', function(){
+        var campo = inp.dataset.f, val = inp.type==='checkbox' ? inp.checked : inp.value.trim();
+        if(campo==='orden') val = parseInt(val,10) || 0;
+        if(campo==='bunny_video_id' && !val) val = null;
+        var cambio = {}; cambio[campo] = val;
+        if(campo==='bunny_video_id' && val){
+          var v = BUNNY.filter(function(x){ return x.guid===val; })[0];
+          if(v && v.duracion) cambio.duracion_seg = v.duracion;
+        }
+        sb.from('clases').update(cambio).eq('id', id).then(function(r){
+          if(r.error){ toast(r.error.code==='23505' ? 'Ese video ya está asignado a otra clase' : 'No se pudo guardar', true); cargarClases(); return; }
+          toast('Guardado');
+          var c = CLASES.filter(function(x){ return x.id===id; })[0]; Object.assign(c, cambio);
+          if(campo==='bunny_video_id') pintarClases();
+        });
+      });
+    });
+    $('[data-del]', tr).onclick = function(){
+      if(!window.confirm('¿Borrar esta clase? El video sigue en Bunny.')) return;
+      sb.from('clases').delete().eq('id', id).then(function(r){ if(r.error) return toast('No se pudo borrar', true); toast('Clase borrada'); cargarClases(); });
+    };
+  });
+}
+
+$('#nueva').onclick = function(){
+  var m = modActual(); var n = CLASES.length;
+  sb.from('clases').insert({ modulo_id: m.id, titulo: 'Clase nueva', orden: n ? (CLASES[n-1].orden||n)+1 : 1, publicada: false }).then(function(r){
+    if(r.error) return toast('No se pudo crear', true);
+    toast('Clase creada (no publicada). Completá título y video.'); cargarClases();
+  });
+};
+
+function traerBunny(silencioso){
+  var b = $('#traer'); b.disabled = true;
+  sb.functions.invoke('bunny-videos', { body: {} }).then(function(r){
+    b.disabled = false;
+    var d = r.data || {};
+    if(r.error || d.error){
+      var falta = d.error === 'falta_api_key' || (r.error && /400/.test(String(r.error.message||r.error.context&&r.error.context.status)));
+      $('#sinKey').classList.toggle('hide', !falta);
+      if(!silencioso && !falta) toast('No se pudo leer Bunny', true);
+      $('#bunnyInfo').textContent = falta ? 'Bunny sin conectar: pegá los Video ID a mano o conectalo con los pasos de arriba.' : '';
+      // Si falló por falta de clave, revisar el detalle
+      if(r.error && r.error.context && r.error.context.json){ r.error.context.json().then(function(j){ if(j && j.error==='falta_api_key'){ $('#sinKey').classList.remove('hide'); } }).catch(function(){}); }
+      return;
+    }
+    BUNNY = d.videos || [];
+    $('#sinKey').classList.add('hide');
+    $('#bunnyInfo').textContent = BUNNY.length + ' videos en Bunny. Elegí uno en cada clase o tocá "Asignar automáticamente".';
+    pintarClases();
+    if(!silencioso) toast('Lista de videos actualizada');
+  });
+}
+$('#traer').onclick = function(){ traerBunny(false); };
+
+$('#auto').onclick = function(){
+  if(!BUNNY.length){ toast('Primero conectá Bunny y traé los videos', true); return; }
+  var usados = {}; CLASES.forEach(function(c){ if(c.bunny_video_id) usados[c.bunny_video_id]=true; });
+  var cambios = [];
+  CLASES.forEach(function(c){
+    if(c.bunny_video_id) return;
+    var oc = ordenTitulo(c.titulo); if(oc===null) return;
+    var v = BUNNY.filter(function(x){ return !usados[x.guid] && ordenTitulo(x.titulo)===oc; })[0];
+    if(v){ usados[v.guid]=true; cambios.push(sb.from('clases').update({ bunny_video_id: v.guid, duracion_seg: v.duracion||null }).eq('id', c.id)); }
+  });
+  if(!cambios.length){ toast('No encontré clases para asignar (¿ya tienen video?)'); return; }
+  Promise.all(cambios).then(function(rs){
+    var ok = rs.filter(function(r){ return !r.error; }).length;
+    toast(ok + ' clases con video asignado'); cargarClases();
+  });
+};
+
+/* =========================================================
+   SUSCRIPTORES Y ACCESOS
+   ========================================================= */
+var PRODUCTOS = [];
+function cargarProductosLista(){ return sb.from('productos').select('*').order('orden').then(function(r){ PRODUCTOS = r.data||[]; }); }
+
+$('#buscarBtn').onclick = buscar;
+$('#buscar').addEventListener('keydown', function(e){ if(e.key==='Enter') buscar(); });
+function buscar(){
+  var q = $('#buscar').value.trim().toLowerCase(); if(!q) return;
+  cargarProductosLista().then(function(){
+    sb.from('perfiles').select('*').ilike('email', '%'+q+'%').limit(5).then(function(r){
+      var box = $('#cliente');
+      if(!r.data || !r.data.length){ box.innerHTML = '<p class="muted">No hay ninguna cuenta con ese email. Pedile que se registre en la videoteca (botón Ingresar → Crear cuenta).</p>'; return; }
+      var paquetes = PRODUCTOS.filter(function(p){ return p.tipo==='paquete'; });
+      var hoy = new Date(); hoy.setMonth(hoy.getMonth()+1);
+      box.innerHTML = r.data.map(function(p){
+        return '<div class="card" style="background:rgba(255,255,255,.04)" data-u="'+p.id+'">'+
+          '<b>'+esc(p.nombre||'(sin nombre)')+'</b> · <span class="muted">'+esc(p.email)+(p.telefono?' · '+esc(p.telefono):'')+'</span>'+
+          '<div class="row" style="margin-top:12px">'+
+            '<span>Suscripción hasta</span><input type="date" data-vence value="'+hoy.toISOString().slice(0,10)+'">'+
+            '<select data-origen><option value="transferencia">Pagó por transferencia</option><option value="cortesia">Cortesía</option></select>'+
+            '<button class="btn btn--p" data-sus>Dar suscripción</button>'+
+          '</div>'+
+          (paquetes.length ? '<div class="row" style="margin-top:10px"><select data-paq>'+paquetes.map(function(x){ return '<option value="'+x.id+'">'+esc(x.nombre)+'</option>'; }).join('')+'</select><button class="btn" data-dar>Dar paquete</button></div>' : '')+
+        '</div>';
+      }).join('');
+      $$('[data-u]', box).forEach(function(c){
+        var uid = c.dataset.u;
+        $('[data-sus]', c).onclick = function(){
+          var v = $('[data-vence]', c).value; if(!v) return toast('Elegí hasta cuándo', true);
+          sb.from('suscripciones').insert({ usuario_id: uid, producto_id: 'suscripcion', estado: 'activa', origen: $('[data-origen]', c).value, vence: v+'T23:59:59-03:00' })
+            .then(function(r){ if(r.error) return toast('No se pudo dar el acceso', true); toast('Suscripción activada hasta el '+fecha(v+'T12:00:00')); cargarAccesos(); });
+        };
+        var d = $('[data-dar]', c);
+        if(d) d.onclick = function(){
+          sb.from('compras').insert({ usuario_id: uid, producto_id: $('[data-paq]', c).value, estado: 'aprobada', metodo: 'transferencia' })
+            .then(function(r){ if(r.error) return toast('No se pudo dar el paquete', true); toast('Paquete habilitado'); cargarAccesos(); });
+        };
+      });
+    });
+  });
+}
+
+function cargarAccesos(){
+  Promise.all([
+    sb.from('suscripciones').select('id, estado, origen, vence, perfiles(nombre,email)').in('estado',['activa','pausada']).order('creada',{ascending:false}),
+    sb.from('compras').select('id, estado, metodo, producto_id, perfiles(nombre,email), productos(nombre)').eq('estado','aprobada').order('creada',{ascending:false})
+  ]).then(function(rs){
+    var filas = [];
+    (rs[0].data||[]).forEach(function(s){
+      var vencida = s.vence && new Date(s.vence) < new Date();
+      filas.push('<tr><td class="full">'+esc((s.perfiles&&s.perfiles.nombre)||'')+' <span class="muted">'+esc(s.perfiles&&s.perfiles.email)+'</span></td>'+
+        '<td>Suscripción <span class="pill '+(vencida?'no':s.estado==='activa'?'ok':'mid')+'">'+(vencida?'vencida':s.estado)+'</span></td><td>'+esc(s.origen)+'</td><td>'+fecha(s.vence)+'</td>'+
+        '<td><button class="btn btn--d" data-cs="'+s.id+'">Cancelar</button></td></tr>');
+    });
+    (rs[1].data||[]).forEach(function(c){
+      filas.push('<tr><td class="full">'+esc((c.perfiles&&c.perfiles.nombre)||'')+' <span class="muted">'+esc(c.perfiles&&c.perfiles.email)+'</span></td>'+
+        '<td>'+esc(c.productos&&c.productos.nombre)+' <span class="pill ok">comprado</span></td><td>'+esc(c.metodo)+'</td><td>Para siempre</td>'+
+        '<td><button class="btn btn--d" data-cc="'+c.id+'">Quitar</button></td></tr>');
+    });
+    $('#accBody').innerHTML = filas.join('') || '<tr><td colspan="5" class="muted">Todavía no hay accesos activos.</td></tr>';
+    $$('[data-cs]').forEach(function(b){ b.onclick = function(){ if(!confirm('¿Cancelar esta suscripción?')) return; sb.from('suscripciones').update({ estado:'cancelada', actualizada:new Date().toISOString() }).eq('id', b.dataset.cs).then(function(){ toast('Suscripción cancelada'); cargarAccesos(); }); }; });
+    $$('[data-cc]').forEach(function(b){ b.onclick = function(){ if(!confirm('¿Quitar el acceso a este paquete?')) return; sb.from('compras').update({ estado:'reintegrada' }).eq('id', b.dataset.cc).then(function(){ toast('Acceso quitado'); cargarAccesos(); }); }; });
+  });
+}
+
+/* =========================================================
+   PRODUCTOS Y PRECIOS
+   ========================================================= */
+var TIPOS = { suscripcion:'Suscripción mensual', paquete:'Paquete digital', combo:'Combo', quimico:'Químico' };
+function cargarProductos(){
+  cargarProductosLista().then(function(){
+    $('#prodBody').innerHTML = PRODUCTOS.map(function(p){
+      return '<tr data-p="'+p.id+'"><td class="full"><b>'+esc(p.nombre)+'</b></td><td class="muted">'+TIPOS[p.tipo]+'</td>'+
+        '<td><input type="number" min="0" step="100" data-f="precio" value="'+(p.precio==null?'':p.precio)+'" placeholder="Consultar" style="width:130px"></td>'+
+        '<td><input type="number" min="0" max="100" data-f="descuento_transferencia" value="'+p.descuento_transferencia+'" style="width:80px"></td>'+
+        '<td><label class="chk"><input type="checkbox" data-f="activo"'+(p.activo?' checked':'')+'> Activo</label></td><td></td></tr>';
+    }).join('');
+    $$('#prodBody [data-f]').forEach(function(inp){
+      inp.onchange = function(){
+        var tr = inp.closest('tr'), c = {}, f = inp.dataset.f;
+        c[f] = inp.type==='checkbox' ? inp.checked : (inp.value==='' ? (f==='precio'?null:0) : Number(inp.value));
+        sb.from('productos').update(c).eq('id', tr.dataset.p).then(function(r){ toast(r.error ? 'No se pudo guardar' : 'Guardado', !!r.error); });
+      };
+    });
+  });
+}
+
+/* =========================================================
+   PEDIDOS
+   ========================================================= */
+function cargarPedidos(){
+  sb.from('pedidos').select('*').order('creado',{ascending:false}).limit(100).then(function(r){
+    var d = r.data||[];
+    $('#pedBody').innerHTML = d.map(function(p){
+      var items = (p.items||[]).map(function(i){ return (i.cantidad||1)+' × '+esc(i.nombre||i.producto_id); }).join('<br>');
+      return '<tr data-o="'+p.id+'"><td>'+p.numero+'<br><span class="muted">'+fecha(p.creado)+'</span></td><td class="full">'+esc(p.nombre||'')+'<br><span class="muted">'+esc(p.telefono||'')+' '+esc(p.direccion||'')+'</span></td><td class="full">'+items+'</td><td>'+(p.total!=null?'$'+Number(p.total).toLocaleString('es-AR'):'—')+'</td>'+
+        '<td><select data-e>'+['nuevo','pagado','enviado','entregado','cancelado'].map(function(e){ return '<option'+(e===p.estado?' selected':'')+'>'+e+'</option>'; }).join('')+'</select></td></tr>';
+    }).join('') || '<tr><td colspan="5" class="muted">Todavía no hay pedidos desde la web.</td></tr>';
+    $$('#pedBody [data-e]').forEach(function(s){ s.onchange = function(){ sb.from('pedidos').update({ estado: s.value }).eq('id', s.closest('tr').dataset.o).then(function(r){ toast(r.error?'No se pudo guardar':'Pedido actualizado', !!r.error); }); }; });
+  });
+}
+</script>
+</body>
+</html>

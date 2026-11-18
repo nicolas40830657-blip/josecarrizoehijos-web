@@ -269,6 +269,7 @@ main{position:relative;z-index:3;margin-top:-60px;padding-bottom:80px}
 <div class="menu" id="menu" hidden>
   <p id="menuName"></p>
   <p class="menu__state" id="menuState"></p>
+  <a href="admin.html" id="menuAdmin" hidden>Panel de administración</a>
   <a href="#" class="wa-link" data-msg="Hola! Quiero consultar por mi suscripción a Pileteros de confianza.">Ayuda por WhatsApp</a>
   <button id="logout">Cerrar sesión</button>
 </div>
@@ -678,6 +679,7 @@ function pintarCuenta(){
     av.textContent = USUARIO.nombre.split(/\s+/).map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase() || 'JC';
     $('#menuName').textContent = USUARIO.nombre;
     var s = USUARIO.suscripcion;
+    $('#menuAdmin').hidden = !USUARIO.admin;
     $('#menuState').textContent = USUARIO.admin ? 'Administrador' : (s && s.estado==='activa' ? 'Suscripción activa' : 'Sin suscripción activa');
   } else {
     av.className = 'btn-login'; av.removeAttribute('tabindex'); av.setAttribute('role','button'); av.setAttribute('tabindex','0');
