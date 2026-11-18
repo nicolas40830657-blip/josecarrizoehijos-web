@@ -537,7 +537,8 @@ function abrir(mod, c){
       player.appendChild(el('iframe', {
         src: r.data.url + (r.data.url.indexOf('?')>-1?'&':'?') + 'autoplay=true&preload=true&responsive=true',
         allow: 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen',
-        allowfullscreen: 'true', title: c.titulo + ' · ' + mod.titulo
+        allowfullscreen: 'true', title: c.titulo + ' · ' + mod.titulo,
+        referrerpolicy: 'strict-origin-when-cross-origin'   // Bunny necesita saber desde qué dominio se ve
       }));
       if(USUARIO && !c.visto){ c.visto = true; sb.rpc('marcar_visto', { p_clase: c.id, p_visto: true }); dibujar($('#q').value); }
     });
