@@ -58,7 +58,7 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 /* ---------- Hero ---------- */
 .hero{position:relative;min-height:min(86vh,760px);display:flex;align-items:flex-end;padding:120px var(--pad) clamp(70px,9vw,120px);overflow:hidden;
   background:radial-gradient(70% 80% at 78% 30%,rgba(31,99,232,.55),transparent 65%),radial-gradient(60% 60% at 95% 90%,rgba(140,200,255,.25),transparent 60%),linear-gradient(180deg,#041437 0%,var(--bg) 100%)}
-.hero__img{position:absolute;right:max(0px,calc(var(--pad) - 20px));bottom:0;height:92%;width:auto;max-width:none;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 100%),linear-gradient(90deg,transparent 0,#000 30%);-webkit-mask-composite:source-in;mask-image:linear-gradient(180deg,#000 70%,transparent 100%),linear-gradient(90deg,transparent 0,#000 30%);mask-composite:intersect;pointer-events:none}
+.hero__img{position:absolute;right:max(0px,calc(var(--pad) - 20px));bottom:0;height:86%;width:auto;max-width:none;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 100%),linear-gradient(90deg,transparent 0,#000 30%);-webkit-mask-composite:source-in;mask-image:linear-gradient(180deg,#000 70%,transparent 100%),linear-gradient(90deg,transparent 0,#000 30%);mask-composite:intersect;pointer-events:none}
 .hero__fade{position:absolute;inset:auto 0 0 0;height:180px;background:linear-gradient(180deg,transparent,var(--bg));pointer-events:none}
 .hero__body{position:relative;z-index:2;max-width:580px}
 .tag{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--sky)}
@@ -125,7 +125,57 @@ main{position:relative;z-index:3;margin-top:-60px;padding-bottom:80px}
 .item--wide .poster .ttl{font-size:clamp(20px,2.4vw,30px);right:16px;bottom:56px}
 .item--wide .poster .price{position:absolute;left:14px;bottom:16px;font-size:13px;font-weight:600;color:#D6E4FF}
 .item--wide .poster .kicker{bottom:auto;top:44px}
+.item--wide img.cut.cover{inset:0;width:100%;height:100%;object-fit:cover;opacity:.7;-webkit-mask-image:none;mask-image:none}
 .item--wide img.cut{position:absolute;right:0;bottom:0;height:100%;width:auto;opacity:.85;-webkit-mask-image:linear-gradient(90deg,transparent,#000 40%);mask-image:linear-gradient(90deg,transparent,#000 40%)}
+
+/* ---------- Puerta de entrada (sin cuenta) ---------- */
+.gate{position:relative;min-height:100vh;padding:120px var(--pad) 80px;display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(30px,5vw,70px);align-items:center;
+  background:radial-gradient(70% 80% at 78% 30%,rgba(31,99,232,.5),transparent 65%),linear-gradient(180deg,#041437 0%,var(--bg) 100%)}
+.gate[hidden]{display:none}
+.gate h1{font-family:var(--ff-title);font-weight:600;letter-spacing:-.04em;line-height:.95;font-size:clamp(40px,6vw,80px);margin:16px 0 18px}
+.gate h1 em{font-style:italic;font-weight:300;color:var(--sky)}
+.gate p{font-size:clamp(15px,1.4vw,18px);color:#D6E4FF;margin:0 0 26px;max-width:46ch}
+.gate small{display:block;margin-top:16px;color:var(--muted);font-size:13px}
+.offers{display:grid;gap:12px}
+.offer{position:relative;overflow:hidden;border-radius:16px;padding:22px 22px 20px;min-height:150px;background:var(--g);display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 20px 50px -24px #000}
+.offer::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,11,31,.85) 0%,rgba(3,11,31,.35) 70%,transparent)}
+.offer img{position:absolute;right:-8%;bottom:0;height:100%;width:auto;max-width:none;opacity:.75}
+.offer img.cover{inset:0;right:auto;width:100%;height:100%;object-fit:cover;opacity:1}
+.offer>*:not(img){position:relative;z-index:2}
+.offer .k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--sky)}
+.offer b{display:block;font-family:var(--ff-title);font-size:24px;letter-spacing:-.02em;line-height:1.1;margin:6px 0 4px}
+.offer span.p{font-size:14px;color:#D6E4FF}
+body.sin-cuenta .hero,body.sin-cuenta main{display:none}
+
+/* ---------- Banner de suscripción ---------- */
+.subcard{margin:0 var(--pad) 40px;border-radius:16px;padding:24px clamp(18px,3vw,32px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;
+  background:radial-gradient(90% 140% at 100% 0%,rgba(140,200,255,.35),transparent 60%),linear-gradient(120deg,#0B2F86,#1F63E8);box-shadow:0 20px 50px -24px #000}
+.subcard .k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--sky)}
+.subcard h3{font-family:var(--ff-title);font-size:clamp(22px,2.6vw,30px);letter-spacing:-.02em;margin:4px 0 4px}
+.subcard p{margin:0;color:#D6E4FF;font-size:14.5px;max-width:60ch}
+.subcard .pr{font-family:var(--ff-title);font-size:34px;font-weight:300;letter-spacing:-.04em}
+.subcard .pr small{font-size:14px;color:#D6E4FF;letter-spacing:0}
+.subcard .r{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.subcard--ok{background:linear-gradient(120deg,#0B3B2C,#12805A)}
+.poster .lock.own{background:#22C55E}
+
+/* ---------- Comprar ---------- */
+.buy{position:relative;width:min(520px,100%);padding:0 0 26px}
+.buy__img{position:relative;height:190px;background:var(--g);overflow:hidden}
+.buy__img img{position:absolute;right:0;bottom:0;height:100%;width:auto;max-width:none}
+.buy__img img.cover{inset:0;width:100%;height:100%;object-fit:cover}
+.buy__in{padding:22px clamp(20px,4vw,32px) 0}
+.buy h3{font-family:var(--ff-title);font-size:28px;letter-spacing:-.02em;margin:6px 0 6px}
+.buy ul{list-style:none;margin:14px 0 18px;padding:0}
+.buy li{position:relative;padding:7px 0 7px 22px;border-bottom:1px solid var(--line);font-size:14.5px;color:#D6E4FF}
+.buy li::before{content:"";position:absolute;left:0;top:14px;width:8px;height:8px;border-radius:50%;background:var(--sky)}
+.buy .pr{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:0 0 18px}
+.buy .pr b{font-family:var(--ff-title);font-size:40px;font-weight:300;letter-spacing:-.04em;line-height:1}
+.buy .pr span{color:var(--muted);font-size:14px}
+.buy .pr span em{font-style:normal;color:var(--sky);font-weight:700}
+.buy .btn{width:100%;justify-content:center;margin-bottom:10px}
+.buy .note{font-size:12.5px;color:var(--muted);margin:6px 0 0}
+.gift{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:12px;border:1px dashed var(--sky);background:rgba(140,200,255,.08);font-size:14px;margin-top:10px}
 
 /* ---------- Modal reproductor ---------- */
 .modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-start;justify-content:center;background:rgba(1,5,15,.82);backdrop-filter:blur(6px);overflow-y:auto;padding:4vh 12px}
@@ -174,6 +224,7 @@ main{position:relative;z-index:3;margin-top:-60px;padding-bottom:80px}
   .sheet__body{grid-template-columns:1fr}
   .ep{grid-template-columns:26px 96px 1fr auto;gap:10px}
 }
+@media (max-width:860px){ .gate{grid-template-columns:1fr;padding-top:96px} }
 @media (max-width:520px){
   .search{display:none}
   .back span{display:none}
@@ -201,7 +252,7 @@ main{position:relative;z-index:3;margin-top:-60px;padding-bottom:80px}
 
 <!-- ================= HERO ================= -->
 <section class="hero" id="inicio" aria-label="Destacado">
-  <img class="hero__img" src="img/persona-cut.webp" alt="" aria-hidden="true">
+  <img class="hero__img" src="img/equipo-cut.webp" alt="" aria-hidden="true">
   <div class="hero__fade"></div>
   <div class="hero__body">
     <span class="tag"><img src="img/icono-blanco.png" alt="">Pileteros de confianza · Suscripción</span>
@@ -211,6 +262,30 @@ main{position:relative;z-index:3;margin-top:-60px;padding-bottom:80px}
     <div class="btns">
       <button class="btn btn--play" id="heroPlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z"/></svg><span id="heroPlayTxt">Empezar</span></button>
       <button class="btn btn--ghost" id="heroInfo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Ver todas las clases</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PUERTA DE ENTRADA (sin cuenta) ================= -->
+<section class="gate" id="gate" hidden aria-labelledby="gTitle">
+  <div>
+    <span class="tag"><img src="img/icono-blanco.png" alt="">Pileteros de confianza</span>
+    <h1 id="gTitle">Creá tu cuenta<br><em>y mirá las clases.</em></h1>
+    <p>Registrate gratis con tu email para ver todas las clases disponibles, la introducción de regalo y comprar el paquete o la suscripción.</p>
+    <div class="btns">
+      <button class="btn btn--play" id="gReg">Crear cuenta gratis</button>
+      <button class="btn btn--ghost" id="gLog">Ya tengo cuenta</button>
+    </div>
+    <small>Solo te pedimos email y contraseña (el celular es opcional).</small>
+  </div>
+  <div class="offers">
+    <div class="offer" style="--g:linear-gradient(120deg,#0B3B2C,#1F7FC4)">
+      <img class="cover" src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/piscina-verde.jpg" alt="" onerror="this.remove()">
+      <span class="k">Paquete digital · Pago único</span><b>Recuperá tu piscina verde</b><span class="p">$50.000 · incluye de regalo Los 12 pasos</span>
+    </div>
+    <div class="offer" style="--g:radial-gradient(120% 90% at 15% 0%,#2E86FF,#041437 75%)">
+      <img src="img/equipo-cut.webp" alt="">
+      <span class="k">Suscripción mensual</span><b>Pileteros de confianza</b><span class="p">$25.000 / mes · todas las clases</span>
     </div>
   </div>
 </section>
@@ -254,14 +329,26 @@ main{position:relative;z-index:3;margin-top:-60px;padding-bottom:80px}
       <button role="tab" aria-selected="false" data-m="registro">Crear cuenta</button>
     </div>
     <form id="aForm" novalidate>
-      <label class="f f-reg"><span>Nombre y apellido</span><input name="nombre" autocomplete="name"></label>
-      <label class="f f-reg"><span>Celular (WhatsApp)</span><input name="telefono" type="tel" autocomplete="tel" placeholder="223 555-1234"></label>
       <label class="f f-mail"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+      <label class="f f-reg"><span>Celular (opcional)</span><input name="telefono" type="tel" autocomplete="tel" placeholder="223 555-1234"></label>
       <label class="f f-pass"><span>Contraseña</span><input name="password" type="password" autocomplete="current-password" minlength="6" required></label>
       <p class="aMsg" id="aMsg" role="status" aria-live="polite"></p>
       <button class="btn btn--play btn--full" type="submit" id="aBtn">Ingresar</button>
       <button class="link" type="button" id="aForgot">Me olvidé la contraseña</button>
     </form>
+  </div>
+</div>
+
+<!-- ================= COMPRAR ================= -->
+<div class="modal" id="buyM" role="dialog" aria-modal="true" aria-labelledby="bTitle">
+  <div class="sheet buy">
+    <button class="close" id="bClose" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="buy__img" id="bImg"></div>
+    <div class="buy__in">
+      <span class="tag" id="bKicker"></span>
+      <h3 id="bTitle"></h3>
+      <div id="bBody"></div>
+    </div>
   </div>
 </div>
 
@@ -319,12 +406,26 @@ var USUARIO = null;          // { nombre, email, admin, suscripcion, productos[]
 var CATALOGO = [];
 var MODO_DEMO = false;       // si no se puede conectar con Supabase (por ej. en la vista previa)
 
+/* Lo que se vende (precios en pesos). Cuando se conecte la pasarela, los botones de pago llaman al checkout */
+var PRODUCTOS = {
+  'suscripcion': { titulo:'Pileteros de confianza', kicker:'Suscripción mensual', precio:25000, mensual:true,
+    img:'img/equipo-cut.webp', g:'radial-gradient(120% 90% at 15% 0%,#2E86FF,#041437 75%)',
+    incluye:['Los 12 pasos del piletero','Recuperá tu piscina verde','Teoría de productos químicos','Tipos de piscinas, filtrado y reparaciones','Clases nuevas todos los meses','Cancelás cuando quieras'] },
+  'paquete-shock': { titulo:'Recuperá tu piscina verde', kicker:'Paquete digital · Pago único', precio:50000,
+    img:'https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/piscina-verde.jpg', cover:true, g:'linear-gradient(120deg,#0B3B2C,#1F7FC4)', regalo:'Los 12 pasos del piletero',
+    incluye:['Diagnóstico del agua','Productos y dosis según tus litros','El orden correcto del tratamiento','Lo ves para siempre, las veces que quieras'] }
+};
+var PARAMS = new URLSearchParams(location.search);
+var QUIERO = PARAMS.get('quiero');
+try { if(QUIERO) localStorage.setItem('jc_quiero', QUIERO); else QUIERO = localStorage.getItem('jc_quiero'); } catch(e){}
+var PRIMERA_VEZ = true;
+
 /* Catálogo de muestra, solo para cuando no hay conexión */
 var DEMO = [
-  { id:'pasos', titulo:'Los 12 pasos del piletero', tipo:'suscripcion', estado:'disponible', acceso:true,
+  { id:'pasos', titulo:'Los 12 pasos del piletero', tipo:'suscripcion', producto_id:'suscripcion', estado:'disponible', acceso:true,
     descripcion:'El método para hacer cada visita de mantenimiento de forma correcta, desde que llegás a la casa hasta que te vas.', colores:['#2E86FF','#041437'],
     clases:['Introducción','Paso 1','Paso 2','Paso 3','Paso 4','Paso 5','Paso 6','Paso 7','Paso 8','Paso 9','Paso 10','Paso 11','Paso 12'].map(function(t,i){ return {id:'d'+i, titulo:t, gratis:i===0, tiene_video:false}; }) },
-  { id:'shock', titulo:'Recuperá tu piscina verde', tipo:'paquete', estado:'nuevo', acceso:false,
+  { id:'shock', titulo:'Recuperá tu piscina verde', tipo:'paquete', producto_id:'paquete-shock', precio:50000, estado:'nuevo', acceso:false,
     descripcion:'Cómo recuperar una piscina verde o turbia paso a paso: diagnóstico, qué productos usar, en qué orden y en qué dosis.', colores:['#5AA2FF','#0B2F86'], clases:[] },
   { id:'quimica', titulo:'Química de la pileta', tipo:'suscripcion', estado:'proximamente', descripcion:'Cloro, pH, alguicidas y clarificantes: qué, cuánto y cuándo.', colores:['#8CC8FF','#1450C8'], clases:[] },
   { id:'tipos', titulo:'Tipos de piletas', tipo:'suscripcion', estado:'proximamente', descripcion:'Hormigón, fibra, lona y revestimientos.', colores:['#B9DEFF','#1F63E8'], clases:[] },
@@ -340,6 +441,7 @@ var $$ = function(s,c){return Array.prototype.slice.call((c||document).querySele
 function el(tag, attrs, html){ var e=document.createElement(tag); for(var k in (attrs||{})) e.setAttribute(k,attrs[k]); if(html!=null) e.innerHTML=html; return e; }
 function esc(t){ var d=document.createElement('div'); d.textContent=t==null?'':t; return d.innerHTML; }
 function grad(c){ c=c||['#2E86FF','#041437']; return 'radial-gradient(120% 90% at 15% 0%,'+c[0]+','+c[1]+' 75%)'; }
+function plata(n){ return '$' + Number(n).toLocaleString('es-AR'); }
 function wa(msg){ return 'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg); }
 var toastT;
 function toast(t){ var x=$('#toast'); x.textContent=t; x.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(function(){x.classList.remove('show')},2800); }
@@ -377,9 +479,33 @@ function cargar(){
     } : null;
     CATALOGO = prepararCatalogo(r[1].data || []);
     MODO_DEMO = false;
-    pintarCuenta(); dibujar($('#q').value);
+    pintarCuenta(); dibujar($('#q').value); despuesDeCargar();
   }).catch(function(){ usarDemo(); });
 }
+function despuesDeCargar(){
+  var sinCuenta = !USUARIO && !MODO_DEMO;
+  document.body.classList.toggle('sin-cuenta', sinCuenta);
+  $('#gate').hidden = !sinCuenta;
+  if(sinCuenta && PRIMERA_VEZ && !auth.classList.contains('open')){
+    if(PARAMS.has('login')) abrirAuth('login');
+    else if(QUIERO || PARAMS.has('registro')) abrirAuth('registro');
+  }
+  PRIMERA_VEZ = false;
+  if(USUARIO && QUIERO){
+    var q = QUIERO; QUIERO = null;
+    try { localStorage.removeItem('jc_quiero'); } catch(e){}
+    if(PARAMS.has('quiero')) history.replaceState(null, '', location.pathname);
+    if(PRODUCTOS[q] && !tieneProducto(q)) setTimeout(function(){ comprar(q); }, 300);
+  }
+}
+function tieneProducto(id){
+  if(!USUARIO) return false;
+  if(USUARIO.admin) return true;
+  var s = USUARIO.suscripcion;
+  if(s && s.estado==='activa') return true;
+  return (USUARIO.productos||[]).indexOf(id) > -1;
+}
+function suscripto(){ var s = USUARIO && USUARIO.suscripcion; return !!(s && s.estado==='activa'); }
 function usarDemo(){
   MODO_DEMO = true; USUARIO = null;
   CATALOGO = prepararCatalogo(JSON.parse(JSON.stringify(DEMO)));
@@ -422,21 +548,23 @@ function moduloCard(mod){
   var b = el('button', {'class':'item item--wide','aria-label': mod.titulo});
   var acceso = tieneAcceso(mod);
   var badge = mod.estado==='proximamente' ? '<span class="lock soon">Próximamente</span>'
+            : (acceso && mod.tipo==='paquete') ? '<span class="lock own">'+ICON.ok+(suscripto()?'Incluido':'Comprado')+'</span>'
             : mod.estado==='nuevo' ? '<span class="lock new">Nuevo</span>' : '';
   var n = mod.clases.length;
   b.innerHTML =
     '<div class="poster" style="--g:'+grad(mod.colores)+'">'+
-      (mod.id==='shock' ? '<img class="cut" src="img/equipo-cut.webp" alt="">' : '')+
+      (mod.id==='shock' ? '<img class="cut cover" src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/piscina-verde.jpg" alt="" onerror="this.remove()">' : mod.id==='pasos' ? '<img class="cut" src="img/equipo-cut.webp" alt="">' : '')+
       '<img class="badge-n" src="img/icono-blanco.png" alt="">'+ badge +
       '<span class="kicker">'+(mod.tipo==='paquete'?'Paquete digital':'Módulo')+'</span>'+
       '<span class="ttl">'+esc(mod.titulo)+'</span>'+
       '<span class="price">'+(mod.estado==='proximamente' ? 'Muy pronto en la suscripción'
           : acceso ? (n+' clases · Ver ahora')
-          : ('Pago único'+(n?' · '+n+' clases':' · Muy pronto')))+'</span>'+
+          : ((mod.precio ? plata(mod.precio)+' · ' : '')+'Pago único'+(mod.id==='shock'?' · incluye Los 12 pasos':'')))+'</span>'+
       '<span class="play"><i>'+(mod.estado==='proximamente'?ICON.lock:ICON.play)+'</i></span>'+
     '</div>';
   b.addEventListener('click', function(){
     if(mod.estado==='proximamente'){ toast('“'+mod.titulo+'” llega pronto. ¡Te avisamos!'); return; }
+    if(!acceso && PRODUCTOS[mod.producto_id]){ comprar(mod.producto_id); return; }
     abrir(mod, mod.clases[0] || null);
   });
   return b;
@@ -463,6 +591,21 @@ function dibujar(filtro){
 
   if(MODO_DEMO) rows.appendChild(el('p', {'class':'demo-note'}, 'Vista de muestra: los videos y las cuentas funcionan en <b>josecarrizoehijos.ar/clases.html</b>.'));
 
+  // La suscripción siempre a la vista
+  if(!q){
+    var sc;
+    if(suscripto() || (USUARIO && USUARIO.admin)){
+      var s = USUARIO.suscripcion || {};
+      sc = el('section', {'class':'subcard subcard--ok'}, '<div><span class="k">Tu suscripción</span><h3>Pileteros de confianza · activa</h3><p>Tenés acceso a todas las clases'+(s.vence?' hasta el '+new Date(s.vence).toLocaleDateString('es-AR'):'')+'.</p></div>');
+    } else {
+      sc = el('section', {'class':'subcard'}, '<div><span class="k">Suscripción mensual</span><h3>Pileteros de confianza</h3><p>Para dedicarte al mantenimiento de piscinas: todas las clases, incluidas Recuperá tu piscina verde y Los 12 pasos del piletero.</p></div>'+
+        '<div class="r"><span class="pr">'+plata(PRODUCTOS.suscripcion.precio)+' <small>/ mes</small></span></div>');
+      var bs = el('button', {'class':'btn btn--play'}, 'Suscribirme'); bs.onclick = function(){ comprar('suscripcion'); };
+      sc.querySelector('.r').appendChild(bs);
+    }
+    rows.appendChild(sc);
+  }
+
   if(!q){
     var seguir = [];
     CATALOGO.forEach(function(mod){
@@ -477,16 +620,20 @@ function dibujar(filtro){
   var total = 0;
   CATALOGO.forEach(function(mod){
     if(mod.estado==='proximamente' || !mod.clases.length) return;
-    if(mod.tipo==='paquete' && !tieneAcceso(mod) && !q) return;   // los paquetes no comprados van en su fila
+    if(mod.tipo==='paquete' && !tieneAcceso(mod) && !q) return;   // los paquetes no comprados van en "Disponibles para comprar"
     var items = mod.clases.filter(function(c){ return match(c, mod); }).map(function(c){ return claseCard(c, mod); });
     total += items.length;
-    if(items.length) rows.appendChild(fila(mod.id==='pasos'?'fila-pasos':'fila-'+mod.id, mod.titulo,
-      mod.tipo==='paquete' ? 'Paquete digital · pago único' : (tieneAcceso(mod) ? 'Incluido en tu suscripción' : 'Incluido en la suscripción'), items));
+    var sub = mod.tipo==='paquete' ? (suscripto() ? 'Incluido en tu suscripción' : 'Tu paquete · es tuyo para siempre')
+      : tieneAcceso(mod) ? (suscripto() || (USUARIO && USUARIO.admin) ? 'Incluido en tu suscripción' : 'De regalo con tu paquete')
+      : (mod.id==='pasos' ? 'Incluido en la suscripción y de regalo con Recuperá tu piscina verde · la introducción es gratis' : 'Incluido en la suscripción');
+    if(items.length) rows.appendChild(fila(mod.id==='pasos'?'fila-pasos':'fila-'+mod.id, mod.titulo, sub, items));
   });
 
   if(!q){
-    var paq = CATALOGO.filter(function(m){ return m.tipo==='paquete'; });
-    if(paq.length) rows.appendChild(fila('fila-paquetes', 'Paquetes digitales', 'Comprás una vez y es tuyo', paq.map(moduloCard)));
+    var mios = CATALOGO.filter(function(m){ return m.tipo==='paquete' && tieneAcceso(m); });
+    if(mios.length) rows.appendChild(fila('fila-mis-paquetes', 'Mis paquetes', '', mios.map(moduloCard)));
+    var venta = CATALOGO.filter(function(m){ return m.tipo==='paquete' && m.estado!=='proximamente' && !tieneAcceso(m); });
+    if(venta.length) rows.appendChild(fila('fila-paquetes', 'Disponibles para comprar', 'Comprás una vez y es tuyo para siempre', venta.map(moduloCard)));
     var prox = CATALOGO.filter(function(m){ return m.estado==='proximamente'; });
     if(prox.length) rows.appendChild(fila('fila-proximamente', 'Próximamente en la suscripción', 'Se suman clases nuevas todos los meses', prox.map(moduloCard)));
   } else if(!total){
@@ -567,10 +714,13 @@ function abrir(mod, c){
     if(!USUARIO && !MODO_DEMO){
       var lg = el('button', {'class':'btn btn--ghost'}, 'Ya tengo cuenta'); lg.onclick = function(){ cerrar(); abrirAuth('login'); }; acts.appendChild(lg);
     }
-    acts.appendChild(el('a', {'class':'btn btn--brand', target:'_blank', rel:'noopener', href: wa(mod.tipo==='paquete'
-      ? 'Hola! Quiero comprar el paquete digital "'+mod.titulo+'".'+(USUARIO&&USUARIO.email?' Mi cuenta: '+USUARIO.email:'')
-      : 'Hola! Quiero suscribirme a Pileteros de confianza.'+(USUARIO&&USUARIO.email?' Mi cuenta: '+USUARIO.email:''))},
-      mod.tipo==='paquete' ? 'Comprar paquete' : 'Suscribirme'));
+    var bc = el('button', {'class':'btn btn--brand'}, mod.tipo==='paquete' ? 'Comprar paquete' : 'Suscribirme');
+    bc.onclick = function(){ cerrar(); comprar(mod.tipo==='paquete' ? (mod.producto_id||'paquete-shock') : 'suscripcion'); };
+    acts.appendChild(bc);
+    if(mod.id==='pasos' && !tieneAcceso(mod)){
+      var bp = el('button', {'class':'btn btn--ghost'}, 'O llevalo de regalo con Piscina verde');
+      bp.onclick = function(){ cerrar(); comprar('paquete-shock'); }; acts.appendChild(bp);
+    }
   }
 
   $('#mSide').innerHTML = '<p><b>Módulo:</b> '+esc(mod.titulo)+'</p><p><b>Clases:</b> '+mod.clases.length+'</p><p><b>Acceso:</b> '+(mod.tipo==='paquete'?'Pago único':'Suscripción mensual')+'</p><p><b>Con:</b> José Carrizo e Hijos</p>';
@@ -595,6 +745,42 @@ $('#close').onclick = cerrar;
 modal.addEventListener('click', function(e){ if(e.target === modal) cerrar(); });
 
 /* =========================================================
+   5b. COMPRAR (por ahora el pago se coordina por WhatsApp;
+       cuando se conecte la pasarela, "Pagar con tarjeta" abre el checkout acá mismo)
+   ========================================================= */
+var buyM = $('#buyM');
+function comprar(id){
+  var p = PRODUCTOS[id]; if(!p) return;
+  if(!USUARIO && !MODO_DEMO){ QUIERO = id; try{ localStorage.setItem('jc_quiero', id); }catch(e){} abrirAuth('registro'); return; }
+  if(!modal.classList.contains('open') && !buyM.classList.contains('open')) ultimoFoco = document.activeElement;
+  var cuenta = USUARIO && USUARIO.email ? ' Mi cuenta: ' + USUARIO.email : '';
+  var transf = Math.round(p.precio * 0.9);
+  $('#bImg').style.setProperty('--g', p.g);
+  $('#bImg').innerHTML = '<img class="'+(p.cover?'cover':'')+'" src="'+p.img+'" alt="" onerror="this.remove()">';
+  $('#bKicker').textContent = p.kicker;
+  $('#bTitle').textContent = p.titulo;
+  $('#bBody').innerHTML =
+    '<ul>'+p.incluye.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join('')+'</ul>'+
+    (p.regalo ? '<div class="gift">🎁 <span>De regalo: <b>'+esc(p.regalo)+'</b></span></div><br>' : '')+
+    '<div class="pr"><b>'+plata(p.precio)+(p.mensual?'<small style="font-size:15px"> / mes</small>':'')+'</b>'+
+      (p.mensual ? '<span>Se renueva cada mes · cancelás cuando quieras</span>' : '<span><em>'+plata(transf)+'</em> por transferencia (10% off)</span>')+'</div>';
+  var b1 = el('a', {'class':'btn btn--play', target:'_blank', rel:'noopener',
+    href: wa('Hola! Quiero '+(p.mensual?'suscribirme a ':'comprar ')+p.titulo+' ('+plata(p.precio)+(p.mensual?' por mes':'')+').'+cuenta)},
+    p.mensual ? 'Suscribirme' : 'Comprar con tarjeta');
+  $('#bBody').appendChild(b1);
+  if(!p.mensual){
+    $('#bBody').appendChild(el('a', {'class':'btn btn--ghost', target:'_blank', rel:'noopener',
+      href: wa('Hola! Quiero comprar '+p.titulo+' pagando por transferencia ('+plata(transf)+').'+cuenta)}, 'Pagar por transferencia · '+plata(transf)));
+  }
+  $('#bBody').appendChild(el('p', {'class':'note'}, 'Te respondemos por WhatsApp con los datos de pago y te habilitamos el acceso en tu cuenta'+(USUARIO&&USUARIO.email?' ('+esc(USUARIO.email)+')':'')+'.'));
+  buyM.classList.add('open'); document.body.style.overflow = 'hidden';
+  $('#bClose').focus();
+}
+function cerrarBuy(){ buyM.classList.remove('open'); document.body.style.overflow=''; if(ultimoFoco) ultimoFoco.focus(); }
+$('#bClose').onclick = cerrarBuy;
+buyM.addEventListener('click', function(e){ if(e.target===buyM) cerrarBuy(); });
+
+/* =========================================================
    6. CUENTA: ingresar, crear cuenta, recuperar contraseña
    ========================================================= */
 var auth = $('#auth'), aSheet = $('.auth'), aForm = $('#aForm'), aMsg = $('#aMsg');
@@ -602,7 +788,7 @@ function modoAuth(m){
   aSheet.setAttribute('data-m', m);
   $$('.tabs button').forEach(function(b){ b.setAttribute('aria-selected', String(b.dataset.m===m)); });
   $('#aTitle').textContent = m==='registro' ? 'Creá tu cuenta' : m==='reset' ? 'Recuperar contraseña' : 'Ingresá a tu cuenta';
-  $('#aSub').textContent = m==='reset' ? 'Te mandamos un mail con un link para crear una nueva.' : 'Para ver tus clases de Pileteros de confianza.';
+  $('#aSub').textContent = m==='reset' ? 'Te mandamos un mail con un link para crear una nueva.' : m==='registro' ? 'Es gratis. Con tu cuenta ves las clases y podés comprarlas.' : 'Para ver tus clases de Pileteros de confianza.';
   $('#aBtn').textContent = m==='registro' ? 'Crear cuenta' : m==='reset' ? 'Enviar mail' : 'Ingresar';
   aForm.password.setAttribute('autocomplete', m==='registro' ? 'new-password' : 'current-password');
   msg('');
@@ -642,13 +828,12 @@ aForm.addEventListener('submit', function(e){
   }
   if(!email || !f.email.checkValidity()){ msg('Revisá el email.', true); f.email.focus(); return; }
   if(m!=='reset' && f.password.value.length < 6){ msg('La contraseña tiene que tener al menos 6 caracteres.', true); f.password.focus(); return; }
-  if(m==='registro' && !f.nombre.value.trim()){ msg('Contanos tu nombre.', true); f.nombre.focus(); return; }
   $('#aBtn').disabled = true; msg('Un momento…');
   // Los mails siempre vuelven a la dirección con www (la que está autorizada en Supabase)
   var volver = /josecarrizoehijos\.ar$/.test(location.hostname) ? 'https://www.josecarrizoehijos.ar/clases.html' : location.origin + location.pathname;
   var p = m==='login' ? sb.auth.signInWithPassword({ email: email, password: f.password.value })
         : m==='registro' ? sb.auth.signUp({ email: email, password: f.password.value,
-            options: { emailRedirectTo: volver, data: { nombre: f.nombre.value.trim(), telefono: f.telefono.value.trim() } } })
+            options: { emailRedirectTo: volver, data: { telefono: f.telefono.value.trim() } } })
         : sb.auth.resetPasswordForEmail(email, { redirectTo: volver });
   p.then(function(r){
     $('#aBtn').disabled = false;
@@ -682,7 +867,7 @@ function pintarCuenta(){
     $('#menuName').textContent = USUARIO.nombre;
     var s = USUARIO.suscripcion;
     $('#menuAdmin').hidden = !USUARIO.admin;
-    $('#menuState').textContent = USUARIO.admin ? 'Administrador' : (s && s.estado==='activa' ? 'Suscripción activa' : 'Sin suscripción activa');
+    $('#menuState').textContent = USUARIO.admin ? 'Administrador' : (s && s.estado==='activa' ? 'Suscripción activa' : ((USUARIO.productos||[]).indexOf('paquete-shock')>-1 ? 'Paquete: Recuperá tu piscina verde' : 'Sin suscripción activa'));
   } else {
     av.className = 'btn-login'; av.removeAttribute('tabindex'); av.setAttribute('role','button'); av.setAttribute('tabindex','0');
     av.textContent = 'Ingresar';
@@ -703,7 +888,7 @@ $('#logout').onclick = function(){ sb.auth.signOut().then(function(){ $('#menu')
    ========================================================= */
 document.addEventListener('keydown', function(e){
   if(e.key!=='Escape') return;
-  if(auth.classList.contains('open')) cerrarAuth(); else if(modal.classList.contains('open')) cerrar();
+  if(auth.classList.contains('open')) cerrarAuth(); else if(buyM.classList.contains('open')) cerrarBuy(); else if(modal.classList.contains('open')) cerrar();
 });
 $('#heroPlay').onclick = function(){
   var p = CATALOGO.filter(function(m){ return m.id==='pasos'; })[0]; if(!p) return;
@@ -715,8 +900,9 @@ $('#q').addEventListener('input', function(e){ dibujar(e.target.value); });
 window.addEventListener('scroll', function(){ $('#top').classList.toggle('solid', window.scrollY > 30); }, {passive:true});
 $$('.wa-link').forEach(function(a){ a.href = wa(a.dataset.msg); a.target='_blank'; a.rel='noopener'; });
 $('#y').textContent = new Date().getFullYear();
-usarDemo();     // se ve algo al instante
-cargar();       // y después se reemplaza con los datos reales
+$('#gReg').onclick = function(){ abrirAuth('registro'); };
+$('#gLog').onclick = function(){ abrirAuth('login'); };
+cargar();       // con Supabase: catálogo real (sin conexión, catálogo de muestra)
 </script>
 </body>
 </html>

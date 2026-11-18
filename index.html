@@ -336,6 +336,16 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
 .play{flex-shrink:0;width:74px;height:74px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;box-shadow:0 0 0 10px rgba(255,255,255,.12);animation:pulse 2.6s ease-in-out infinite}
 .play svg{width:28px;height:28px;margin-left:4px}
 @keyframes pulse{50%{box-shadow:0 0 0 18px rgba(255,255,255,.06)}}
+.sfeat--blue{position:relative}
+.sfeat__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.sfeat--photo::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(4,20,55,.92) 0%,rgba(4,20,55,.55) 55%,rgba(4,20,55,.35) 100%)}
+.sfeat--photo>div{position:relative;z-index:1}
+.sfeat__team{position:absolute;right:-7%;bottom:0;height:48%;width:auto;max-width:none;z-index:0;opacity:.95;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 35%);mask-image:linear-gradient(180deg,transparent 0,#000 35%);pointer-events:none}
+.sfeat--blue>div{position:relative;z-index:1}
+.sfeat--blue>.chips{position:relative;z-index:1}
+.sfeat--blue .chips span{background:rgba(7,27,69,.45);backdrop-filter:blur(6px)}
+.sfeat--blue p{max-width:24ch;text-shadow:0 1px 12px rgba(4,20,55,.5)}
+.sfeat--blue{min-height:520px}
 .steps12{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .steps12 span{aspect-ratio:1;border-radius:14px;display:grid;place-items:center;font-family:var(--ff-title);font-weight:500;font-size:15px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
 .edu__sub{font-family:var(--ff-title);font-weight:500;font-size:clamp(28px,3vw,40px);letter-spacing:-.04em;margin:0}
@@ -491,6 +501,8 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
    ========================================================= */
 .pv{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(30px,5vw,80px);align-items:center}
 .pv__media{min-height:600px;background:linear-gradient(180deg,#5FAE6E 0%,#2E8C6A 30%,#1F7FC4 62%,#1450C8 100%)}
+.pv__photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.pv__media:not(.no-photo) .pv__fallback{display:none}
 .pv__media::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 2px,transparent 2px 26px);mix-blend-mode:overlay}
 .pv__media img.person{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:90%;width:auto;max-width:none;z-index:2;filter:drop-shadow(0 30px 40px rgba(4,20,55,.45))}
 .pv__lbl{position:absolute;left:22px;z-index:4;display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
@@ -620,7 +632,7 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
       <a href="#pileteros">Pileteros</a>
       <a href="#productos">Productos</a>
       <a href="#planes">Planes</a>
-      <a href="clases.html">Mis clases</a>
+      <a href="clases.html?login=1" class="js-cuenta">Ingresar</a>
     </nav>
     <div class="nav__right">
       <a href="#productos" class="cart" id="cart" aria-label="Carrito, 0 productos">
@@ -642,7 +654,7 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
     <a href="#pileteros"><span>04</span>Pileteros</a>
     <a href="#productos"><span>05</span>Productos</a>
     <a href="#planes"><span>06</span>Planes</a>
-    <a href="clases.html"><span>07</span>Mis clases</a>
+    <a href="clases.html?login=1" class="js-cuenta"><span>07</span>Ingresar</a>
   </nav>
   <a href="#contacto" class="btn btn--white">Pedir presupuesto</a>
 </div>
@@ -798,9 +810,10 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
   <div class="wrap pv">
     <div class="card pv__media fx">
       <div class="notch"><span class="badge badge--accent">Paquete digital</span></div>
-      <span class="pv__lbl pv__lbl--a"><i></i>Antes</span>
-      <img class="person" src="img/persona-cut.webp" alt="José Carrizo, de brazos cruzados" width="1086" height="1448" loading="lazy">
-      <span class="pv__lbl pv__lbl--d"><i></i>Después</span>
+      <img class="pv__photo" src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/piscina-verde.jpg" alt="José Carrizo limpiando una piscina verde" loading="lazy" onerror="this.closest('.pv__media').classList.add('no-photo');this.remove()">
+      <div class="pv__fallback"><span class="pv__lbl pv__lbl--a"><i></i>Antes</span>
+      <img class="person" src="img/persona-cut.webp" alt="" width="1086" height="1448" loading="lazy">
+      <span class="pv__lbl pv__lbl--d"><i></i>Después</span></div>
     </div>
 
     <div class="pv__body">
@@ -831,11 +844,11 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
         <div class="tr"><b>$45.000</b> por transferencia (10% off)</div>
       </div>
       <div class="pv__btns fx" style="--d:.35s">
-        <a href="#" class="btn btn--dark wa-link" data-msg="Hola! Quiero comprar el paquete Recuperá tu piscina verde ($50.000).">Comprar paquete
+        <a href="clases.html?quiero=paquete-shock" class="btn btn--dark">Comprar paquete
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a href="#" class="btn btn--ghost wa-link" data-msg="Hola! Quiero comprar el paquete Recuperá tu piscina verde pagando por transferencia ($45.000).">Pagar por transferencia</a>
+        <a href="#" class="btn btn--ghost wa-link" data-msg="Hola! Tengo una consulta sobre el paquete Recuperá tu piscina verde.">Consultar por WhatsApp</a>
       </div>
-      <p class="pv__note">Después de la compra lo ves en <a href="clases.html" style="text-decoration:underline">Mis clases</a> con tu cuenta.</p>
+      <p class="pv__note">Para comprar te registrás gratis con tu email. Después lo ves en Mis clases, cuando quieras.</p>
     </div>
   </div>
 </section>
@@ -961,7 +974,8 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
 
     <!-- Contenidos principales -->
     <div class="sub-feats">
-      <article class="card sfeat sfeat--dark fx">
+      <article class="card sfeat sfeat--dark sfeat--photo fx">
+        <img class="sfeat__bg" src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/piscina-verde.jpg" alt="" loading="lazy">
         <div class="notch"><span class="badge badge--accent">Esta temporada</span></div>
         <div>
           <span class="sfeat__k">Video · Incluido en la suscripción</span>
@@ -978,11 +992,10 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
         <div>
           <span class="sfeat__k">Video · Visitas de mantenimiento</span>
           <h3>Los 12 pasos<br>del piletero</h3>
-          <p>El método para hacer cada visita de mantenimiento de forma correcta, desde que llegás a la casa hasta que te vas.</p>
+          <p>El método para hacer cada visita de mantenimiento bien, de principio a fin.</p>
         </div>
-        <div class="steps12" aria-hidden="true">
-          <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span>
-        </div>
+        <img class="sfeat__team" src="img/equipo-cut.webp" alt="El equipo de pileteros de José Carrizo e Hijos" loading="lazy">
+        <div class="chips"><span>12 videos</span><span>Método de trabajo</span></div>
       </article>
     </div>
 
@@ -1011,7 +1024,7 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
           <li>Asesorías online y precio especial en químicos</li>
         </ul>
         <p class="tr">Cancelás cuando quieras.</p>
-        <a href="#" class="btn btn--white wa-link" data-msg="Hola! Quiero suscribirme a Pileteros de confianza ($25.000 por mes).">Quiero suscribirme</a>
+        <a href="clases.html?quiero=suscripcion" class="btn btn--white">Quiero suscribirme</a>
         <div class="ring" aria-hidden="true"></div>
       </aside>
     </div>
@@ -1416,6 +1429,20 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
       w.href = waHref(w.dataset.msg);
     });
   });
+
+  /* ---------- Cuenta: "Mis clases" aparece solo si la persona ya se registró/ingresó ---------- */
+  (function(){
+    var logueado = false;
+    try {
+      var t = JSON.parse(localStorage.getItem('sb-jxdvrwjkcluskdaeockt-auth-token') || 'null');
+      logueado = !!(t && (t.refresh_token || (t.expires_at && t.expires_at * 1000 > Date.now())));
+    } catch(e){}
+    if(!logueado) return;
+    $$('.js-cuenta').forEach(function(a){
+      a.href = 'clases.html';
+      var n = a.querySelector('span'); a.textContent = 'Mis clases'; if(n) a.insertBefore(n, a.firstChild);
+    });
+  })();
 
   /* ---------- Tarjetita flotante: piscina verde ---------- */
   (function(){
