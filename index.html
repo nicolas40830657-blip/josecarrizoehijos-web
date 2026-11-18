@@ -141,7 +141,7 @@ section{position:relative}
 .nav__logo img{height:40px;width:auto}
 .nav__logo .logo-dark{display:none}
 .nav__sub{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;opacity:.75;border-left:1px solid currentColor;padding-left:12px;line-height:1.3}
-.nav__links{display:flex;gap:30px;font-size:14.5px;font-weight:500}
+.nav__links{display:flex;gap:26px;font-size:14.5px;font-weight:500;white-space:nowrap}
 .nav__links a{position:relative;padding:6px 0}
 .nav__links a::after{content:"";position:absolute;left:0;bottom:0;height:1.5px;width:100%;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
 .nav__links a:hover::after{transform:scaleX(1);transform-origin:left}
@@ -485,15 +485,60 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
 .social svg{width:19px;height:19px}
 .footer__bot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:26px;font-size:14px;color:var(--muted)}
 
+
+/* =========================================================
+   10b. RECUPERÁ TU PISCINA VERDE (paquete digital)
+   ========================================================= */
+.pv{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(30px,5vw,80px);align-items:center}
+.pv__media{min-height:600px;background:linear-gradient(180deg,#5FAE6E 0%,#2E8C6A 30%,#1F7FC4 62%,#1450C8 100%)}
+.pv__media::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 2px,transparent 2px 26px);mix-blend-mode:overlay}
+.pv__media img.person{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:90%;width:auto;max-width:none;z-index:2;filter:drop-shadow(0 30px 40px rgba(4,20,55,.45))}
+.pv__lbl{position:absolute;left:22px;z-index:4;display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.pv__lbl i{width:10px;height:10px;border-radius:50%}
+.pv__lbl--a{top:24px}.pv__lbl--a i{background:#7BD389}
+.pv__lbl--d{bottom:24px}.pv__lbl--d i{background:var(--brand-light)}
+.pv__body h2{margin:18px 0 20px}
+.pv__gift{display:flex;gap:16px;align-items:center;margin:28px 0 6px;padding:18px 20px;border-radius:24px;background:var(--sky);border:1px dashed var(--accent)}
+.pv__gift .ico{flex-shrink:0;width:48px;height:48px;border-radius:16px;background:var(--ink);color:#fff;display:grid;place-items:center}
+.pv__gift b{display:block;font-family:var(--ff-title);font-size:19px;font-weight:600;letter-spacing:-.02em}
+.pv__gift span{font-size:14.5px;color:var(--muted)}
+.pv__list{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.pv__list li{position:relative;padding-left:22px;font-size:15px}
+.pv__list li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(46,134,255,.18)}
+.pv__price{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 26px;margin:32px 0 22px;padding-top:26px;border-top:1px solid var(--line)}
+.pv__price .big{font-family:var(--ff-title);font-size:clamp(46px,5vw,64px);font-weight:300;letter-spacing:-.05em;line-height:.9}
+.pv__price small{display:block;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.pv__price .tr{font-size:15px;color:var(--muted)}
+.pv__price .tr b{color:var(--brand-mid);font-size:20px}
+.pv__btns{display:flex;flex-wrap:wrap;gap:12px}
+.pv__note{margin:16px 0 0;font-size:13.5px;color:var(--muted)}
+
+/* Tarjetita flotante: piscina verde */
+.pvpop{position:fixed;top:96px;right:20px;z-index:120;width:300px;display:flex;gap:12px;align-items:center;padding:12px 40px 12px 12px;border-radius:22px;background:rgba(255,255,255,.94);color:var(--ink);box-shadow:0 24px 50px -18px rgba(4,20,55,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transform:translateX(calc(100% + 40px));visibility:hidden;transition:transform .6s var(--ease),visibility .6s}
+.pvpop.show{transform:none;visibility:visible}
+.pvpop__img{flex-shrink:0;width:58px;height:58px;border-radius:16px;background:linear-gradient(135deg,#5FAE6E,#1F7FC4 70%);display:grid;place-items:center;color:#fff}
+.pvpop b{display:block;font-family:var(--ff-title);font-size:16.5px;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+.pvpop span{display:block;font-size:13px;color:var(--muted);line-height:1.35;margin-top:3px}
+.pvpop span em{font-style:normal;color:var(--brand-mid);font-weight:600}
+.pvpop__x{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--muted);font-size:18px;line-height:1}
+.pvpop__x:hover{background:var(--sky);color:var(--ink)}
+
+/* Precio de la suscripción */
+.edu__price{display:flex;align-items:flex-end;gap:8px;margin:-6px 0 22px}
+.edu__price b{font-family:var(--ff-title);font-size:48px;font-weight:300;letter-spacing:-.05em;line-height:.9;color:#fff}
+.edu__price span{font-size:14px;color:rgba(255,255,255,.7);padding-bottom:4px}
+.edu__card .tr{margin:0 0 18px;font-size:13.5px;color:rgba(255,255,255,.7)}
 /* =========================================================
    16. RESPONSIVE
    ========================================================= */
+@media (max-width:1240px){ .nav__sub{display:none} }
 @media (max-width:1024px){
   .nav__links{display:none}
   .nav__sub{display:none}
   .burger{display:block}
   .nav .btn{display:none}
-  .about,.edu,.app,.cta,.sub-feats{grid-template-columns:1fr}
+  .about,.edu,.app,.cta,.sub-feats,.pv{grid-template-columns:1fr}
+  .pv__media{min-height:520px}
   .cats{grid-template-columns:1fr}
   .cats__head{position:static}
   .results__grid{grid-template-columns:1fr 1fr}
@@ -540,6 +585,10 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
   .cat{height:400px}
   .footer__links{gap:36px}
   .tilt{width:120px;left:84%;top:30%}
+  .pv__media{min-height:440px}
+  .pv__list{grid-template-columns:1fr}
+  .pv__btns .btn{width:100%;justify-content:center}
+  .pvpop{top:auto;bottom:16px;right:12px;left:12px;width:auto;transform:translateY(calc(100% + 40px))}
 }
 @media (min-width:721px){ .hero-card-mobile{display:none} }
 
@@ -567,7 +616,8 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
     <nav class="nav__links" aria-label="Principal">
       <a href="#nosotros">Nosotros</a>
       <a href="#servicios">Servicios</a>
-      <a href="#pileteros">Pileteros de confianza</a>
+      <a href="#piscina-verde">Piscina verde</a>
+      <a href="#pileteros">Pileteros</a>
       <a href="#productos">Productos</a>
       <a href="#planes">Planes</a>
       <a href="clases.html">Mis clases</a>
@@ -587,11 +637,12 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
 <div class="mmenu" id="mmenu" aria-hidden="true">
   <nav aria-label="Menú móvil">
     <a href="#nosotros"><span>01</span>Nosotros</a>
-    <a href="#servicios"><span>02</span>Servicios</a>
-    <a href="#pileteros"><span>03</span>Pileteros</a>
-    <a href="#productos"><span>04</span>Productos</a>
-    <a href="#planes"><span>05</span>Planes</a>
-    <a href="clases.html"><span>06</span>Mis clases</a>
+    <a href="#piscina-verde"><span>02</span>Piscina verde</a>
+    <a href="#servicios"><span>03</span>Servicios</a>
+    <a href="#pileteros"><span>04</span>Pileteros</a>
+    <a href="#productos"><span>05</span>Productos</a>
+    <a href="#planes"><span>06</span>Planes</a>
+    <a href="clases.html"><span>07</span>Mis clases</a>
   </nav>
   <a href="#contacto" class="btn btn--white">Pedir presupuesto</a>
 </div>
@@ -719,8 +770,8 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
         <span class="k" style="color:var(--brand-mid)">Beneficio</span>
         <div>
           <div class="big">#01</div>
-          <h3>Tratamiento de shock para piletas verdes</h3>
-          <p>Diagnóstico y tratamiento correctivo para recuperar piletas turbias o verdes.</p>
+          <h3>Recuperación de piscinas verdes</h3>
+          <p>Diagnóstico y tratamiento para pasar de agua verde o turbia a cristalina.</p>
         </div>
       </article>
       <div class="r-stats">
@@ -736,6 +787,55 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
       <div class="tilt" id="tilt" aria-hidden="true">
         <img src="img/equipo-cut.webp" alt="" loading="lazy">
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     RECUPERÁ TU PISCINA VERDE (paquete digital)
+     ===================================================== -->
+<section class="sec sec--white" id="piscina-verde">
+  <div class="wrap pv">
+    <div class="card pv__media fx">
+      <div class="notch"><span class="badge badge--accent">Paquete digital</span></div>
+      <span class="pv__lbl pv__lbl--a"><i></i>Antes</span>
+      <img class="person" src="img/persona-cut.webp" alt="José Carrizo, de brazos cruzados" width="1086" height="1448" loading="lazy">
+      <span class="pv__lbl pv__lbl--d"><i></i>Después</span>
+    </div>
+
+    <div class="pv__body">
+      <span class="eyebrow fx">Paquete digital · Pago único</span>
+      <h2 class="h-lg lines">
+        <span class="ln"><span style="--i:0">Recuperá tu</span></span>
+        <span class="ln"><span style="--i:1">piscina</span></span>
+        <span class="ln"><span style="--i:2"><em>verde.</em></span></span>
+      </h2>
+      <p class="lead fx" style="--d:.15s">Te mostramos en video, paso a paso, cómo pasar de agua verde o turbia a una pileta cristalina: qué medir, qué productos usar, en qué orden y en qué dosis. Lo mismo que hacemos nosotros en cada recuperación.</p>
+
+      <div class="pv__gift fx" style="--d:.2s">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></span>
+        <div><b>De regalo: Los 12 pasos del piletero</b><span>Para que, una vez recuperada, la mantengas siempre cristalina.</span></div>
+      </div>
+
+      <ul class="pv__list fx" style="--d:.25s">
+        <li>Diagnóstico del agua</li>
+        <li>Productos y dosis según tus litros</li>
+        <li>El orden correcto del tratamiento</li>
+        <li>Filtrado y limpieza durante la recuperación</li>
+        <li>Errores comunes que la vuelven a poner verde</li>
+        <li>Lo ves para siempre, las veces que quieras</li>
+      </ul>
+
+      <div class="pv__price fx" style="--d:.3s">
+        <div><small>Pago único</small><span class="big">$50.000</span></div>
+        <div class="tr"><b>$45.000</b> por transferencia (10% off)</div>
+      </div>
+      <div class="pv__btns fx" style="--d:.35s">
+        <a href="#" class="btn btn--dark wa-link" data-msg="Hola! Quiero comprar el paquete Recuperá tu piscina verde ($50.000).">Comprar paquete
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#" class="btn btn--ghost wa-link" data-msg="Hola! Quiero comprar el paquete Recuperá tu piscina verde pagando por transferencia ($45.000).">Pagar por transferencia</a>
+      </div>
+      <p class="pv__note">Después de la compra lo ves en <a href="clases.html" style="text-decoration:underline">Mis clases</a> con tu cuenta.</p>
     </div>
   </div>
 </section>
@@ -788,7 +888,7 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
         <span class="cat__vert" aria-hidden="true">Pileteros</span>
         <span class="cat__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m2 9 10-5 10 5-10 5L2 9Z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M22 9v6"/></svg></span>
         <span class="tag-glass glass"><b>Pileteros de confianza</b><small>Suscripción educativa</small>
-          <span class="cat__desc"><span><p>Videos y capacitaciones por suscripción: Tratamiento de shock, Los 12 pasos del piletero y mucho más.</p></span></span></span>
+          <span class="cat__desc"><span><p>Para los que quieren dedicarse al mantenimiento de piscinas: Los 12 pasos del piletero, Recuperá tu piscina verde, química y mucho más.</p></span></span></span>
       </button>
       <!-- 04 -->
       <button class="card cat fx" role="listitem" aria-expanded="false" style="--d:.24s">
@@ -850,13 +950,13 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
 <section class="sec sec--bg" id="pileteros">
   <div class="wrap">
     <div class="sub-head">
-      <span class="eyebrow fx">Suscripción · Pileteros de confianza</span>
+      <span class="eyebrow fx">Suscripción · Para dedicarte al oficio</span>
       <h2 class="h-lg lines">
-        <span class="ln"><span style="--i:0">Aprendé el</span></span>
-        <span class="ln"><span style="--i:1">oficio con</span></span>
-        <span class="ln"><span style="--i:2"><em>los que saben.</em></span></span>
+        <span class="ln"><span style="--i:0">Hacé de las</span></span>
+        <span class="ln"><span style="--i:1">piscinas</span></span>
+        <span class="ln"><span style="--i:2"><em>tu negocio.</em></span></span>
       </h2>
-      <p class="lead fx" style="--d:.15s">Una suscripción con videos y capacitaciones para pileteros que quieren trabajar mejor y para dueños que quieren entender su pileta. Lo que aprendimos en más de 30 años, explicado simple.</p>
+      <p class="lead fx" style="--d:.15s">Pileteros de confianza es la suscripción para los que quieren dedicarse al mantenimiento de piscinas. Todo lo que aprendimos en más de 30 años, en videos: el método de trabajo, la recuperación de piscinas verdes, la química y cómo armar tu cartera de clientes.</p>
     </div>
 
     <!-- Contenidos principales -->
@@ -864,9 +964,9 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
       <article class="card sfeat sfeat--dark fx">
         <div class="notch"><span class="badge badge--accent">Esta temporada</span></div>
         <div>
-          <span class="sfeat__k">Video · Diagnóstico y tratamiento correctivo</span>
-          <h3>Tratamiento<br>de shock</h3>
-          <p>Cómo diagnosticar y corregir piletas turbias y verdes, paso a paso: qué medir, qué productos usar, en qué orden y en qué dosis.</p>
+          <span class="sfeat__k">Video · Incluido en la suscripción</span>
+          <h3>Recuperá tu<br>piscina verde</h3>
+          <p>Cómo diagnosticar y recuperar piscinas turbias y verdes, paso a paso: qué medir, qué productos usar, en qué orden y en qué dosis.</p>
         </div>
         <div class="sfeat__foot">
           <div class="chips"><span>Piletas verdes</span><span>Agua turbia</span><span>Diagnóstico</span></div>
@@ -890,7 +990,7 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
       <div>
         <h3 class="edu__sub fx">Además, en la suscripción</h3>
         <ol class="modules">
-          <li class="fx"><span class="num">01</span><div><h3>Química del agua</h3><p>Cloro libre, pH, alcalinidad y cómo leer un kit medidor sin errores.</p></div><span class="pill">Capacitación</span></li>
+          <li class="fx"><span class="num">01</span><div><h3>Teoría de productos químicos</h3><p>Cloro libre, pH, alcalinidad, alguicidas y clarificantes, y cómo leer un kit medidor sin errores.</p></div><span class="pill">Capacitación</span></li>
           <li class="fx" style="--d:.08s"><span class="num">02</span><div><h3>Limpieza y equipos</h3><p>Uso del barrefondos, retrolavado del filtro y cuidado de la bomba.</p></div><span class="pill">Práctico</span></li>
           <li class="fx" style="--d:.16s"><span class="num">03</span><div><h3>Trato con el cliente</h3><p>Cómo organizar tu ruta, presupuestar y generar confianza en cada casa.</p></div><span class="pill">Negocio</span></li>
           <li class="fx" style="--d:.24s"><span class="num">04</span><div><h3>Asesorías online</h3><p>Consultas con nuestro equipo para resolver casos difíciles.</p></div><span class="pill">Consultas</span></li>
@@ -901,14 +1001,17 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
         <div class="notch"><span class="badge badge--accent">Nuevo</span></div>
         <span class="eyebrow" style="color:var(--brand-light)">Suscripción</span>
         <h3>Pileteros de confianza</h3>
+        <div class="edu__price"><b>$25.000</b><span>/ mes</span></div>
         <ul>
-          <li>Video: Tratamiento de shock</li>
-          <li>Video: Los 12 pasos del piletero</li>
-          <li>Capacitaciones con nuestro equipo</li>
-          <li>Asesorías online</li>
-          <li>Precio especial en químicos y combos</li>
+          <li>Los 12 pasos del piletero</li>
+          <li>Recuperá tu piscina verde</li>
+          <li>Teoría de productos químicos</li>
+          <li>Tipos de piscinas, filtrado y reparaciones</li>
+          <li>Cómo armar y cuidar tu cartera de clientes</li>
+          <li>Asesorías online y precio especial en químicos</li>
         </ul>
-        <a href="#" class="btn btn--white wa-link" data-msg="Hola! Quiero suscribirme a Pileteros de confianza.">Quiero suscribirme</a>
+        <p class="tr">Cancelás cuando quieras.</p>
+        <a href="#" class="btn btn--white wa-link" data-msg="Hola! Quiero suscribirme a Pileteros de confianza ($25.000 por mes).">Quiero suscribirme</a>
         <div class="ring" aria-hidden="true"></div>
       </aside>
     </div>
@@ -1135,6 +1238,11 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
   </div>
 </footer>
 
+<aside class="pvpop" id="pvpop" aria-label="Recuperá tu piscina verde">
+  <a href="#piscina-verde" class="pvpop__img" aria-hidden="true" tabindex="-1"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 15c2 0 2-1.5 4-1.5S8 15 10 15s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M2 19c2 0 2-1.5 4-1.5S8 19 10 19s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M12 3s-4 4.3-4 7a4 4 0 0 0 8 0c0-2.7-4-7-4-7Z"/></svg></a>
+  <a href="#piscina-verde" id="pvpopLink"><b>¿Tu pileta está verde?</b><span>Recuperala con nuestro paso a paso. <em>Ver paquete →</em></span></a>
+  <button class="pvpop__x" id="pvpopX" aria-label="Cerrar">×</button>
+</aside>
 <div class="toast" id="toast" role="status" aria-live="polite"><i>✓</i><span id="toastTxt">Agregado al carrito</span></div>
 
 <script>
@@ -1308,6 +1416,21 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
       w.href = waHref(w.dataset.msg);
     });
   });
+
+  /* ---------- Tarjetita flotante: piscina verde ---------- */
+  (function(){
+    var pop = $('#pvpop'); if(!pop) return;
+    var cerrada = false; try { cerrada = sessionStorage.getItem('pvpop') === '1'; } catch(e){}
+    if(cerrada) return;
+    function cerrar(){ pop.classList.remove('show'); try { sessionStorage.setItem('pvpop','1'); } catch(e){} }
+    setTimeout(function(){ pop.classList.add('show'); }, 1800);
+    $('#pvpopX').addEventListener('click', cerrar);
+    $('#pvpopLink').addEventListener('click', cerrar);
+    var sec = $('#piscina-verde');
+    if(sec && 'IntersectionObserver' in window){
+      new IntersectionObserver(function(es){ if(es[0].isIntersecting) pop.classList.remove('show'); }, {threshold:.3}).observe(sec);
+    }
+  })();
 
   /* ---------- Formulario CTA ---------- */
   $('#form').addEventListener('submit', function(e){

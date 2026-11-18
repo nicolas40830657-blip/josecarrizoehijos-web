@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mis clases · Pileteros de confianza · José Carrizo e Hijos</title>
-<meta name="description" content="Videoteca de Pileteros de confianza: Los 12 pasos del piletero, Tratamiento de shock y más.">
+<meta name="description" content="Videoteca de Pileteros de confianza: Recuperá tu piscina verde, Los 12 pasos del piletero y más.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#030B1F">
 <link rel="icon" type="image/png" href="img/icono.png">
@@ -324,8 +324,8 @@ var DEMO = [
   { id:'pasos', titulo:'Los 12 pasos del piletero', tipo:'suscripcion', estado:'disponible', acceso:true,
     descripcion:'El método para hacer cada visita de mantenimiento de forma correcta, desde que llegás a la casa hasta que te vas.', colores:['#2E86FF','#041437'],
     clases:['Introducción','Paso 1','Paso 2','Paso 3','Paso 4','Paso 5','Paso 6','Paso 7','Paso 8','Paso 9','Paso 10','Paso 11','Paso 12'].map(function(t,i){ return {id:'d'+i, titulo:t, gratis:i===0, tiene_video:false}; }) },
-  { id:'shock', titulo:'Tratamiento de shock', tipo:'paquete', estado:'nuevo', acceso:false,
-    descripcion:'Diagnóstico y tratamiento correctivo para recuperar piletas turbias y verdes: qué medir, qué productos usar, en qué orden y en qué dosis.', colores:['#5AA2FF','#0B2F86'], clases:[] },
+  { id:'shock', titulo:'Recuperá tu piscina verde', tipo:'paquete', estado:'nuevo', acceso:false,
+    descripcion:'Cómo recuperar una piscina verde o turbia paso a paso: diagnóstico, qué productos usar, en qué orden y en qué dosis.', colores:['#5AA2FF','#0B2F86'], clases:[] },
   { id:'quimica', titulo:'Química de la pileta', tipo:'suscripcion', estado:'proximamente', descripcion:'Cloro, pH, alguicidas y clarificantes: qué, cuánto y cuándo.', colores:['#8CC8FF','#1450C8'], clases:[] },
   { id:'tipos', titulo:'Tipos de piletas', tipo:'suscripcion', estado:'proximamente', descripcion:'Hormigón, fibra, lona y revestimientos.', colores:['#B9DEFF','#1F63E8'], clases:[] },
   { id:'filtrado', titulo:'Sistemas de filtrado', tipo:'suscripcion', estado:'proximamente', descripcion:'Filtros de arena y cartucho, bombas y válvula selectora.', colores:['#3D8BFF','#06205C'], clases:[] },
@@ -521,8 +521,8 @@ function abrir(mod, c){
     placeholder(mod, '<b>Muy pronto</b><span>Estamos grabando las clases de este paquete.</span>');
   } else if(!ok){
     placeholder(mod, mod.tipo==='paquete'
-      ? '<b>Este paquete todavía no es tuyo</b><span>Comprás una vez y lo ves para siempre, las veces que quieras.</span>'
-      : '<b>Contenido para suscriptores</b><span>'+(USUARIO?'Suscribite a Pileteros de confianza para ver todas las clases.':'Ingresá con tu cuenta o suscribite para ver todas las clases.')+'</span>');
+      ? '<b>Este paquete todavía no es tuyo</b><span>Pago único de $50.000 ($45.000 por transferencia). Lo ves para siempre y te llevás de regalo Los 12 pasos del piletero.</span>'
+      : '<b>Contenido para suscriptores</b><span>'+(USUARIO?'Suscribite a Pileteros de confianza ($25.000 por mes) para ver todas las clases.':'Ingresá con tu cuenta o suscribite para ver todas las clases.')+'</span>');
   } else if(!c.tiene_video || MODO_DEMO){
     placeholder(mod, '<b>'+esc(c.titulo)+'</b><span>'+(MODO_DEMO?'Los videos se ven en josecarrizoehijos.ar.':'Este video se está preparando. En breve vas a poder verlo acá.')+'</span>');
   } else {
