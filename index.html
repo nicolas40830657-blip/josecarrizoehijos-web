@@ -87,7 +87,9 @@ section{position:relative}
 .h-xl{font-size:clamp(44px,8.6vw,150px)}
 .h-lg{font-size:clamp(40px,6vw,96px)}
 .h-md{font-size:clamp(34px,4.2vw,64px)}
-.h-xl em,.h-lg em,.h-md em{font-style:italic;font-weight:400;color:var(--brand-mid)}
+.h-xl em,.h-lg em,.h-md em,.app h2 em,.cta h2 em,.hl{display:inline-block;background:var(--ink);color:#fff;padding:0 .18em .06em;border-radius:.16em;font-style:italic;font-weight:400;transform:rotate(-2deg);line-height:1.05}
+.app h2 em,.cta h2 em{background:#fff;color:var(--ink)}
+.pvpop b .hl{font-size:.95em;padding:0 .22em .04em;border-radius:.22em;margin-left:2px}
 .lead{font-size:17px;color:var(--muted);max-width:52ch;margin:0}
 
 /* Placeholder de imagen faltante */
@@ -129,6 +131,7 @@ section{position:relative}
 .fx{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
 .fx.in{opacity:1;transform:none}
 .lines .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.lines .ln:has(em),.lines .ln:has(.box){padding:.06em .1em .16em;margin:-.06em -.1em -.16em}
 .lines .ln>span{display:inline-block;transform:translateY(105%);transition:transform 1s var(--ease);transition-delay:calc(var(--i,0) * .09s)}
 .lines.in .ln>span{transform:none}
 
@@ -372,6 +375,10 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
 .price small{font-size:13px;color:var(--muted);font-family:var(--ff-text);font-weight:400;letter-spacing:0}
 .prod .btn{height:46px;padding:0 20px;font-size:14px}
 .prod__img img{object-fit:contain;padding:14px}
+.prod__img--foto{height:auto;aspect-ratio:1;background:#EAF3FF}
+.prod__img--foto img{object-fit:cover;padding:0}
+.prod--combo .prod__img--foto{min-height:0;align-self:start}
+.prod--combo .prod__img--foto img{padding:0}
 .prod--combo{grid-column:span 2;display:grid;grid-template-columns:1.15fr 1fr}
 .prod--combo .prod__img{height:auto;min-height:340px;margin:10px;background:radial-gradient(80% 70% at 50% 60%,#fff,var(--sky))}
 .prod--combo .prod__body{padding:70px 30px 28px 14px}
@@ -1057,7 +1064,7 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
       <!-- Combo básico (destacado) -->
       <article class="card prod prod--combo fx" data-cat="combos">
         <div class="notch"><span class="badge badge--accent">Combo básico</span></div>
-        <div class="prod__img"><img src="img/combo-basico.webp" data-ph="combo-basico.webp" onerror="ph(this)" alt="Combo básico: bidón de regulador de pH menos, pote de cloro granulado, pote de pastillas multiacción y botella de clarificador, todos con el logo de José Carrizo e Hijos" loading="lazy"></div>
+        <div class="prod__img prod__img--foto"><img src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/tienda-kit-basico.jpg" alt="Kit básico José Carrizo e Hijos: cloro granulado, regulador de pH y pastillas multiacción" loading="lazy" width="1000" height="1000"></div>
         <div class="prod__body">
           <span class="prod__cat">El que usamos nosotros</span>
           <h3 class="prod__name">Combo básico de mantenimiento</h3>
@@ -1078,24 +1085,34 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
       </article>
 
       <article class="card prod fx" data-cat="quimicos" style="--d:.08s">
-        <div class="prod__img"><img src="img/prod-1.webp" data-ph="prod-1.webp" onerror="ph(this)" alt="Pote de cloro granulado de 1 kg con logo de José Carrizo e Hijos" loading="lazy"></div>
+        <div class="prod__img prod__img--foto"><img src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/tienda-cloro-granulado.jpg" alt="Cloro granulado 1 kg con etiqueta de José Carrizo e Hijos" loading="lazy" width="1000" height="1000"></div>
         <div class="prod__body"><span class="prod__cat">Químicos</span><h3 class="prod__name">Cloro granulado 70% / 90% · 1 kg</h3>
           <div class="prod__foot"><span class="price">Consultar</span><button class="btn btn--dark add" data-name="Cloro granulado 1 kg">Agregar</button></div></div>
       </article>
       <article class="card prod fx" data-cat="quimicos">
-        <div class="prod__img"><img src="img/prod-2.webp" data-ph="prod-2.webp" onerror="ph(this)" alt="Bidón de 5 litros de regulador de pH menos con logo de José Carrizo e Hijos" loading="lazy"></div>
+        <div class="prod__img prod__img--foto"><img src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/tienda-regulador-ph.jpg" alt="Regulador de pH menos, bidón de 5 litros" loading="lazy" width="1000" height="1000"></div>
         <div class="prod__body"><span class="prod__cat">Químicos</span><h3 class="prod__name">Regulador de pH − · 5 L</h3>
           <div class="prod__foot"><span class="price">Consultar</span><button class="btn btn--dark add" data-name="Regulador de pH − 5 L">Agregar</button></div></div>
       </article>
       <article class="card prod fx" data-cat="quimicos" style="--d:.08s">
-        <div class="prod__img"><img src="img/prod-3.webp" data-ph="prod-3.webp" onerror="ph(this)" alt="Pote de pastillas multiacción de 1 kg con logo de José Carrizo e Hijos" loading="lazy"></div>
+        <div class="prod__img prod__img--foto"><img src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/tienda-pastillas-multiaccion.jpg" alt="Pastillas de cloro multiacción 1 kg de José Carrizo e Hijos" loading="lazy" width="1000" height="1000"></div>
         <div class="prod__body"><span class="prod__cat">Químicos</span><h3 class="prod__name">Pastillas multiacción · 1 kg</h3>
           <div class="prod__foot"><span class="price">Consultar</span><button class="btn btn--dark add" data-name="Pastillas multiacción 1 kg">Agregar</button></div></div>
       </article>
       <article class="card prod fx" data-cat="quimicos" style="--d:.16s">
-        <div class="prod__img"><img src="img/prod-4.webp" data-ph="prod-4.webp" onerror="ph(this)" alt="Botella de clarificador de 1 litro con logo de José Carrizo e Hijos" loading="lazy"></div>
+        <div class="prod__img prod__img--foto"><img src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/tienda-clarificador.jpg" alt="Clarificador para piletas, 1 litro" loading="lazy" width="1000" height="1000"></div>
         <div class="prod__body"><span class="prod__cat">Químicos</span><h3 class="prod__name">Clarificador · 1 L</h3>
           <div class="prod__foot"><span class="price">Consultar</span><button class="btn btn--dark add" data-name="Clarificador 1 L">Agregar</button></div></div>
+      </article>
+      <article class="card prod fx" data-cat="quimicos">
+        <div class="prod__img prod__img--foto"><img src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/tienda-floculante.jpg" alt="Floculante clarificante para piletas, 1 litro" loading="lazy" width="1000" height="1000"></div>
+        <div class="prod__body"><span class="prod__cat">Químicos</span><h3 class="prod__name">Floculante · 1 L</h3>
+          <div class="prod__foot"><span class="price">Consultar</span><button class="btn btn--dark add" data-name="Floculante · 1 L">Agregar</button></div></div>
+      </article>
+      <article class="card prod fx" data-cat="quimicos" style="--d:.08s">
+        <div class="prod__img prod__img--foto"><img src="https://jxdvrwjkcluskdaeockt.supabase.co/storage/v1/object/public/web/tienda-percarbonato.jpg" alt="Percarbonato de sodio 500 g" loading="lazy" width="1000" height="1000"></div>
+        <div class="prod__body"><span class="prod__cat">Químicos</span><h3 class="prod__name">Percarbonato de sodio · 500 g</h3>
+          <div class="prod__foot"><span class="price">Consultar</span><button class="btn btn--dark add" data-name="Percarbonato de sodio · 500 g">Agregar</button></div></div>
       </article>
     </div>
   </div>
@@ -1160,7 +1177,7 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
         <span class="eyebrow fx">App Mi Pileta</span>
         <h2 class="lines">
           <span class="ln"><span style="--i:0">Tu pileta,</span></span>
-          <span class="ln"><span style="--i:1">en tu bolsillo.</span></span>
+          <span class="ln"><span style="--i:1">en tu <em>bolsillo.</em></span></span>
         </h2>
         <p class="lead fx">Seguí cada visita de tu piletero desde el celular, aunque no estés en casa.</p>
         <div class="feats">
@@ -1204,7 +1221,7 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
       <h2 class="lines">
         <span class="ln"><span style="--i:0">Tu pileta</span></span>
         <span class="ln"><span style="--i:1">lista para</span></span>
-        <span class="ln"><span style="--i:2">el verano.</span></span>
+        <span class="ln"><span style="--i:2">el <em>verano.</em></span></span>
       </h2>
       <div class="fx">
         <p>Dejanos tu email y te escribimos por WhatsApp para coordinar una primera visita y un presupuesto sin cargo.</p>
@@ -1257,7 +1274,7 @@ body.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45de
 
 <aside class="pvpop" id="pvpop" aria-label="Recuperá tu piscina verde">
   <a href="#piscina-verde" class="pvpop__img" aria-hidden="true" tabindex="-1"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 15c2 0 2-1.5 4-1.5S8 15 10 15s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M2 19c2 0 2-1.5 4-1.5S8 19 10 19s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M12 3s-4 4.3-4 7a4 4 0 0 0 8 0c0-2.7-4-7-4-7Z"/></svg></a>
-  <a href="#piscina-verde" id="pvpopLink"><b>¿Tu pileta está verde?</b><span>Recuperala con nuestro paso a paso. <em>Ver paquete →</em></span></a>
+  <a href="#piscina-verde" id="pvpopLink"><b>¿Tu pileta está <span class="hl">verde</span>?</b><span>Recuperala con nuestro paso a paso. <em>Ver paquete →</em></span></a>
   <button class="pvpop__x" id="pvpopX" aria-label="Cerrar">×</button>
 </aside>
 <div class="toast" id="toast" role="status" aria-live="polite"><i>✓</i><span id="toastTxt">Agregado al carrito</span></div>
